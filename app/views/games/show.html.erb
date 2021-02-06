@@ -1,0 +1,11 @@
+<div class='flex-direction-column-reverse board'>
+  <% @game.board.rows.each do |row| %>
+    <div class='flex-direction-row row'>
+      <% row.each do |square| %>
+        <div class='square'>
+          <%= "#{square.x}, #{square.y}" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

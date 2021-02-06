@@ -9,29 +9,17 @@ class Board < ActiveRecord::Base
     squares.find_by(x: x, y: y)
   end
 
-  # def columns
-  #   Array.new(15) do |y|
-  #     column(y)
-  #   end
-  # end
-  #
-  # def rows
-  #   Array.new(15) do |x|
-  #     row(x)
-  #   end
-  # end
-  #
-  # def row(x)
-  #   squares.select do |square|
-  #     square.x == x
-  #   end
-  # end
-  #
-  # def column(y)
-  #   squares.select do |square|
-  #     square.y == y
-  #   end
-  # end
+  def rows
+    Array.new(BOARD_SIZE) do |x|
+      row(x)
+    end
+  end
+
+  def row(x)
+    squares.select do |square|
+      square.x == x
+    end
+  end
 
   private
 

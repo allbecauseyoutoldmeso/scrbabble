@@ -6,7 +6,7 @@ class Board < ActiveRecord::Base
   BOARD_SIZE = 15
 
   def square(x, y)
-    squares.find { |square| square.x == x && square.y == y}
+    squares.find_by(x: x, y: y)
   end
 
   # def columns

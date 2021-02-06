@@ -1,6 +1,3 @@
-require File.expand_path("../../config/environment", __FILE__)
-require './spec/support/factory_bot.rb'
-
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -16,5 +13,3 @@ RSpec.configure do |config|
     FactoryBot.find_definitions
   end
 end
-
-# need to set rspec up properly for rails!

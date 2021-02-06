@@ -6,15 +6,15 @@ class Game < ActiveRecord::Base
   after_create :create_players
   after_create :create_board
 
-  #
-  # def assign_tiles(player)
-  #   new_tiles = tile_bag.random_tiles(player.spaces)
-  #   player.tiles.push(*new_tiles)
-  # end
-  #
-  # def play_tile(x, y, tile)
-  #   board.square(x, y).tile = tile
-  # end
+
+  def assign_tiles(player)
+    new_tiles = tile_bag.random_tiles(player.spaces)
+    player.tiles.push(*new_tiles)
+  end
+
+  def play_tile(x, y, tile)
+    tile.update(tileable: board.square(x, y))
+  end
 
   def player_1
     players.first

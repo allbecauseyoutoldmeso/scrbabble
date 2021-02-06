@@ -36,7 +36,7 @@ class TileBag  < ActiveRecord::Base
   end
 
   def random_tile
-    # tiles.delete_at(rand(tiles.count))
+    tiles[rand(tiles.count)]
   end
 
   private

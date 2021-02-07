@@ -1,6 +1,10 @@
 <div class='flex-direction-row tile-rack'>
   <% tile_rack.tiles.each do |tile| %>
-    <div class='tile'>
+    <div
+        id=<%= dom_id(tile)%>
+        draggable='true'
+        data-action='dragstart->drag#dragStart dragend->drag#dragEnd'
+        class='tile'>
       <%= "#{tile.letter}, #{tile.points}" %>
     </div>
   <% end %>

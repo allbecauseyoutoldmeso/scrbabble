@@ -2,7 +2,10 @@
   <% board.rows.each do |row| %>
     <div class='flex-direction-row row'>
       <% row.each do |square| %>
-        <div class='square'>
+        <div
+            id=<%= dom_id(square)%>
+            data-action='drop->drag#drop dragover->drag#dragOver'
+            class='square'>
         </div>
       <% end %>
     </div>

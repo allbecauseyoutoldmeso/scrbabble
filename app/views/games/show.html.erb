@@ -1,11 +1,12 @@
-<div class='flex-direction-column-reverse board'>
-  <% @game.board.rows.each do |row| %>
-    <div class='flex-direction-row row'>
-      <% row.each do |square| %>
-        <div class='square'>
-          <%= "#{square.x}, #{square.y}" %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+<%= render(
+  partial: 'tile_rack',
+  locals: { tile_rack: @game.player_1.tile_rack }
+) %>
+<%= render(
+   partial: 'board',
+   locals: { board: @game.board }
+) %>
+<%= render(
+  partial: 'tile_rack',
+  locals: { tile_rack: @game.player_2.tile_rack }
+) %>

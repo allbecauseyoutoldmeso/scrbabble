@@ -1,0 +1,7 @@
+<div class='flex-direction-row tile-rack'>
+  <% tile_rack.tiles.each do |tile| %>
+    <div class='tile'>
+      <%= "#{tile.letter}, #{tile.points}" %>
+    </div>
+  <% end %>
+</div>

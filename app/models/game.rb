@@ -2,10 +2,14 @@ class Game < ActiveRecord::Base
   has_one :tile_bag
   has_one :board
   has_many :players
+  after_create :create_board
   after_create :create_tile_bag
   after_create :create_players
-  after_create :create_board
+  after_create :assign_initial_tiles
 
+  def assign_initial_tiles
+    players.each { |player| assign_tiles(player) }
+  end
 
   def assign_tiles(player)
     new_tiles = tile_bag.random_tiles(player.spaces)

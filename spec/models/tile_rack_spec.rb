@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Board' do
+describe 'TileRack' do
   describe '#spaces' do
     let(:game) { create(:game) }
     let(:player) { create(:player, game: game) }

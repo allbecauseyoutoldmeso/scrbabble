@@ -1,12 +1,21 @@
-<div class='flex-direction-column-reverse board'>
+<div class='flex-direction-column-reverse board' data-submit-target='board'>
   <% board.rows.each do |row| %>
     <div class='flex-direction-row row'>
       <% row.each do |square| %>
-        <div
-            id=<%= dom_id(square)%>
+        <% if square.tile.present? %>
+          <div class='square id=<%= dom_id(square) %>'>
+            <div id=<%= dom_id(square.tile) %> class='tile'>
+              <%= "#{square.tile.letter}, #{square.tile.points}" %>
+            </div>
+          </div>
+        <% else %>
+          <div
+            id=<%= dom_id(square) %>
+            data-submit-target='square'
             data-action='drop->drag#drop dragover->drag#dragOver'
             class='square'>
-        </div>
+          </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>

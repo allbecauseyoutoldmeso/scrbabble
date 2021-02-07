@@ -15,6 +15,10 @@ describe 'Game' do
     it 'has players' do
       expect(game.players.count).to eq(2)
     end
+
+    it 'has current player' do
+      expect(game.current_player).to be_present
+    end
   end
 
   describe '#assign_tiles' do

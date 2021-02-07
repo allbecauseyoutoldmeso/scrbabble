@@ -28,3 +28,7 @@ body {
    width: 28px;
    border: solid 1px black;
  }
+
+ .submit-button {
+   width: fit-content;
+ }

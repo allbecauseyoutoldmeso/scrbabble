@@ -1,11 +1,22 @@
-<div class='flex-direction-column' data-controller='drag'>
+<div
+  data-controller='drag submit'
+  data-game=<%= @game.id %>
+  class='flex-direction-column'>
 <%= render(
   partial: 'tile_rack',
   locals: { tile_rack: @game.player_1.tile_rack }
 ) %>
 <%= render(
+  partial: 'submit_button',
+  locals: { player: @game.player_1 }
+) %>
+<%= render(
    partial: 'board',
    locals: { board: @game.board }
+) %>
+<%= render(
+  partial: 'submit_button',
+  locals: { player: @game.player_2 }
 ) %>
 <%= render(
   partial: 'tile_rack',

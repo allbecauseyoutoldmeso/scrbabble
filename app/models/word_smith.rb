@@ -2,29 +2,28 @@ class WordSmith
   def initialize(data:, board:)
     @data = data
     @board = board
-    place_tiles
+  end
+
+  def valid?
+    (accross? || down?) && all_squares_have_tiles?
+  end
+
+  def assign_tiles
+    parsed_data.each do |datum|
+      datum[:square].tile = datum[:tile]
+    end
   end
 
   def points
     all_tiles.map(&:points).sum
   end
 
-  def valid?
-    (accross? || down?) && all_squares.all?(&:tile)
-  end
-
-  def save
-    squares.each(&:save)
-  end
-
   private
 
   attr_reader :data, :board
 
-  def place_tiles
-    parsed_data.each do |datum|
-      datum[:square].tile = datum[:tile]
-    end
+  def all_squares_have_tiles?
+    (all_squares - squares).all?(&:tile)
   end
 
   def all_tiles

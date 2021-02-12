@@ -18,25 +18,7 @@ describe 'WordSmith' do
 
   let(:word_smith) { WordSmith.new(data: data, board: board) }
 
-  describe '#initialize' do
-    it 'assigns but does not save tiles to squares' do
-      word_smith = WordSmith.new(data: data, board: board)
-      expect(squares.all? { |square| square.tile.present? }).to eq(true)
-
-      # failing
-      expect(tiles.all? {
-        |tile| tile.reload.tileable.is_a?(TileBag)
-      }).to eq(true)
-    end
-  end
-
-  describe '#points' do
-    it 'returns sum of points for all tiles' do
-      expect(word_smith.points).to eq(tiles.map(&:points).sum)
-    end
-  end
-
-  describe '#valid' do
+  describe '#valid?' do
     context 'tiles are continuous and on single axis' do
       it 'returns true' do
         expect(word_smith.valid?).to eq true
@@ -64,12 +46,19 @@ describe 'WordSmith' do
     end
   end
 
-  describe '#save' do
-    it 'saves tile assignments' do
-      word_smith.save
+  describe '#assign_tiles' do
+    it 'assigns tiles to squares' do
+      word_smith.assign_tiles
       expect(tiles.all? { |tile|
         tile.reload.tileable.is_a?(Square)
       }).to eq(true)
+    end
+  end
+
+  describe '#points' do
+    it 'returns sum of points for all tiles' do
+      word_smith.assign_tiles
+      expect(word_smith.points).to eq(tiles.map(&:points).sum)
     end
   end
 end

@@ -13,7 +13,7 @@ class Game < ActiveRecord::Base
   def play_turn(data)
     word_smith = WordSmith.new(data: data, board: board)
     if word_smith.valid?
-      word_smith.save
+      word_smith.assign_tiles
       # current_player.add_points(word_smith.points)
       # assign_tiles(current_player)
       # toggle_current_player

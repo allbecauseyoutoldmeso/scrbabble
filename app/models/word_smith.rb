@@ -2,21 +2,32 @@ class WordSmith
   def initialize(data:, board:)
     @data = data
     @board = board
+    place_tiles
   end
 
   def points
-    tiles.map(&:points).sum
+    all_tiles.map(&:points).sum
   end
 
   def valid?
     (accross? || down?) && all_squares.all?(&:tile)
   end
 
+  def save
+    squares.each(&:save)
+  end
+
   private
 
   attr_reader :data, :board
 
-  def tiles
+  def place_tiles
+    parsed_data.each do |datum|
+      datum[:square].tile = datum[:tile]
+    end
+  end
+
+  def all_tiles
     all_squares.map(&:tile)
   end
 
@@ -52,7 +63,20 @@ class WordSmith
     squares.map(&:y).max
   end
 
+  def tiles
+    @tiles ||= parsed_data.map { |datum| datum[:tile] }
+  end
+
   def squares
-    @squares ||= Square.where(id: data.map { |datum| datum[:square_id] })
+    @squares ||= parsed_data.map { |datum| datum[:square] }
+  end
+
+  def parsed_data
+    @parsed_data ||= data.map do |datum|
+      {
+        square: Square.find(datum[:square_id]),
+        tile: Tile.find(datum[:tile_id])
+      }
+    end
   end
 end

@@ -11,14 +11,12 @@ class Game < ActiveRecord::Base
 
 
   def play_turn(data)
-    place_tiles(data)
-  end
-
-  def place_tiles(data)
-    data.each do |datum|
-      square = Square.find(datum[:square_id])
-      tile = Tile.find(datum[:tile_id])
-      tile.update(tileable: square)
+    word_smith = WordSmith.new(data: data, board: board)
+    if word_smith.valid?
+      word_smith.save
+      # current_player.add_points(word_smith.points)
+      # assign_tiles(current_player)
+      # toggle_current_player
     end
   end
 
@@ -42,9 +40,6 @@ class Game < ActiveRecord::Base
 
   def player_2
     players.last
-  end
-
-  def toggle_current_player
   end
 
   private

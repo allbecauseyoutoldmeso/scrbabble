@@ -9,7 +9,7 @@ export default class extends Controller {
 
     Rails.ajax({
       type: 'PUT',
-      url: `${this.gameId()}?word_data=${JSON.stringify(this.requestData())}`,
+      url: `${this.gameId()}?data=${JSON.stringify(this.requestData())}`,
       success: (_data, _status, xhr) => {
         board.innerHTML = xhr.response
       }

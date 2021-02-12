@@ -10,9 +10,11 @@ class Game < ActiveRecord::Base
   after_create :set_current_player
 
 
-  def play_word(data)
-    # create word and assign to current player or assign tiles to current player?
-    # switch current player
+  def play_turn(data)
+    place_tiles(data)
+  end
+
+  def place_tiles(data)
     data.each do |datum|
       square = Square.find(datum[:square_id])
       tile = Tile.find(datum[:tile_id])
@@ -40,6 +42,9 @@ class Game < ActiveRecord::Base
 
   def player_2
     players.last
+  end
+
+  def toggle_current_player
   end
 
   private

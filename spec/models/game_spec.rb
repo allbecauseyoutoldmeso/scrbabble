@@ -49,7 +49,7 @@ describe 'Game' do
     end
   end
 
-  describe '#play_word' do
+  describe '#play_turn' do
     let(:player) { game.player_1 }
     let(:tile_rack ) { player.tile_rack }
     let(:board) { game.board }
@@ -72,7 +72,7 @@ describe 'Game' do
     end
 
     it "assigns tiles to squares" do
-      game.play_word(data)
+      game.play_turn(data)
       expect(tile_1.reload.tileable).to eq square_1
       expect(tile_2.reload.tileable).to eq square_2
     end

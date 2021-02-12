@@ -1,0 +1,6 @@
+<% @games.each do |game| %>
+<%= link_to(game.id, game_path(game)) %>
+<% end %>
+<%= form_with model: Game.new do |form| %>
+  <%= form.submit %>
+<% end %>

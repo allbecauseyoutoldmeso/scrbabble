@@ -12,9 +12,9 @@ describe 'TileBag' do
     end
   end
 
-  describe '#random_tiles' do
-    it 'returns specified number of tiles' do
-      expect(tile_bag.random_tiles(5).length).to eq(5)
+  describe '#random_tile' do
+    it 'returns a tie' do
+      expect(tile_bag.random_tile).to be_a(Tile)
     end
   end
 end

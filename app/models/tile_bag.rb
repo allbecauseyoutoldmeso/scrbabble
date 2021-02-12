@@ -31,10 +31,6 @@ class TileBag  < ActiveRecord::Base
   Array.new(1, { letter: 'Z', points: 10 }) +
   Array.new(2, { letter: '', points: 0 })
 
-  def random_tiles(num)
-    num.times.map { random_tile }
-  end
-
   def random_tile
     tiles[rand(tiles.count)]
   end

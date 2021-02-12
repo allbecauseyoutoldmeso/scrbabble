@@ -1,5 +1,14 @@
 class GamesController < ApplicationController
-  before_action :load_game
+  before_action :load_game, only: [:show, :update]
+
+  def index
+    @games = Game.all
+  end
+
+  def create
+    game = Game.create
+    redirect_to(game_path(game))
+  end
 
   def show
   end

@@ -26,6 +26,12 @@ describe 'Game' do
     let(:tile_rack) { player.tile_rack}
     let(:tile_bag) { game.tile_bag }
 
+    before do
+      tile_rack.tiles.each { |tile|
+        tile.update(tileable: tile_bag)
+      }
+    end
+
     it 'assigns tiles to player' do
       expect {
         game.assign_tiles(player)
@@ -43,30 +49,32 @@ describe 'Game' do
     end
   end
 
-  describe '#play_tile' do
-    let(:x) { 5 }
-    let(:y) { 10 }
-    let(:board) { game.board }
-    let(:square) { board.square(x, y) }
+  describe '#play_word' do
     let(:player) { game.player_1 }
-    let(:tile_rack) { player.tile_rack}
-    let(:tile) { tile_rack.tiles.first }
+    let(:tile_rack ) { player.tile_rack }
+    let(:board) { game.board }
+    let(:tile_1) { tile_rack.tiles[0] }
+    let(:tile_2) { tile_rack.tiles[1] }
+    let(:square_1) { board.squares[0] }
+    let(:square_2) { board.squares[1] }
 
-    before do
-      game.assign_tiles(player)
+    let(:data) do
+      [
+        {
+          tile_id: tile_1.id,
+          square_id: square_1.id
+        },
+        {
+          tile_id: tile_2.id,
+          square_id: square_2.id
+        }
+      ]
     end
 
-    it 'adds tile to square' do
-      game.play_tile(x, y, tile)
-      expect(square.tile).to eq(tile)
-    end
-
-    it 'removes tile from tile rack' do
-      expect {
-        game.play_tile(x, y, tile)
-      }.to change {
-        tile_rack.tiles.count
-      }.by(-1)
+    it "assigns tiles to squares" do
+      game.play_word(data)
+      expect(tile_1.reload.tileable).to eq square_1
+      expect(tile_2.reload.tileable).to eq square_2
     end
   end
 end

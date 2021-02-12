@@ -9,7 +9,10 @@ class Game < ActiveRecord::Base
   after_create :assign_initial_tiles
   after_create :set_current_player
 
+
   def play_word(data)
+    # create word and assign to current player or assign tiles to current player?
+    # switch current player
     data.each do |datum|
       square = Square.find(datum[:square_id])
       tile = Tile.find(datum[:tile_id])
@@ -26,12 +29,9 @@ class Game < ActiveRecord::Base
   end
 
   def assign_tiles(player)
-    new_tiles = tile_bag.random_tiles(player.spaces)
-    player.tiles.push(*new_tiles)
-  end
-
-  def play_tile(x, y, tile)
-    tile.update(tileable: board.square(x, y))
+    player.spaces.times do
+      tile_bag.reload.random_tile.update(tileable: player.tile_rack)
+    end
   end
 
   def player_1

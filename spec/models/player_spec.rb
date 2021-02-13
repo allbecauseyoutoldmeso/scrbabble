@@ -21,4 +21,11 @@ describe 'Player' do
       expect(player.spaces).to eq(player.tile_rack.spaces)
     end
   end
+
+  describe '#add_points' do
+    it 'increases points by specified number' do
+      player.add_points(10)
+      expect(player.reload.points).to eq(10)
+    end
+  end
 end

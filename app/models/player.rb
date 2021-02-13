@@ -5,6 +5,10 @@ class Player < ActiveRecord::Base
   after_create :create_tile_rack
   delegate :tiles, :spaces, to: :tile_rack
 
+  def add_points(num)
+    update(points: points + num)
+  end
+
   private
 
   def create_tile_rack

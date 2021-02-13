@@ -10,14 +10,14 @@ class Board < ActiveRecord::Base
   end
 
   def rows
-    Array.new(BOARD_SIZE) do |x|
-      row(x)
+    Array.new(BOARD_SIZE) do |y|
+      row(y)
     end
   end
 
-  def row(x)
+  def row(y)
     squares.select do |square|
-      square.x == x
+      square.y == y
     end
   end
 

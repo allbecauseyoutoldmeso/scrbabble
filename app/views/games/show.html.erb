@@ -1,7 +1,12 @@
 <div
   data-controller='drag submit'
   data-game=<%= @game.id %>
+  data-submit-target='game'
   class='flex-direction-column'>
+<%= render(
+  partial: 'score_card',
+  locals: { points: @game.player_1.points }
+) %>
 <%= render(
   partial: 'tile_rack',
   locals: { tile_rack: @game.player_1.tile_rack }
@@ -21,5 +26,9 @@
 <%= render(
   partial: 'tile_rack',
   locals: { tile_rack: @game.player_2.tile_rack }
+) %>
+<%= render(
+  partial: 'score_card',
+  locals: { points: @game.player_2.points }
 ) %>
 </div>

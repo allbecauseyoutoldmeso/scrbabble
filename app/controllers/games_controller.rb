@@ -15,7 +15,7 @@ class GamesController < ApplicationController
 
   def update
     @game.play_turn(data)
-    render partial: 'board', locals: { board: @game.board }
+    render :show
   end
 
   private

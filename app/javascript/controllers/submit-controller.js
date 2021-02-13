@@ -2,16 +2,16 @@ import { Controller } from 'stimulus'
 import Rails from '@rails/ujs'
 
 export default class extends Controller {
-  static targets = ['square', 'board']
+  static targets = ['square', 'game']
 
   onClick(event) {
-    const board = this.boardTarget
+    const game = this.gameTarget
 
     Rails.ajax({
       type: 'PUT',
       url: `${this.gameId()}?data=${JSON.stringify(this.requestData())}`,
       success: (_data, _status, xhr) => {
-        board.innerHTML = xhr.response
+        game.innerHTML = xhr.response
       }
     })
   }

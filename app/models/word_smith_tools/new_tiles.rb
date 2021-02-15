@@ -22,6 +22,22 @@ module WordSmithTools
       squares.map(&:y).uniq.count == 1
     end
 
+    def squares
+      @squares ||= parsed_data.map { |datum| datum[:square] }
+    end
+
+    private
+
+    attr_reader :data
+
+    def continuous_accross?
+      (first_x..last_x).to_a == squares.map(&:x)
+    end
+
+    def continuous_down?
+      (first_y..last_y).to_a == squares.map(&:y)
+    end
+
     def first_x
       squares.map(&:x).min
     end
@@ -36,22 +52,6 @@ module WordSmithTools
 
     def last_y
       squares.map(&:y).max
-    end
-
-    private
-
-    attr_reader :data
-
-    def continuous_accross?
-      (first_y..last_y).to_a == squares.map(&:x)
-    end
-
-    def continuous_down?
-      (first_y..last_y).to_a == squares.map(&:y)
-    end
-
-    def squares
-      @squares ||= parsed_data.map { |datum| datum[:square] }
     end
 
     def parsed_data

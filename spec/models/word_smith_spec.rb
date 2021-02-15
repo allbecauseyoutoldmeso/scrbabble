@@ -95,5 +95,32 @@ describe 'WordSmith' do
         end
       end
     end
+
+    context 'more than one word created' do
+      let(:old_tile_1) { tile_bag.tiles.where(points: 1..)[0] }
+      let(:old_tile_2) { tile_bag.tiles.where(points: 1..)[1] }
+      let(:new_tile) { tile_bag.tiles.where(points: 1..)[2] }
+
+      let(:data) {
+        [
+          {
+            tile_id: new_tile.id,
+            square_id: board.square(1, 1).id
+          }
+        ]
+      }
+
+      before do
+        board.square(0, 1).update(tile: old_tile_1)
+        board.square(1, 0).update(tile: old_tile_2)
+      end
+
+      it 'returns sum of points for all words' do
+        word_smith.assign_tiles
+        expect(word_smith.points).to eq(
+          old_tile_1.points + old_tile_2.points + (new_tile.points * 2)
+        )
+      end
+    end
   end
 end

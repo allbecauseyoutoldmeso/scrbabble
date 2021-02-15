@@ -6,8 +6,8 @@ class WordSmith
     @board = board
   end
 
-  def words
-    @words ||= []
+  def points
+    words.map(&:points).sum
   end
 
   def valid?
@@ -16,54 +16,79 @@ class WordSmith
     # && words_in_dictionary?
   end
 
-  def points
-    all_tiles.map(&:points).sum
-  end
-
   private
 
   attr_reader :new_tiles, :board
 
-  def all_tiles
-    all_squares.map(&:tile)
+  def words
+    [primary_word] + secondary_words
   end
 
-  def all_squares
+  def primary_word
     if new_tiles.accross?
-      board.squares.where(y: new_tiles.first_y, x: first_x..last_x)
+      WordSmithTools::Word.new(accross_squares(new_tiles.squares.first))
     else
-      board.squares.where(x: new_tiles.first_x, y: first_y..last_y)
+      WordSmithTools::Word.new(down_squares(new_tiles.squares.first))
     end
   end
 
-  # think about readable way to dry these up
-  def first_x
-    x = new_tiles.first_x
-    while x - 1 >= 0 && board.square(x - 1, new_tiles.first_y).tile.present? do
+  def secondary_words
+    new_tiles.squares.map do |square|
+      if new_tiles.accross?
+        WordSmithTools::Word.new(down_squares(square))
+      else
+        WordSmithTools::Word.new(accross_squares(square))
+      end
+    end.select do |word|
+      word.squares.length > 1
+    end
+  end
+
+  # think about readable way to dry all this up
+
+  def accross_squares(initial_square)
+    x = initial_square.x
+    y = initial_square.y
+
+    board.squares.where(
+      x: first_x(x, y)..last_x(x, y),
+      y: y
+    )
+  end
+
+  def down_squares(initial_square)
+    x = initial_square.x
+    y = initial_square.y
+
+    board.squares.where(
+      x: x,
+      y: first_y(x, y)..last_y(x, y)
+    )
+  end
+
+  def first_x(x, y)
+    while x - 1 >= 0 && board.square(x - 1, y).tile.present? do
       x -= 1
     end
     x
   end
 
-  def last_x
-    x = new_tiles.last_x
-    while x + 1 < Board::BOARD_SIZE && board.square(x + 1, new_tiles.first_y).tile.present? do
+  def last_x(x, y)
+    while x + 1 < Board::BOARD_SIZE && board.square(x + 1, y).tile.present? do
       x += 1
     end
     x
   end
 
-  def first_y
-    y = new_tiles.first_y
-    while y - 1 >= 0 && board.square(new_tiles.first_x, y - 1).tile.present? do
+  def first_y(x, y)
+    while y - 1 >= 0 && board.square(x, y - 1).tile.present? do
       y -= 1
     end
     y
   end
 
-  def last_y
-    y = new_tiles.last_y
-    while y + 1 < Board::BOARD_SIZE && board.square(new_tiles.first_x, y + 1).tile.present? do
+  def last_y(x, y)
+    while y + 1 < Board::BOARD_SIZE && board.square(x, y + 1).tile.present? do
       y += 1
     end
     y

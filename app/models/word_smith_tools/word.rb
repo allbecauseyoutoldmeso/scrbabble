@@ -1,5 +1,7 @@
 module WordSmithTools
   class Word
+    attr_reader :squares
+
     def initialize(squares)
       @squares = squares
     end
@@ -13,7 +15,5 @@ module WordSmithTools
     def tiles
       squares.map(&:tile)
     end
-
-    attr_reader :squares
   end
 end

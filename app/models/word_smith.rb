@@ -1,15 +1,15 @@
 class WordSmith
   def initialize(data:, board:)
-    @data = data
+    @new_tiles = WordSmithTools::NewTiles.new(data)
     @board = board
   end
 
   def valid?
-    (accross? || down?) && all_squares_have_tiles?
+    (new_tiles.accross? || new_tiles.down?) && all_squares_have_tiles?
   end
 
   def assign_tiles
-    parsed_data.each do |datum|
+    new_tiles.parsed_data.each do |datum|
       datum[:square].tile = datum[:tile]
     end
   end
@@ -20,10 +20,10 @@ class WordSmith
 
   private
 
-  attr_reader :data, :board
+  attr_reader :new_tiles, :board
 
   def all_squares_have_tiles?
-    (all_squares - squares).all?(&:tile)
+    all_squares.all?(&:tile)
   end
 
   def all_tiles
@@ -31,51 +31,43 @@ class WordSmith
   end
 
   def all_squares
-    if accross?
-      board.squares.where(y: first_y, x: first_x..last_x)
+    if new_tiles.accross?
+      board.squares.where(y: new_tiles.first_y, x: first_x..last_x)
     else
-      board.squares.where(x: first_x, y: first_y..last_y)
+      board.squares.where(x: new_tiles.first_x, y: first_y..last_y)
     end
   end
 
-  def down?
-    squares.map(&:y).uniq.count > 1
-  end
-
-  def accross?
-    squares.map(&:x).uniq.count > 1
-  end
-
+  # think about readable way to dry these up
   def first_x
-    squares.map(&:x).min
+    x = new_tiles.first_x
+    while x - 1 >= 0 && board.square(x - 1, new_tiles.first_y).tile.present? do
+      x -= 1
+    end
+    x
   end
 
   def last_x
-    squares.map(&:x).max
+    x = new_tiles.last_x
+    while x + 1 < Board::BOARD_SIZE && board.square(x + 1, new_tiles.first_y).tile.present? do
+      x += 1
+    end
+    x
   end
 
   def first_y
-    squares.map(&:y).min
+    y = new_tiles.first_y
+    while y - 1 >= 0 && board.square(new_tiles.first_x, y - 1).tile.present? do
+      y -= 1
+    end
+    y
   end
 
   def last_y
-    squares.map(&:y).max
-  end
-
-  def tiles
-    @tiles ||= parsed_data.map { |datum| datum[:tile] }
-  end
-
-  def squares
-    @squares ||= parsed_data.map { |datum| datum[:square] }
-  end
-
-  def parsed_data
-    @parsed_data ||= data.map do |datum|
-      {
-        square: Square.find(datum[:square_id]),
-        tile: Tile.find(datum[:tile_id])
-      }
+    y = new_tiles.last_y
+    while y + 1 < Board::BOARD_SIZE && board.square(new_tiles.first_x, y + 1).tile.present? do
+      y += 1
     end
+    y
   end
 end

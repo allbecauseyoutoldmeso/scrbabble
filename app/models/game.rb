@@ -9,12 +9,9 @@ class Game < ActiveRecord::Base
   after_create :assign_initial_tiles
   after_create :set_current_player
 
-
   # allow and calculate points for turns that contribute to more than one word
-  # ensure new word joins existing tiles
   # add double word or letter scores to board
   # update front end for players on separate machines
-  # add dictionary table and only allow real words?
   def play_turn(data)
     word_smith = WordSmith.new(data: data, board: board)
     word_smith.assign_tiles

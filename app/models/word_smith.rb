@@ -1,17 +1,19 @@
 class WordSmith
+  delegate :assign_tiles, to: :new_tiles
+
   def initialize(data:, board:)
     @new_tiles = WordSmithTools::NewTiles.new(data)
     @board = board
   end
 
-  def valid?
-    (new_tiles.accross? || new_tiles.down?) && all_squares_have_tiles?
+  def words
+    @words ||= []
   end
 
-  def assign_tiles
-    new_tiles.parsed_data.each do |datum|
-      datum[:square].tile = datum[:tile]
-    end
+  def valid?
+    new_tiles.valid?
+    # && new_tiles_join_old_tiles?
+    # && words_in_dictionary?
   end
 
   def points
@@ -21,10 +23,6 @@ class WordSmith
   private
 
   attr_reader :new_tiles, :board
-
-  def all_squares_have_tiles?
-    all_squares.all?(&:tile)
-  end
 
   def all_tiles
     all_squares.map(&:tile)

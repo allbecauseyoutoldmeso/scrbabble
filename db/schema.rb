@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_09_143746) do
+ActiveRecord::Schema.define(version: 2021_02_07_171005) do
 
   create_table "boards", force: :cascade do |t|
     t.integer "game_id"
@@ -49,14 +49,8 @@ ActiveRecord::Schema.define(version: 2021_02_09_143746) do
   create_table "tiles", force: :cascade do |t|
     t.string "letter"
     t.integer "points"
-    t.bigint "tileable_id"
+    t.integer "tileable_id"
     t.string "tileable_type"
-    t.integer "word_id"
-  end
-
-  create_table "words", force: :cascade do |t|
-    t.integer "player_id"
-    t.index ["player_id"], name: "index_words_on_player_id"
   end
 
 end

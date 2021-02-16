@@ -9,8 +9,7 @@ class Game < ActiveRecord::Base
   after_create :assign_initial_tiles
   after_create :set_current_player
 
-  # allow and calculate points for turns that contribute to more than one word
-  # add double word or letter scores to board
+  # add double word or letter scores to board (boolean 'used')
   # update front end for players on separate machines
   def play_turn(data)
     word_smith = WordSmith.new(data: data, board: board)
@@ -20,7 +19,7 @@ class Game < ActiveRecord::Base
       assign_new_tiles(current_player)
       toggle_current_player
     end
-    # replace tiles if invalid
+    # replace tiles if invalid (transaction?)
   end
 
   def set_current_player

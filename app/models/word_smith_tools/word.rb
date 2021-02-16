@@ -10,8 +10,6 @@ module WordSmithTools
       tiles.map(&:points).sum
     end
 
-    private
-
     def tiles
       squares.map(&:tile)
     end

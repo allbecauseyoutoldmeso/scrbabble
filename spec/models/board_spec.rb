@@ -25,4 +25,12 @@ describe 'Board' do
       ).to eq({ x: 5, y: 10 })
     end
   end
+
+  describe '#tiles' do
+    let!(:tile) { create(:tile, tileable: board.squares.first) }
+
+    it 'returns tiles associated with squares' do
+      expect(board.tiles).to eq([tile])
+    end
+  end
 end

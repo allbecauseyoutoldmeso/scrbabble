@@ -1,8 +1,8 @@
 class WordSmith
-  delegate :assign_tiles, to: :new_tiles
+  delegate :assign_tiles, to: :new_placements
 
   def initialize(data:, board:)
-    @new_tiles = WordSmithTools::NewTiles.new(data)
+    @new_placements = WordSmithTools::NewPlacements.new(data)
     @board = board
   end
 
@@ -11,36 +11,49 @@ class WordSmith
   end
 
   def valid?
-    new_tiles.valid?
-    # && new_tiles_join_old_tiles?
+    new_placements.valid? && words_use_old_tiles?
     # && words_in_dictionary?
   end
 
   private
 
-  attr_reader :new_tiles, :board
+  attr_reader :new_placements, :board
+
+  def words_use_old_tiles?
+    old_tiles.empty? || words.any? do |word|
+      (word.tiles & old_tiles).any?
+    end
+  end
+
+  def old_tiles
+    board.tiles - new_placements.tiles
+  end
 
   def words
     [primary_word] + secondary_words
   end
 
   def primary_word
-    if new_tiles.accross?
-      WordSmithTools::Word.new(accross_squares(new_tiles.squares.first))
+    if new_placements.accross?
+      WordSmithTools::Word.new(accross_squares(new_placements.squares.first))
     else
-      WordSmithTools::Word.new(down_squares(new_tiles.squares.first))
+      WordSmithTools::Word.new(down_squares(new_placements.squares.first))
     end
   end
 
   def secondary_words
-    new_tiles.squares.map do |square|
-      if new_tiles.accross?
+    secondary_word_candidates.select do |word|
+      word.squares.length > 1
+    end
+  end
+
+  def secondary_word_candidates
+    new_placements.squares.map do |square|
+      if new_placements.accross?
         WordSmithTools::Word.new(down_squares(square))
       else
         WordSmithTools::Word.new(accross_squares(square))
       end
-    end.select do |word|
-      word.squares.length > 1
     end
   end
 

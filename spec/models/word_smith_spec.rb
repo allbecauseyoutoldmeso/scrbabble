@@ -45,6 +45,19 @@ describe 'WordSmith' do
         expect(word_smith.valid?).to eq false
       end
     end
+
+    context 'new words do not use old tiles' do
+      let(:old_tile) { tile_bag.tiles.last }
+
+      before do
+        board.square(10, 10).update(tile: old_tile)
+      end
+
+      it 'returns false' do
+        word_smith.assign_tiles
+        expect(word_smith.valid?).to eq false
+      end
+    end
   end
 
   describe '#assign_tiles' do

@@ -1,5 +1,5 @@
 module WordSmithTools
-  class NewTiles
+  class NewPlacements
     def initialize(data)
       @data = data
     end
@@ -22,6 +22,10 @@ module WordSmithTools
       squares.map(&:y).uniq.count == 1
     end
 
+    def tiles
+      @tiles ||= parsed_data.map { |datum| datum[:tile] }
+    end
+
     def squares
       @squares ||= parsed_data.map { |datum| datum[:square] }
     end
@@ -30,6 +34,7 @@ module WordSmithTools
 
     attr_reader :data
 
+    # DRY up the below?
     def continuous_accross?
       (first_x..last_x).to_a == squares.map(&:x)
     end

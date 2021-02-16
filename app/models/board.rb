@@ -1,5 +1,6 @@
 class Board < ActiveRecord::Base
   has_many :squares
+  has_many :tiles, through: :squares
   belongs_to :game
   after_create :create_squares
 

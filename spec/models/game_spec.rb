@@ -39,7 +39,7 @@ describe 'Game' do
 
     context 'valid word' do
       let(:squares) do
-        3.times.map { |y| board.square(0, y) }
+        3.times.map { |y| board.square(1, y + 2) }
       end
 
       it 'assigns tiles to squares' do

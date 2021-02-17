@@ -10,7 +10,6 @@ class Game < ActiveRecord::Base
   after_create :set_current_player
 
   # translations
-  # add double word or letter scores to board
   # update front end for players on separate machines
   def play_turn(data)
     begin

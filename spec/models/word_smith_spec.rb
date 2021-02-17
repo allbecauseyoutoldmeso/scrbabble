@@ -7,7 +7,7 @@ describe 'WordSmith' do
   let(:tiles) { tile_bag.tiles.first(3) }
 
   let(:squares) do
-    3.times.map { |y| board.square(0, y) }
+    3.times.map { |y| board.square(1, y + 2) }
   end
 
   let(:data) do
@@ -88,11 +88,15 @@ describe 'WordSmith' do
 
     context 'word includes tiles already on board' do
       context 'down word' do
+        let(:squares) do
+          3.times.map { |y| board.square(4, y) }
+        end
+
         let(:extra_tile) { tile_bag.tiles.where(points: 1..).last }
         let(:all_tiles) { tiles.push(extra_tile) }
 
         before do
-          board.square(0, 3).update(tile: extra_tile)
+          board.square(4, 3).update(tile: extra_tile)
         end
 
         it 'returns sum of points for all tiles in word' do
@@ -102,14 +106,14 @@ describe 'WordSmith' do
 
       context 'accross word' do
         let(:squares) do
-          3.times.map { |x| board.square(x, 0) }
+          3.times.map { |x| board.square(x, 4) }
         end
 
         let(:extra_tile) { tile_bag.tiles.where(points: 1..).last }
         let(:all_tiles) { tiles.push(extra_tile) }
 
         before do
-          board.square(3, 0).update(tile: extra_tile)
+          board.square(3, 4).update(tile: extra_tile)
         end
 
         it 'returns sum of points for all tiles in word' do
@@ -127,20 +131,42 @@ describe 'WordSmith' do
         [
           {
             tile_id: new_tile.id,
-            square_id: board.square(1, 1).id
+            square_id: board.square(2, 0).id
           }
         ]
       }
 
       before do
-        board.square(0, 1).update(tile: old_tile_1)
-        board.square(1, 0).update(tile: old_tile_2)
+        board.square(1, 0).update(tile: old_tile_1)
+        board.square(2, 1).update(tile: old_tile_2)
       end
 
       it 'returns sum of points for all words' do
         word_smith.assign_tiles
         expect(word_smith.points).to eq(
           old_tile_1.points + old_tile_2.points + (new_tile.points * 2)
+        )
+      end
+    end
+
+    context 'double word score' do
+      let(:squares) do
+        3.times.map { |x| board.square(x, 1) }
+      end
+
+      it 'returns double sum of points for all tiles' do
+        expect(word_smith.points).to eq(tiles.map(&:points).sum * 2)
+      end
+    end
+
+    context 'double letter score' do
+      let(:squares) do
+        3.times.map { |x| board.square(x + 1, 0) }
+      end
+
+      it 'returns double sum of points for all tiles' do
+        expect(word_smith.points).to eq(
+          (tiles[0].points * 2) + tiles[1].points + tiles[2].points
         )
       end
     end

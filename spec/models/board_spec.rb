@@ -16,6 +16,21 @@ describe 'Board' do
         square.attributes.symbolize_keys.slice(:x, :y)
       }).to eq(expected_coordinates)
     end
+
+    it 'has_premiums' do
+      premiums = board.squares.map(&:premium).compact
+
+      premium_attributes = premiums.map do |premium|
+        {
+          target: premium.target.to_sym,
+          tuple: premium.tuple,
+          x: premium.square.x,
+          y: premium.square.y
+        }
+      end
+
+      expect(premium_attributes).to contain_exactly(*Board::PREMIUM_ATTRIBUTES)
+    end
   end
 
   describe '#square' do

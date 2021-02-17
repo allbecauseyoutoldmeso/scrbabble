@@ -19,4 +19,7 @@ FactoryBot.define do
 
   factory :tile do
   end
+
+  factory :premium do
+  end
 end

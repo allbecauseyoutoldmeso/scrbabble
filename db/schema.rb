@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_07_171005) do
+ActiveRecord::Schema.define(version: 2021_02_17_104930) do
 
   create_table "boards", force: :cascade do |t|
     t.integer "game_id"
@@ -27,6 +27,13 @@ ActiveRecord::Schema.define(version: 2021_02_07_171005) do
     t.integer "game_id"
     t.integer "points", default: 0
     t.index ["game_id"], name: "index_players_on_game_id"
+  end
+
+  create_table "premiums", force: :cascade do |t|
+    t.integer "square_id"
+    t.integer "tuple"
+    t.integer "target"
+    t.index ["square_id"], name: "index_premiums_on_square_id"
   end
 
   create_table "squares", force: :cascade do |t|

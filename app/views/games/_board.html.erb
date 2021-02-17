@@ -14,6 +14,10 @@
             data-submit-target='square'
             data-action='drop->drag#drop dragover->drag#dragOver'
             class='square'>
+            <div class='premium'>
+              <%= square.premium&.target %>
+              <%= square.premium&.tuple %>
+            </div>
           </div>
         <% end %>
       <% end %>

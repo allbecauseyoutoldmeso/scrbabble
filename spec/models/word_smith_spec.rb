@@ -18,12 +18,12 @@ describe 'WordSmith' do
 
   let(:word_smith) { WordSmith.new(data: data, board: board) }
 
-  describe '#valid?' do
-    context 'tiles are continuous and on single axis' do
-      it 'returns true' do
-        word_smith.assign_tiles
-        expect(word_smith.valid?).to eq true
-      end
+  describe '#assign_tiles' do
+    it 'assigns tiles to squares' do
+      word_smith.assign_tiles
+      expect(tiles.all? { |tile|
+        tile.reload.tileable.is_a?(Square)
+      }).to eq(true)
     end
 
     context 'tiles are not continuous' do
@@ -31,8 +31,14 @@ describe 'WordSmith' do
         3.times.map { |y| board.square(0, y * y) }
       end
 
-      it 'returns false' do
-        expect(word_smith.valid?).to eq false
+      it 'raises error' do
+        expect {
+          word_smith.assign_tiles
+        }.to raise_error(WordSmith::InvalidWord)
+
+        expect(tiles.any? { |tile|
+          tile.reload.tileable.is_a?(Square)
+        }).to eq(false)
       end
     end
 
@@ -41,8 +47,14 @@ describe 'WordSmith' do
         3.times.map { |y,| board.square(y, y) }
       end
 
-      it 'returns false' do
-        expect(word_smith.valid?).to eq false
+      it 'raises error' do
+        expect {
+          word_smith.assign_tiles
+        }.to raise_error(WordSmith::InvalidWord)
+
+        expect(tiles.any? { |tile|
+          tile.reload.tileable.is_a?(Square)
+        }).to eq(false)
       end
     end
 
@@ -53,25 +65,24 @@ describe 'WordSmith' do
         board.square(10, 10).update(tile: old_tile)
       end
 
-      it 'returns false' do
-        word_smith.assign_tiles
-        expect(word_smith.valid?).to eq false
+      it 'raises error' do
+        expect {
+          word_smith.assign_tiles
+        }.to raise_error(WordSmith::InvalidWord)
+
+        expect(tiles.any? { |tile|
+          tile.reload.tileable.is_a?(Square)
+        }).to eq(false)
       end
     end
   end
 
-  describe '#assign_tiles' do
-    it 'assigns tiles to squares' do
-      word_smith.assign_tiles
-      expect(tiles.all? { |tile|
-        tile.reload.tileable.is_a?(Square)
-      }).to eq(true)
-    end
-  end
-
   describe '#points' do
-    it 'returns sum of points for all tiles' do
+    before do
       word_smith.assign_tiles
+    end
+
+    it 'returns sum of points for all tiles' do
       expect(word_smith.points).to eq(tiles.map(&:points).sum)
     end
 
@@ -85,7 +96,6 @@ describe 'WordSmith' do
         end
 
         it 'returns sum of points for all tiles in word' do
-          word_smith.assign_tiles
           expect(word_smith.points).to eq(all_tiles.map(&:points).sum)
         end
       end
@@ -103,7 +113,6 @@ describe 'WordSmith' do
         end
 
         it 'returns sum of points for all tiles in word' do
-          word_smith.assign_tiles
           expect(word_smith.points).to eq(all_tiles.map(&:points).sum)
         end
       end

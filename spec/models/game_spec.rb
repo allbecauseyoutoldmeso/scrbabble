@@ -21,42 +21,6 @@ describe 'Game' do
     end
   end
 
-  describe '#assign_new_tiles' do
-    let(:player) { game.player_1 }
-    let(:tile_rack) { player.tile_rack}
-    let(:tile_bag) { game.tile_bag }
-
-    before do
-      tile_rack.tiles.each { |tile|
-        tile.update(tileable: tile_bag)
-      }
-    end
-
-    it 'assigns tiles to player' do
-      expect {
-        game.assign_new_tiles(player)
-      }.to change {
-        tile_rack.tiles.count
-      }.by(TileRack::MAXIMUM_TILES)
-    end
-
-    it 'removes tiles from tile rack' do
-      expect {
-        game.assign_new_tiles(player)
-      }.to change {
-        tile_bag.tiles.count
-      }.by(-TileRack::MAXIMUM_TILES)
-    end
-  end
-
-  describe '#toggle_current_player' do
-    it 'switches current player' do
-      game.update(current_player: game.player_1)
-      game.toggle_current_player
-      expect(game.current_player).to eq(game.player_2)
-    end
-  end
-
   describe '#play_turn' do
     let(:player_1) { game.player_1 }
     let(:player_2) { game.player_2 }

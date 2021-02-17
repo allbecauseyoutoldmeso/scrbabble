@@ -1,23 +1,31 @@
 class WordSmith
-  delegate :assign_tiles, to: :new_placements
+  class InvalidWord < StandardError
+  end
 
   def initialize(data:, board:)
     @new_placements = WordSmithTools::NewPlacements.new(data)
     @board = board
   end
 
-  def points
-    words.map(&:points).sum
+  def assign_tiles
+    ActiveRecord::Base.transaction do
+      new_placements.assign_tiles
+      raise(InvalidWord.new) unless valid?
+    end
   end
 
-  def valid?
-    new_placements.valid? && words_use_old_tiles?
-    # && words_in_dictionary?
+  def points
+    words.map(&:points).sum
   end
 
   private
 
   attr_reader :new_placements, :board
+
+  def valid?
+    new_placements.valid? && words_use_old_tiles?
+    # && words_in_dictionary?
+  end
 
   def words_use_old_tiles?
     old_tiles.empty? || words.any? do |word|

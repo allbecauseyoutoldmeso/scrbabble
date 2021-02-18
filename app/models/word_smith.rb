@@ -23,8 +23,17 @@ class WordSmith
   attr_reader :new_placements, :board
 
   def valid?
-    new_placements.valid? && words_use_old_tiles?
+    new_placements.single_axis? &&
+    new_tiles_continuous? &&
+    words_use_old_tiles?
     # && words_in_dictionary?
+  end
+
+  def new_tiles_continuous?
+    board.squares.where(
+      x: new_placements.first_x..new_placements.last_x,
+      y: new_placements.first_y..new_placements.last_y
+    ).all?(&:tile)
   end
 
   def words_use_old_tiles?

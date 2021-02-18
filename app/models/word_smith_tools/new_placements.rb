@@ -10,8 +10,8 @@ module WordSmithTools
       end
     end
 
-    def valid?
-      (accross? && continuous_accross?) || (down? && continuous_down?)
+    def single_axis?
+      down? || accross?
     end
 
     def down?
@@ -22,27 +22,7 @@ module WordSmithTools
       squares.map(&:y).uniq.count == 1
     end
 
-    def tiles
-      @tiles ||= parsed_data.map { |datum| datum[:tile] }
-    end
-
-    def squares
-      @squares ||= parsed_data.map { |datum| datum[:square] }
-    end
-
-    private
-
-    attr_reader :data
-
-    # DRY up the below?
-    def continuous_accross?
-      (first_x..last_x).to_a == squares.map(&:x)
-    end
-
-    def continuous_down?
-      (first_y..last_y).to_a == squares.map(&:y)
-    end
-
+    # DRY up?
     def first_x
       squares.map(&:x).min
     end
@@ -58,6 +38,18 @@ module WordSmithTools
     def last_y
       squares.map(&:y).max
     end
+
+    def tiles
+      @tiles ||= parsed_data.map { |datum| datum[:tile] }
+    end
+
+    def squares
+      @squares ||= parsed_data.map { |datum| datum[:square] }
+    end
+
+    private
+
+    attr_reader :data
 
     def parsed_data
       @parsed_data ||= data.map do |datum|

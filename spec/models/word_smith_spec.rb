@@ -21,6 +21,7 @@ describe 'WordSmith' do
   describe '#assign_tiles' do
     it 'assigns tiles to squares' do
       word_smith.assign_tiles
+
       expect(tiles.all? { |tile|
         tile.reload.tileable.is_a?(Square)
       }).to eq(true)
@@ -39,6 +40,30 @@ describe 'WordSmith' do
         expect(tiles.any? { |tile|
           tile.reload.tileable.is_a?(Square)
         }).to eq(false)
+      end
+    end
+
+    context 'tiles cross previous word' do
+      let(:squares) do
+        [
+          board.square(0, 0),
+          board.square(0, 2),
+          board.square(0, 3)
+        ]
+      end
+
+      let(:old_tile) { tile_bag.tiles.last }
+
+      before do
+        board.square(0, 1).update(tile: old_tile)
+      end
+
+      it 'assigns tiles to squares' do
+        word_smith.assign_tiles
+
+        expect(tiles.all? { |tile|
+          tile.reload.tileable.is_a?(Square)
+        }).to eq(true)
       end
     end
 

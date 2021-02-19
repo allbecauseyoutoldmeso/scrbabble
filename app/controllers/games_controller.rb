@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  before_action :authenticate_user
   before_action :load_game, only: [:show, :update]
 
   def index

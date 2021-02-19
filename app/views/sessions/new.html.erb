@@ -1,0 +1,7 @@
+<%= form_with url: session_index_path, method: :post do |form| %>
+  <%= form.label :query, 'name' %>
+  <%= form.text_field :name %>
+  <%= form.label :password, 'password' %>
+  <%= form.text_field :password %>
+  <%= form.submit 'log in' %>
+<% end %>

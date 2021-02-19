@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_17_104930) do
+ActiveRecord::Schema.define(version: 2021_02_19_172549) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "boards", force: :cascade do |t|
-    t.integer "game_id"
+    t.bigint "game_id"
     t.index ["game_id"], name: "index_boards_on_game_id"
   end
 
@@ -24,13 +27,14 @@ ActiveRecord::Schema.define(version: 2021_02_17_104930) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.integer "game_id"
+    t.bigint "game_id"
     t.integer "points", default: 0
+    t.integer "user_id"
     t.index ["game_id"], name: "index_players_on_game_id"
   end
 
   create_table "premiums", force: :cascade do |t|
-    t.integer "square_id"
+    t.bigint "square_id"
     t.integer "tuple"
     t.integer "target"
     t.index ["square_id"], name: "index_premiums_on_square_id"
@@ -39,17 +43,17 @@ ActiveRecord::Schema.define(version: 2021_02_17_104930) do
   create_table "squares", force: :cascade do |t|
     t.integer "x"
     t.integer "y"
-    t.integer "board_id"
+    t.bigint "board_id"
     t.index ["board_id"], name: "index_squares_on_board_id"
   end
 
   create_table "tile_bags", force: :cascade do |t|
-    t.integer "game_id"
+    t.bigint "game_id"
     t.index ["game_id"], name: "index_tile_bags_on_game_id"
   end
 
   create_table "tile_racks", force: :cascade do |t|
-    t.integer "player_id"
+    t.bigint "player_id"
     t.index ["player_id"], name: "index_tile_racks_on_player_id"
   end
 
@@ -58,6 +62,11 @@ ActiveRecord::Schema.define(version: 2021_02_17_104930) do
     t.integer "points"
     t.bigint "tileable_id"
     t.string "tileable_type"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "password_digest"
   end
 
 end

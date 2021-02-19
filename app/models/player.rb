@@ -1,5 +1,6 @@
 class Player < ActiveRecord::Base
   belongs_to :game
+  belongs_to :user, optional: true
   has_one :tile_rack
   has_many :words
   after_create :create_tile_rack

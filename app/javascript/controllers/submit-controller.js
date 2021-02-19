@@ -33,7 +33,9 @@ export default class extends Controller {
 
   squaresWithTiles() {
     return this.squareTargets.filter(
-      (square) => !!square.children.length
+      (square) => {
+        return square.children[0] && square.children[0].className == 'tile'
+      }
     )
   }
 }

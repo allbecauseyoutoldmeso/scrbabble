@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2021_02_17_104930) do
   create_table "tiles", force: :cascade do |t|
     t.string "letter"
     t.integer "points"
-    t.integer "tileable_id"
+    t.bigint "tileable_id"
     t.string "tileable_type"
   end
 

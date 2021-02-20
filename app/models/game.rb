@@ -5,12 +5,15 @@ class Game < ActiveRecord::Base
   belongs_to :current_player, class_name: 'Player', optional: true
   after_create :create_board
   after_create :create_tile_bag
-  after_create :create_players
   after_create :assign_initial_tiles
   after_create :set_current_player
 
   # translations
-  # update front end for players on separate machines
+  # update for users on separate machines
+  # feature specs
+  # allow users to drag tiles back to tile rack
+  # prevent users playing out of turn
+  # enforce first turn on middle square
   def play_turn(data)
     begin
       word_smith = WordSmith.new(data: data, board: board)

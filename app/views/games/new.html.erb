@@ -1,0 +1,6 @@
+<%= form_with model: Game.new do |form| %>
+  <%= form.select(
+    :other_user_id, @other_users.map { |user| [user.name, user.id] }
+  ) %>
+  <%= form.submit %>
+<% end %>

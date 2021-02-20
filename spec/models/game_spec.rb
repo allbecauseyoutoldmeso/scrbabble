@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 describe 'Game' do
-  let(:game) { create(:game) }
+  let(:player_1) { create(:player) }
+  let(:player_2) { create(:player) }
+  let(:game) { create(:game, players: [player_1, player_2]) }
 
   describe '#create' do
     it 'has board' do
@@ -12,18 +14,12 @@ describe 'Game' do
       expect(game.tile_bag).to be_present
     end
 
-    it 'has players' do
-      expect(game.players.count).to eq(2)
-    end
-
     it 'has current player' do
-      expect(game.current_player).to be_present
+      expect(game.current_player).to eq(player_1)
     end
   end
 
   describe '#play_turn' do
-    let(:player_1) { game.player_1 }
-    let(:player_2) { game.player_2 }
     let(:board) { game.board }
     let(:tiles) { player_1.tiles.first(3) }
 
@@ -61,6 +57,16 @@ describe 'Game' do
       it 'toggles current player' do
         expect(game.current_player).to eq player_2
       end
+
+      context 'squares have premiums' do
+        let(:squares) do
+          3.times.map { |x| board.square(x + 1, 0) }
+        end
+
+        it 'invalidates premiums' do
+          expect(board.square(3, 0).premium).not_to be_active
+        end
+      end
     end
 
     context 'invalid word' do
@@ -80,6 +86,10 @@ describe 'Game' do
 
       it 'does not toggle current player' do
         expect(game.current_player).to eq player_1
+      end
+
+      it 'does not invalidate premiums' do
+        expect(board.square(0, 0).premium).to be_active
       end
     end
   end

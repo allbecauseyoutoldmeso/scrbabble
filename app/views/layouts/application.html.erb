@@ -11,6 +11,9 @@
   </head>
 
   <body>
+    <%= form_with url: delete_sessions_path, method: :post do |form| %>
+      <%= form.submit 'log out' %>
+    <% end %>
     <%= yield %>
   </body>
 </html>

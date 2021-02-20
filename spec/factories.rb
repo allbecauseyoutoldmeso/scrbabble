@@ -6,6 +6,7 @@ FactoryBot.define do
   end
 
   factory :player do
+    user factory: :user
   end
 
   factory :premium do
@@ -24,5 +25,7 @@ FactoryBot.define do
   end
 
   factory :user do
+    name { 'user' }
+    password { 'password' }
   end
 end

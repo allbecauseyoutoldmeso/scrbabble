@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2021_02_19_172549) do
     t.bigint "square_id"
     t.integer "tuple"
     t.integer "target"
+    t.boolean "active", default: true
     t.index ["square_id"], name: "index_premiums_on_square_id"
   end
 

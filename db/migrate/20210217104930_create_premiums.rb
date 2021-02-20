@@ -4,6 +4,7 @@ class CreatePremiums < ActiveRecord::Migration[6.1]
       t.references :square
       t.integer :tuple
       t.integer :target
+      t.boolean :active, default: true
     end
   end
 end

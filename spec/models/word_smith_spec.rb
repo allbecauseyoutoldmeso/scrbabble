@@ -167,7 +167,6 @@ describe 'WordSmith' do
       end
 
       it 'returns sum of points for all words' do
-        word_smith.assign_tiles
         expect(word_smith.points).to eq(
           old_tile_1.points + old_tile_2.points + (new_tile.points * 2)
         )
@@ -194,6 +193,35 @@ describe 'WordSmith' do
           (tiles[0].points * 2) + tiles[1].points + tiles[2].points
         )
       end
+    end
+
+    context 'inactive premium' do
+      let(:squares) do
+        3.times.map { |x| board.square(x + 1, 0) }
+      end
+
+      before do
+        board.square(3, 0).premium.inactivate
+      end
+
+      it 'returns only the sum of points for the tiles' do
+        expect(word_smith.points).to eq(tiles.map(&:points).sum)
+      end
+    end
+  end
+
+  describe '#inactivate_premiums' do
+    let(:squares) do
+      3.times.map { |x| board.square(x + 1, 0) }
+    end
+
+    before do
+      word_smith.assign_tiles
+    end
+
+    it 'sets active to false on premiums' do
+      word_smith.inactivate_premiums
+      expect(board.square(3, 0).premium).not_to be_active
     end
   end
 end

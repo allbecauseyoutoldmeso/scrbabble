@@ -9,8 +9,6 @@ class Game < ActiveRecord::Base
   after_create :set_current_player
 
   # translations
-  # update for users on separate machines
-  # feature specs
   # allow users to drag tiles back to tile rack
   # prevent users playing out of turn
   # enforce first turn on middle square
@@ -19,6 +17,7 @@ class Game < ActiveRecord::Base
       word_smith = WordSmith.new(data: data, board: board)
       word_smith.assign_tiles
       current_player.add_points(word_smith.points)
+      word_smith.inactivate_premiums
       assign_new_tiles(current_player)
       toggle_current_player
     rescue WordSmith::InvalidWord

@@ -14,10 +14,10 @@ class Square < ActiveRecord::Base
   private
 
   def letter_premium
-    premium if premium&.letter?
+    premium if premium&.active? && premium&.letter?
   end
 
   def word_premium
-    premium if premium&.word?
+    premium if premium&.active? && premium&.word?
   end
 end

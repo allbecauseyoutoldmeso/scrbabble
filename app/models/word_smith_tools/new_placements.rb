@@ -10,6 +10,10 @@ module WordSmithTools
       end
     end
 
+    def inactivate_premiums
+      premiums.each(&:inactivate)
+    end
+
     def single_axis?
       down? || accross?
     end
@@ -50,6 +54,10 @@ module WordSmithTools
     private
 
     attr_reader :data
+
+    def premiums
+      squares.map(&:premium).compact
+    end
 
     def parsed_data
       @parsed_data ||= data.map do |datum|

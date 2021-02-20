@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   before_action :authenticate_user
-  before_action :load_game, only: [:show, :update]
+  before_action :load_game, only: [:show, :update, :tile_rack]
+  before_action :load_player, only: [:show, :tile_rack]
 
   def index
     @games = current_user.games
@@ -17,20 +18,31 @@ class GamesController < ApplicationController
     redirect_to(game_path(game))
   end
 
-  def show
-    @player = @game.players.find_by(user: current_user)
-  end
-
   def update
     @game.play_turn(data)
-    @player = @game.players.find_by(user: current_user)
-    render :show
+
+    ActionCable.server.broadcast(
+      'game_channel',
+      shared: (render partial: 'shared', locals:  { game: @game })
+    )
+  end
+
+  def tile_rack
+    render partial: 'tile_rack', locals:  { player: @player }
   end
 
   private
 
   def other_user
     User.find(game_params[:other_user_id])
+  end
+
+  def load_player
+    @player = @game.players.find_by(user: current_user)
+  end
+
+  def load_game
+    @game = current_user.games.find(params[:id])
   end
 
   def game_params
@@ -40,9 +52,5 @@ class GamesController < ApplicationController
   def data
     # should be able to use strong params
     JSON.parse(params[:data]).map(&:symbolize_keys)
-  end
-
-  def load_game
-    @game = current_user.games.find(params[:id])
   end
 end

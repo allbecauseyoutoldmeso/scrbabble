@@ -1,0 +1,9 @@
+<%= "#{game.current_player.user.name}'s turn" %>
+<%= render(
+  partial: 'score_card',
+  locals: { player_1: game.player_1, player_2: game.player_2 }
+) %>
+<%= render(
+   partial: 'board',
+   locals: { board: game.board }
+) %>

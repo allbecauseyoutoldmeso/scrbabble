@@ -1,17 +1,41 @@
 import { Controller } from 'stimulus'
 import Rails from '@rails/ujs'
+import consumer from '../channels/consumer'
 
 export default class extends Controller {
-  static targets = ['square', 'game']
+  static targets = ['square', 'shared', 'rack']
+
+  connect() {
+    this.channel = consumer.subscriptions.create('GameChannel', {
+      received: this.cableReceived.bind(this),
+    })
+  }
+
+  cableReceived(data) {
+    this.sharedTarget.innerHTML = data.shared
+  }
 
   onClick(event) {
-    const game = this.gameTarget
+    // prevent tile rack refilling before board updates
+    this.playTurn()
+    this.refillTileRack()
+  }
 
+  playTurn() {
     Rails.ajax({
       type: 'PUT',
-      url: `${this.gameId()}?data=${JSON.stringify(this.requestData())}`,
+      url: `${this.gameId()}?data=${JSON.stringify(this.requestData())}`
+    })
+  }
+
+  refillTileRack() {
+    const tileRack = this.rackTarget
+
+    Rails.ajax({
+      type: 'GET',
+      url: `${this.gameId()}/tile_rack`,
       success: (_data, _status, xhr) => {
-        game.innerHTML = xhr.response
+        tileRack.innerHTML = xhr.response
       }
     })
   }

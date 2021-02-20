@@ -3,20 +3,20 @@
   data-game=<%= @game.id %>
   data-submit-target='game'
   class='flex-direction-column'>
-<%= "#{@game.current_player.user.name}'s turn" %>
-<%= render(
-  partial: 'score_card',
-  locals: { player_1: @game.player_1, player_2: @game.player_2 }
-) %>
-<%= render(
-   partial: 'board',
-   locals: { board: @game.board }
-) %>
-<%= render(
-  partial: 'submit_button',
-  locals: { player: @player }
-) %>
-<%= render(
-  partial: 'tile_rack',
-  locals: { tile_rack: @player }
-) %>
+  <div data-submit-target='shared'>
+    <%= render(
+      partial: 'shared',
+      locals: { game: @game }
+    ) %>
+  </div>
+  <%= render(
+    partial: 'submit_button',
+    locals: { player: @player }
+  ) %>
+  <div data-submit-target='rack'>
+    <%= render(
+      partial: 'tile_rack',
+      locals: { player: @player }
+    ) %>
+  </div>
+</div>

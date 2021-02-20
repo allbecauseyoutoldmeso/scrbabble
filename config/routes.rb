@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   root "games#index"
-  resources :games
-  resources :session, only: [:new, :create], controller: :sessions
+
+  resources :games do
+    get :tile_rack, on: :member
+  end
+
+  resources :sessions, only: [:new, :create]
 end

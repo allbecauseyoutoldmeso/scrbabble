@@ -1,10 +1,11 @@
 class Player < ActiveRecord::Base
-  belongs_to :game
-  belongs_to :user, optional: true
+  belongs_to :game, optional: true
+  belongs_to :user
   has_one :tile_rack
   has_many :words
   after_create :create_tile_rack
   delegate :tiles, :spaces, to: :tile_rack
+  delegate :name, to: :user
 
   def add_points(num)
     update(points: points + num)

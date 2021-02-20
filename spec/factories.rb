@@ -8,7 +8,13 @@ FactoryBot.define do
   factory :player do
   end
 
+  factory :premium do
+  end
+
   factory :square do
+  end
+
+  factory :tile do
   end
 
   factory :tile_bag do
@@ -17,9 +23,6 @@ FactoryBot.define do
   factory :tile_rack do
   end
 
-  factory :tile do
-  end
-
-  factory :premium do
+  factory :user do
   end
 end

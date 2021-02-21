@@ -19,10 +19,12 @@ class SessionsController < ApplicationController
   private
 
   def user
-    User.find_by(name: user_params[:name])&.authenticate(user_params[:password])
+    @user ||= User
+      .find_by(name: user_params[:name])
+      &.authenticate(user_params[:password])
   end
 
   def user_params
-    params.permit(:name, :password)
+    params.require(:user).permit(:name, :password)
   end
 end

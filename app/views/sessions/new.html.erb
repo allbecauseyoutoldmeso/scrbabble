@@ -1,7 +1,7 @@
-<%= form_with url: sessions_path, method: :post do |form| %>
-  <%= form.label :query, 'name' %>
+<%= form_with model: User.new, url: sessions_path, method: :post do |form| %>
+  <%= form.label :name %>
   <%= form.text_field :name %>
-  <%= form.label :password, 'password' %>
+  <%= form.label :password %>
   <%= form.text_field :password %>
-  <%= form.submit 'log in' %>
+  <%= form.submit t('sessions.create') %>
 <% end %>

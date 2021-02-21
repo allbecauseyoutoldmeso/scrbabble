@@ -10,9 +10,12 @@ describe 'user creates game' do
 
   scenario 'user creates game successfully' do
     visit(root_path)
-    click_link('new game')
-    select(user_2.name, from: 'rival')
-    click_button('Create Game')
+    click_link(I18n.t('games.index.new_game'))
+    select(
+      user_2.name,
+      from: I18n.t('activerecord.attributes.game.other_user_id')
+    )
+    click_button(I18n.t('helpers.submit.game.create'))
     game = Game.last
     expect(current_path).to eq(game_path(game))
   end

@@ -1,4 +1,4 @@
-<%= "#{game.current_player.name}'s turn" %>
+<%= t('games.show.players_turn', player: game.current_player.name) %>
 <%= render(
   partial: 'score_card',
   locals: { player_1: game.player_1, player_2: game.player_2 }

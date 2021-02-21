@@ -1,4 +1,4 @@
 <% @games.each do |game| %>
 <%= link_to(game.id, game_path(game)) %>
 <% end %>
-<%= link_to('new game', new_game_path) %>
+<%= link_to(t('games.index.new_game'), new_game_path) %>

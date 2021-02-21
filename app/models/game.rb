@@ -8,7 +8,6 @@ class Game < ActiveRecord::Base
   after_create :assign_initial_tiles
   after_create :set_current_player
 
-  # translations
   # allow users to drag tiles back to tile rack
   # prevent users playing out of turn
   # enforce first turn on middle square

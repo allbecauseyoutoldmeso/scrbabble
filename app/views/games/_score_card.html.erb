@@ -1,4 +1,8 @@
-<%= player_1.name %>:
-<%= player_1.points %>
-<%= player_2.name %>:
-<%= player_2.points %>
+<div id=<%= "#{dom_id(player_1)}_score" %>>
+  <%= player_1.name %>
+  <%= player_1.points %>
+</div>
+<div id=<%= "#{dom_id(player_2)}_score" %>>
+  <%= player_2.name %>
+  <%= player_2.points %>
+</div>

@@ -5,9 +5,12 @@ describe 'log in' do
 
   scenario 'user logs in successfully' do
     visit(root_path)
-    fill_in('name', with: user.name)
-    fill_in('password', with: user.password)
-    click_button('log in')
-    expect(page).to have_link('new game')
+    fill_in(I18n.t('activerecord.attributes.user.name'), with: user.name)
+    fill_in(
+      I18n.t('activerecord.attributes.user.password'),
+      with: user.password
+    )
+    click_button(I18n.t('sessions.create'))
+    expect(page).to have_link(I18n.t('games.index.new_game'))
   end
 end

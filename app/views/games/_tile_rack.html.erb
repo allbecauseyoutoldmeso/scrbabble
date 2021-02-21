@@ -1,11 +1,18 @@
 <div class='flex-direction-row tile-rack'>
-  <% player.tiles.each do |tile| %>
+  <% (0..6).to_a.zip(player.tiles).each do |array| %>
+    <% space, tile = array %>
     <div
-      id=<%= dom_id(tile) %>
-      draggable='true'
-      data-action='dragstart->drag#dragStart dragend->drag#dragEnd'
-      class='tile'>
-      <%= "#{tile.letter}, #{tile.points}" %>
+      class='tile-rack-space'
+      data-action='drop->drag#drop dragover->drag#dragOver'>
+      <% if tile.present? %>
+        <div
+          id=<%= dom_id(tile) %>
+          draggable='true'
+          data-action='dragstart->drag#dragStart dragend->drag#dragEnd'
+          class='tile'>
+          <%= "#{tile.letter}, #{tile.points}" %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>

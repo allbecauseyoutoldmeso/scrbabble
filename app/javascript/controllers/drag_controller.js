@@ -13,8 +13,12 @@ export default class extends Controller {
   drop(event) {
     event.preventDefault()
     const data = event.dataTransfer.getData('tile')
-    event.currentTarget.innerHTML = ""
-    event.currentTarget.appendChild(document.getElementById(data))
+    const targetChild = event.currentTarget.firstElementChild
+
+    if(!targetChild || targetChild.className != 'tile') {
+      event.currentTarget.innerHTML = ""
+      event.currentTarget.appendChild(document.getElementById(data))
+    }
   }
 
   dragOver(event) {

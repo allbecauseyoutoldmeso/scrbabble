@@ -16,7 +16,6 @@ export default class extends Controller {
   }
 
   onClick(event) {
-    // prevent tile rack refilling before board updates
     this.playTurn()
     this.refillTileRack()
   }

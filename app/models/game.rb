@@ -8,9 +8,9 @@ class Game < ActiveRecord::Base
   after_create :assign_initial_tiles
   after_create :set_current_player
 
-  # allow users to drag tiles back to tile rack
   # prevent users playing out of turn
   # enforce first turn on middle square
+  # enforce scrabble dictionary
   def play_turn(data)
     begin
       word_smith = WordSmith.new(data: data, board: board)

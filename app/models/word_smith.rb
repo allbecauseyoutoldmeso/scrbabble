@@ -28,7 +28,6 @@ class WordSmith
     new_placements.single_axis? &&
     new_tiles_continuous? &&
     words_use_old_tiles?
-    # && words_in_dictionary?
   end
 
   def new_tiles_continuous?

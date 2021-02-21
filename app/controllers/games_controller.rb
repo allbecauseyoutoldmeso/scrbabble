@@ -50,7 +50,6 @@ class GamesController < ApplicationController
   end
 
   def data
-    # should be able to use strong params
     JSON.parse(params[:data]).map(&:symbolize_keys)
   end
 end

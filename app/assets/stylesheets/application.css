@@ -36,3 +36,13 @@ body {
  .premium {
    font-size: 10px;
  }
+
+ .tile-rack {
+   border: solid 1px black;
+   width: fit-content;
+ }
+
+ .tile-rack-space {
+   height: 28px;
+   width: 28px;
+ }

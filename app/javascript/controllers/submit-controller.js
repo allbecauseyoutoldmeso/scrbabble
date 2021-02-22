@@ -15,19 +15,25 @@ export default class extends Controller {
     this.sharedTarget.innerHTML = data.shared
   }
 
-  onClick(event) {
-    this.playTurn()
+  async onClick(event) {
+    await this.playTurn()
     this.refillTileRack()
   }
 
-  playTurn() {
-    Rails.ajax({
-      type: 'PUT',
-      url: `${this.gameId()}?data=${JSON.stringify(this.requestData())}`
-    })
+  async playTurn() {
+    await fetch(
+      `${this.gameId()}?data=${JSON.stringify(this.requestData())}`,
+      {
+        method: 'PUT',
+        headers: {
+          'X-CSRF-Token': this.csrfToken()
+        }
+      }
+    )
   }
 
   refillTileRack() {
+    // can I use fetch instead?
     const tileRack = this.rackTarget
 
     Rails.ajax({
@@ -37,6 +43,10 @@ export default class extends Controller {
         tileRack.innerHTML = xhr.response
       }
     })
+  }
+
+  csrfToken() {
+    return document.getElementsByName('csrf-token')[0].content
   }
 
   gameId() {

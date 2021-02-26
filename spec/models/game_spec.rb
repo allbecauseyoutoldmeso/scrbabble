@@ -5,6 +5,11 @@ describe 'Game' do
   let(:player_2) { create(:player) }
   let(:game) { create(:game, players: [player_1, player_2]) }
 
+  before do
+    stub_request(:get, %r{http://api.wordnik.com})
+      .to_return(body: { value: 9 }.to_json)
+  end
+
   describe '#create' do
     it 'has board' do
       expect(game.board).to be_present

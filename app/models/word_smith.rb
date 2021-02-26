@@ -27,7 +27,8 @@ class WordSmith
   def valid?
     new_placements.single_axis? &&
     new_tiles_continuous? &&
-    words_use_old_tiles?
+    words_use_old_tiles? &&
+    words_valid?
   end
 
   def new_tiles_continuous?
@@ -43,12 +44,16 @@ class WordSmith
     end
   end
 
+  def words_valid?
+    words.all?(&:valid?)
+  end
+
   def old_tiles
     board.tiles - new_placements.tiles
   end
 
   def words
-    [primary_word] + secondary_words
+    @words ||= [primary_word] + secondary_words
   end
 
   def primary_word

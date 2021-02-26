@@ -14,7 +14,19 @@ module WordSmithTools
       squares.map(&:tile)
     end
 
+    def valid?
+      dictionary_client.valid_scrabble_word?
+    end
+
     private
+
+    def dictionary_client
+      DictionaryClient.new(word)
+    end
+
+    def word
+      tiles.map(&:letter).join.downcase
+    end
 
     def word_tuples
       squares.map(&:word_tuple)

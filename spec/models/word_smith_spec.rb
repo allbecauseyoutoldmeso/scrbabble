@@ -18,6 +18,11 @@ describe 'WordSmith' do
 
   let(:word_smith) { WordSmith.new(data: data, board: board) }
 
+  before do
+    stub_request(:get, %r{http://api.wordnik.com})
+      .to_return(body: { value: 9 }.to_json)
+  end
+
   describe '#assign_tiles' do
     it 'assigns tiles to squares' do
       word_smith.assign_tiles
@@ -88,6 +93,23 @@ describe 'WordSmith' do
 
       before do
         board.square(10, 10).update(tile: old_tile)
+      end
+
+      it 'raises error' do
+        expect {
+          word_smith.assign_tiles
+        }.to raise_error(WordSmith::InvalidWord)
+
+        expect(tiles.any? { |tile|
+          tile.reload.tileable.is_a?(Square)
+        }).to eq(false)
+      end
+    end
+
+    context 'invalid word' do
+      before do
+        stub_request(:get, %r{http://api.wordnik.com})
+          .to_return(body: { error_message: 'not found' }.to_json)
       end
 
       it 'raises error' do

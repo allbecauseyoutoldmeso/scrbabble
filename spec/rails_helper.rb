@@ -7,6 +7,7 @@ require 'capybara/rails'
 require 'capybara/rspec'
 require './spec/support/factory_bot.rb'
 require './spec/support/test_helpers'
+require 'webmock/rspec'
 
 begin
   ActiveRecord::Migration.maintain_test_schema!

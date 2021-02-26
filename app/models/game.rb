@@ -8,9 +8,10 @@ class Game < ActiveRecord::Base
   after_create :assign_initial_tiles
   after_create :set_current_player
 
-  # feature specs that test both players? currently action cable breaking feature specs.
+  # make it pretty
+  # feature specs that test both players? Currently action cable and webmock breaking feature specs.
+  # fix word_smith specs
   # enforce first turn on middle square
-  # enforce scrabble dictionary
   def play_turn(data)
     begin
       word_smith = WordSmith.new(data: data, board: board)

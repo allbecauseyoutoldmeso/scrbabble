@@ -40,7 +40,9 @@ describe 'Game' do
 
     context 'valid word' do
       let(:squares) do
-        3.times.map { |y| board.square(1, y + 2) }
+        3.times.map do |y|
+          board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + y)
+        end
       end
 
       it 'assigns tiles to squares' do
@@ -50,7 +52,7 @@ describe 'Game' do
       end
 
       it 'assigns points to current player' do
-        expect(player_1.points).to eq(tiles.map(&:points).sum)
+        expect(player_1.points).to eq(tiles.map(&:points).sum * 2)
       end
 
       it 'assigns new tiles to current player' do
@@ -63,14 +65,8 @@ describe 'Game' do
         expect(game.current_player).to eq player_2
       end
 
-      context 'squares have premiums' do
-        let(:squares) do
-          3.times.map { |x| board.square(x + 1, 0) }
-        end
-
-        it 'invalidates premiums' do
-          expect(board.square(3, 0).premium).not_to be_active
-        end
+      it 'invalidates premiums' do
+        expect(board.middle_square.premium).not_to be_active
       end
     end
 

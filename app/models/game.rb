@@ -10,8 +10,6 @@ class Game < ActiveRecord::Base
 
   # make it pretty
   # feature specs that test both players? Currently action cable and webmock breaking feature specs.
-  # fix word_smith specs
-  # enforce first turn on middle square
   def play_turn(data)
     begin
       word_smith = WordSmith.new(data: data, board: board)

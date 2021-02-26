@@ -71,6 +71,10 @@ class Board < ActiveRecord::Base
     { target: :letter, tuple: 3, x: 9, y: 9 }
   ]
 
+  def middle_square
+    square(BOARD_SIZE/2, BOARD_SIZE/2)
+  end
+
   def square(x, y)
     squares.find_by(x: x, y: y)
   end

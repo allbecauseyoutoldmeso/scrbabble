@@ -39,8 +39,12 @@ class WordSmith
   end
 
   def words_use_old_tiles?
-    old_tiles.empty? || words.any? do |word|
-      (word.tiles & old_tiles).any?
+    if old_tiles.empty?
+      new_placements.squares.include?(board.middle_square)
+    else
+      words.any? do |word|
+        (word.tiles & old_tiles).any?
+      end
     end
   end
 

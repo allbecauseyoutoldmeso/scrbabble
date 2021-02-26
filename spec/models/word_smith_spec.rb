@@ -7,7 +7,9 @@ describe 'WordSmith' do
   let(:tiles) { tile_bag.tiles.first(3) }
 
   let(:squares) do
-    3.times.map { |y| board.square(1, y + 2) }
+    3.times.map do |y|
+      board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + y)
+    end
   end
 
   let(:data) do
@@ -34,7 +36,9 @@ describe 'WordSmith' do
 
     context 'tiles are not continuous' do
       let(:squares) do
-        3.times.map { |y| board.square(0, y * y) }
+        3.times.map do |y|
+          board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + y**2)
+        end
       end
 
       it 'raises error' do
@@ -51,16 +55,16 @@ describe 'WordSmith' do
     context 'tiles cross previous word' do
       let(:squares) do
         [
-          board.square(0, 0),
-          board.square(0, 2),
-          board.square(0, 3)
+          board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 - 1),
+          board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + 1),
+          board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + 2)
         ]
       end
 
       let(:old_tile) { tile_bag.tiles.last }
 
       before do
-        board.square(0, 1).update(tile: old_tile)
+        board.middle_square.update(tile: old_tile)
       end
 
       it 'assigns tiles to squares' do
@@ -74,7 +78,9 @@ describe 'WordSmith' do
 
     context 'tiles are not on single axis' do
       let(:squares) do
-        3.times.map { |y,| board.square(y, y) }
+        3.times.map do |y|
+          board.square(Board::BOARD_SIZE/2 + y, Board::BOARD_SIZE/2 + y)
+        end
       end
 
       it 'raises error' do
@@ -89,11 +95,18 @@ describe 'WordSmith' do
     end
 
     context 'new words do not use old tiles' do
+      let(:squares) do
+        3.times.map do |y|
+          board.square(Board::BOARD_SIZE/2 + 2, Board::BOARD_SIZE/2 + y)
+        end
+      end
+
       let(:old_tile) { tile_bag.tiles.last }
 
       before do
-        board.square(10, 10).update(tile: old_tile)
+        board.middle_square.update(tile: old_tile)
       end
+
 
       it 'raises error' do
         expect {
@@ -125,105 +138,94 @@ describe 'WordSmith' do
   end
 
   describe '#points' do
-    before do
-      word_smith.assign_tiles
-    end
-
-    it 'returns sum of points for all tiles' do
-      expect(word_smith.points).to eq(tiles.map(&:points).sum)
-    end
-
     context 'word includes tiles already on board' do
-      context 'down word' do
-        let(:squares) do
-          3.times.map { |y| board.square(4, y) }
-        end
-
-        let(:extra_tile) { tile_bag.tiles.where(points: 1..).last }
-        let(:all_tiles) { tiles.push(extra_tile) }
-
-        before do
-          board.square(4, 3).update(tile: extra_tile)
-        end
-
-        it 'returns sum of points for all tiles in word' do
-          expect(word_smith.points).to eq(all_tiles.map(&:points).sum)
-        end
+      let(:squares) do
+        [
+          board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 - 1),
+          board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + 1),
+          board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + 2)
+        ]
       end
 
-      context 'accross word' do
-        let(:squares) do
-          3.times.map { |x| board.square(x, 4) }
-        end
+      let(:old_tile) { tile_bag.tiles.where(points: 1..).last }
+      let(:all_tiles) { tiles.push(old_tile) }
 
-        let(:extra_tile) { tile_bag.tiles.where(points: 1..).last }
-        let(:all_tiles) { tiles.push(extra_tile) }
+      before do
+        board.middle_square.update(tile: old_tile)
+        board.middle_square.premium.update(active: false)
+        word_smith.assign_tiles
+      end
 
-        before do
-          board.square(3, 4).update(tile: extra_tile)
-        end
-
-        it 'returns sum of points for all tiles in word' do
-          expect(word_smith.points).to eq(all_tiles.map(&:points).sum)
-        end
+      it 'returns sum of points for all tiles in word' do
+        expect(word_smith.points).to eq(all_tiles.map(&:points).sum)
       end
     end
 
     context 'more than one word created' do
-      let(:old_tile_1) { tile_bag.tiles.where(points: 1..)[0] }
-      let(:old_tile_2) { tile_bag.tiles.where(points: 1..)[1] }
-      let(:new_tile) { tile_bag.tiles.where(points: 1..)[2] }
+      let(:squares) do
+        3.times.map do |y|
+          board.square(Board::BOARD_SIZE/2 + 1, Board::BOARD_SIZE/2 + y + 2)
+        end
+      end
 
-      let(:data) {
-        [
-          {
-            tile_id: new_tile.id,
-            square_id: board.square(2, 0).id
-          }
-        ]
-      }
+      let(:old_tiles) { tile_bag.tiles.where(points: 1..).last(3) }
+
+      let(:old_squares) do
+        3.times.map do |y|
+          board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + y)
+        end
+      end
 
       before do
-        board.square(1, 0).update(tile: old_tile_1)
-        board.square(2, 1).update(tile: old_tile_2)
+        old_squares.zip(old_tiles).each do |array|
+          array[0].update(tile: array[1])
+        end
+
+        word_smith.assign_tiles
       end
+
 
       it 'returns sum of points for all words' do
         expect(word_smith.points).to eq(
-          old_tile_1.points + old_tile_2.points + (new_tile.points * 2)
+          old_tiles[2].points + tiles[0].points * 2 + tiles[1].points + tiles[2].points
         )
       end
     end
 
     context 'double word score' do
-      let(:squares) do
-        3.times.map { |x| board.square(x, 1) }
-      end
-
       it 'returns double sum of points for all tiles' do
+        word_smith.assign_tiles
         expect(word_smith.points).to eq(tiles.map(&:points).sum * 2)
       end
     end
 
     context 'double letter score' do
       let(:squares) do
-        3.times.map { |x| board.square(x + 1, 0) }
+        3.times.map do |y|
+          board.square(Board::BOARD_SIZE/2 + 1, Board::BOARD_SIZE/2 + y)
+        end
+      end
+
+      let(:old_tile) { tile_bag.tiles.where(points: 1..).last }
+      let(:all_tiles) { tiles.push(old_tile) }
+
+      before do
+        board.middle_square.update(tile: old_tile)
+        board.middle_square.premium.update(active: false)
+        word_smith.assign_tiles
       end
 
       it 'returns double sum of points for all tiles' do
         expect(word_smith.points).to eq(
-          (tiles[0].points * 2) + tiles[1].points + tiles[2].points
+          old_tile.points + tiles[0].points * 2 + tiles[1].points + tiles[2].points * 2
         )
       end
     end
 
     context 'inactive premium' do
-      let(:squares) do
-        3.times.map { |x| board.square(x + 1, 0) }
-      end
-
       before do
-        board.square(3, 0).premium.inactivate
+        board.middle_square.premium.inactivate
+        word_smith.assign_tiles
       end
 
       it 'returns only the sum of points for the tiles' do
@@ -233,17 +235,10 @@ describe 'WordSmith' do
   end
 
   describe '#inactivate_premiums' do
-    let(:squares) do
-      3.times.map { |x| board.square(x + 1, 0) }
-    end
-
-    before do
-      word_smith.assign_tiles
-    end
-
     it 'sets active to false on premiums' do
+      word_smith.assign_tiles
       word_smith.inactivate_premiums
-      expect(board.square(3, 0).premium).not_to be_active
+      expect(board.middle_square.premium).not_to be_active
     end
   end
 end

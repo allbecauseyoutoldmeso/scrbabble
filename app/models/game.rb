@@ -8,7 +8,7 @@ class Game < ActiveRecord::Base
   after_create :assign_initial_tiles
   after_create :set_current_player
 
-  # feature specs that test both players?
+  # feature specs that test both players? currently action cable breaking feature specs.
   # enforce first turn on middle square
   # enforce scrabble dictionary
   def play_turn(data)

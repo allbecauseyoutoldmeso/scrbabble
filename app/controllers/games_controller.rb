@@ -1,7 +1,12 @@
 class GamesController < ApplicationController
   before_action :authenticate_user
-  before_action :load_game, only: [:show, :update, :tile_rack]
-  before_action :load_player, only: [:show, :tile_rack]
+
+  before_action :load_game, only: [
+    :show,
+    :update,
+    :update_shared,
+    :update_tile_rack
+  ]
 
   def index
     @games = current_user.games
@@ -18,16 +23,23 @@ class GamesController < ApplicationController
     redirect_to(game_path(game))
   end
 
+  def show
+    @player = @game.players.find_by(user: current_user)
+  end
+
   def update
     @game.play_turn(data)
+    head :ok
+  end
 
+  def update_shared
     ActionCable.server.broadcast(
       'game_channel',
       shared: (render partial: 'shared', locals:  { game: @game })
     )
   end
 
-  def tile_rack
+  def update_tile_rack
     player = params[:player] == '1' ? @game.player_1 : @game.player_2
 
     ActionCable.server.broadcast(
@@ -39,16 +51,12 @@ class GamesController < ApplicationController
 
   private
 
-  def other_user
-    User.find(game_params[:other_user_id])
-  end
-
-  def load_player
-    @player = @game.players.find_by(user: current_user)
-  end
-
   def load_game
     @game = current_user.games.find(params[:id])
+  end
+
+  def other_user
+    User.find(game_params[:other_user_id])
   end
 
   def game_params

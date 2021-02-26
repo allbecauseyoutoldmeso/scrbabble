@@ -21,6 +21,7 @@ export default class extends Controller {
 
   async onClick(event) {
     await this.playTurn()
+    await this.updateShared()
     await this.updateTileRacks()
   }
 
@@ -36,9 +37,13 @@ export default class extends Controller {
     )
   }
 
+  async updateShared() {
+    await fetch(`${this.gameId()}/update_shared`)
+  }
+
   async updateTileRacks() {
-    await fetch(`${this.gameId()}/tile_rack?player=1`)
-    await fetch(`${this.gameId()}/tile_rack?player=2`)
+    await fetch(`${this.gameId()}/update_tile_rack?player=1`)
+    await fetch(`${this.gameId()}/update_tile_rack?player=2`)
   }
 
   csrfToken() {

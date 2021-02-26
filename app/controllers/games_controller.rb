@@ -28,7 +28,13 @@ class GamesController < ApplicationController
   end
 
   def tile_rack
-    render partial: 'tile_rack', locals:  { player: @player }
+    player = params[:player] == '1' ? @game.player_1 : @game.player_2
+
+    ActionCable.server.broadcast(
+      'game_channel',
+      tile_rack: (render partial: 'tile_rack', locals:  { player: player }),
+      player_id: player.id
+    )
   end
 
   private

@@ -7,6 +7,10 @@ class Player < ActiveRecord::Base
   delegate :tiles, :spaces, to: :tile_rack
   delegate :name, to: :user
 
+  def is_current_player?
+    game.current_player == self
+  end
+
   def add_points(num)
     update(points: points + num)
   end

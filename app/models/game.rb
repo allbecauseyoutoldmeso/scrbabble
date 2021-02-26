@@ -8,7 +8,7 @@ class Game < ActiveRecord::Base
   after_create :assign_initial_tiles
   after_create :set_current_player
 
-  # prevent users playing out of turn
+  # feature specs that test both players?
   # enforce first turn on middle square
   # enforce scrabble dictionary
   def play_turn(data)

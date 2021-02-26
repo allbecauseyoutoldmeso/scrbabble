@@ -12,12 +12,16 @@ export default class extends Controller {
   }
 
   cableReceived(data) {
-    this.sharedTarget.innerHTML = data.shared
+    if (data.shared) {
+      this.sharedTarget.innerHTML = data.shared
+    } else if (data.tile_rack && data.player_id == this.playerId()) {
+      this.rackTarget.innerHTML = data.tile_rack
+    }
   }
 
   async onClick(event) {
     await this.playTurn()
-    this.refillTileRack()
+    await this.updateTileRacks()
   }
 
   async playTurn() {
@@ -32,21 +36,17 @@ export default class extends Controller {
     )
   }
 
-  refillTileRack() {
-    // can I use fetch instead?
-    const tileRack = this.rackTarget
-
-    Rails.ajax({
-      type: 'GET',
-      url: `${this.gameId()}/tile_rack`,
-      success: (_data, _status, xhr) => {
-        tileRack.innerHTML = xhr.response
-      }
-    })
+  async updateTileRacks() {
+    await fetch(`${this.gameId()}/tile_rack?player=1`)
+    await fetch(`${this.gameId()}/tile_rack?player=2`)
   }
 
   csrfToken() {
     return document.getElementsByName('csrf-token')[0].content
+  }
+
+  playerId() {
+    return this.element.getAttribute('data-player')
   }
 
   gameId() {

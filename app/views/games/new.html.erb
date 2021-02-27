@@ -3,6 +3,8 @@
   <%= form.select(
     :other_user_id,
     @other_users.map { |user| [user.name, user.id] },
+    {},
+    { class: 'select' }
   ) %>
-  <%= form.submit %>
+  <%= form.submit(t('helpers.submit.game.create'), class: 'button') %>
 <% end %>

@@ -10,6 +10,7 @@ en:
         password: password
   games:
     index:
+      game: game %{id}
       new_game: new game
     show:
       players_turn: "%{player}'s turn"

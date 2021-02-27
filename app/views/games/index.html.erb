@@ -1,4 +1,8 @@
-<% @games.each do |game| %>
-<%= link_to(game.id, game_path(game)) %>
-<% end %>
-<%= link_to(t('games.index.new_game'), new_game_path) %>
+<div class='flex-direction-column'>
+  <% @games.each do |game| %>
+    <%= link_to(
+      t('games.index.game', id: game.id), game_path(game), class: 'link'
+    ) %>
+  <% end %>
+</div>
+<%= link_to(t('games.index.new_game'), new_game_path, class: 'link') %>

@@ -32,6 +32,11 @@ body {
   flex-direction: column-reverse;
 }
 
+.link {
+  color: black;
+  text-decoration: none;
+}
+
 .navbar {
   align-items: center;
 }
@@ -42,6 +47,10 @@ body {
 
  .score-card {
    margin: 10px;
+ }
+
+ .select {
+   font-family: 'Architects Daughter', cursive;
  }
 
 .square {

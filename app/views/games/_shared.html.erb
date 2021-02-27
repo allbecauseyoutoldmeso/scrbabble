@@ -1,9 +1,13 @@
-<%= t('games.show.players_turn', player: game.current_player.name) %>
-<%= render(
-  partial: 'score_card',
-  locals: { player_1: game.player_1, player_2: game.player_2 }
-) %>
-<%= render(
-   partial: 'board',
-   locals: { board: game.board }
-) %>
+<div class='flex-direction-row'>
+  <%= render(
+     partial: 'board',
+     locals: { board: game.board }
+  ) %>
+  <div class='flex-direction-column score-card'>
+    <%= render(
+      partial: 'score_card',
+      locals: { player_1: game.player_1, player_2: game.player_2 }
+    ) %>
+    <%= t('games.show.players_turn', player: game.current_player.name) %>
+  </div>
+</div>

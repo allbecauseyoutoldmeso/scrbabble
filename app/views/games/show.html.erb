@@ -10,13 +10,15 @@
       locals: { game: @game }
     ) %>
   </div>
-  <%= render(
-    partial: 'submit_button',
-    locals: { player: @player }
-  ) %>
-  <div data-submit-target='rack'>
+  <div class='flex-direction-row player-dashboard'>
+    <div data-submit-target='rack'>
+      <%= render(
+        partial: 'tile_rack',
+        locals: { player: @player }
+      ) %>
+    </div>
     <%= render(
-      partial: 'tile_rack',
+      partial: 'submit_button',
       locals: { player: @player }
     ) %>
   </div>

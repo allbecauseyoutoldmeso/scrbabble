@@ -1,0 +1,74 @@
+body {
+  background: #F5F5F5;
+  padding: 40px;
+  font-family: 'Architects Daughter', cursive;
+}
+
+.button {
+  width: fit-content;
+  height: fit-content;
+  font-family: 'Architects Daughter', cursive;
+  background: black;
+  border-radius: 2px;
+  border: none;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 10px;
+}
+
+.flex-direction-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-direction-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-direction-column-reverse {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.navbar {
+  align-items: center;
+}
+
+.player-dashboard {
+   align-items: center;
+ }
+
+ .score-card {
+   margin: 10px;
+ }
+
+.square {
+   background-color: #BEBEBE;
+   border: solid 1px white;
+   height: 30px;
+   width: 30px;
+   justify-content: center;
+   align-items: center;
+   font-size: 14px;
+   color: white;
+ }
+
+ .tile {
+   height: 30px;
+   width: 30px;
+   background: #989898;
+   color: white;
+ }
+
+ .tile-rack {
+   width: fit-content;
+ }
+
+ .tile-rack-space {
+   background: #BEBEBE;
+   height: 30px;
+   width: 30px;
+   border: solid 1px white;
+ }

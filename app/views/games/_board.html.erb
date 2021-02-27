@@ -3,9 +3,10 @@
     <div class='flex-direction-row row'>
       <% row.each do |square| %>
         <% if square.tile.present? %>
-          <div class='square id=<%= dom_id(square) %>'>
+          <div class='square flex-direction-row'>
             <div id=<%= dom_id(square.tile) %> class='tile'>
-              <%= "#{square.tile.letter}, #{square.tile.points}" %>
+              <%= square.tile.letter %>
+              <%= square.tile.points %>
             </div>
           </div>
         <% else %>
@@ -13,11 +14,10 @@
             id=<%= dom_id(square) %>
             data-submit-target='square'
             data-action='drop->drag#drop dragover->drag#dragOver'
-            class='square'>
+            class='square flex-direction-row'>
             <div>
               <div class='premium'>
-                <%= square.premium&.target %>
-                <%= square.premium&.tuple %>
+                <%= premium_label(square.premium) %>
               </div>
             </div>
           </div>

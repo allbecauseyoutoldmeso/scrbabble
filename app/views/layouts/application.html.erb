@@ -8,12 +8,20 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap"
+      rel="stylesheet">
   </head>
 
   <body>
-    <%= form_with url: delete_sessions_path, method: :post do |form| %>
-      <%= form.submit t('sessions.delete') %>
-    <% end %>
+    <div class='flex-direction-row navbar'>
+      <h1><%= t('scrbabble') %></h1>
+      <%= link_to t('navbar.home'), root_path, class: 'button' %>
+      <%= form_with url: delete_sessions_path, method: :post do |form| %>
+        <%= form.submit t('sessions.delete'), class: 'button' %>
+      <% end %>
+    </div>
     <%= yield %>
   </body>
 </html>

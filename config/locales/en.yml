@@ -1,5 +1,6 @@
 ---
 en:
+  scrbabble: ScRbABbLe
   activerecord:
     attributes:
       game:
@@ -13,6 +14,13 @@ en:
     show:
       players_turn: "%{player}'s turn"
       submit_word: submit word
+      premium:
+        letter:
+          2: 2L
+          3: 3L
+        word:
+          2: 2W
+          3: 3W
   helpers:
     submit:
       game:
@@ -20,3 +28,5 @@ en:
   sessions:
     create: log in
     delete: log out
+  navbar:
+    home: home

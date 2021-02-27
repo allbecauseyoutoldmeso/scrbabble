@@ -10,7 +10,8 @@
           draggable=<%= player.is_current_player? %>
           data-action='dragstart->drag#dragStart dragend->drag#dragEnd'
           class='tile'>
-          <%= "#{tile.letter}, #{tile.points}" %>
+          <%= tile.letter %>
+          <%= tile.points %>
         </div>
       <% end %>
     </div>

@@ -187,7 +187,10 @@ describe 'WordSmith' do
 
       it 'returns sum of points for all words' do
         expect(word_smith.points).to eq(
-          old_tiles[2].points + tiles[0].points * 2 + tiles[1].points + tiles[2].points
+          old_tiles[2].points +
+          tiles[0].points * 2 +
+          tiles[1].points +
+          tiles[2].points
         )
       end
     end
@@ -217,7 +220,10 @@ describe 'WordSmith' do
 
       it 'returns double sum of points for all tiles' do
         expect(word_smith.points).to eq(
-          old_tile.points + tiles[0].points * 2 + tiles[1].points + tiles[2].points * 2
+          old_tile.points +
+          tiles[0].points * 2 +
+          tiles[1].points +
+          tiles[2].points * 2
         )
       end
     end
@@ -230,6 +236,35 @@ describe 'WordSmith' do
 
       it 'returns only the sum of points for the tiles' do
         expect(word_smith.points).to eq(tiles.map(&:points).sum)
+      end
+    end
+
+    context 'all tiles in tile rack used' do
+      let(:tiles) { tile_bag.tiles.first(TileRack::MAXIMUM_TILES) }
+
+      let(:squares) {
+        TileRack::MAXIMUM_TILES.times.map do |y|
+          board.square(Board::BOARD_SIZE/2 + 1, Board::BOARD_SIZE/2 + y)
+        end
+      }
+
+      let(:old_tile) { tile_bag.tiles.where(points: 1..).last }
+
+      before do
+        board.middle_square.update(tile: old_tile)
+        board.middle_square.premium.update(active: false)
+        word_smith.assign_tiles
+      end
+
+      it 'adds bonus to score if all tiles used' do
+        expect(word_smith.points).to eq(
+          old_tile.points +
+          tiles.map(&:points).sum +
+          tiles[0].points +
+          tiles[1].points +
+          tiles[5].points +
+          Game::BONUS
+        )
       end
     end
   end

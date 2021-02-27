@@ -17,12 +17,16 @@ class WordSmith
   end
 
   def points
-    words.map(&:points).sum
+    words.map(&:points).sum + bonus
   end
 
   private
 
   attr_reader :new_placements, :board
+
+  def bonus
+    new_placements.tiles.count == TileRack::MAXIMUM_TILES ? 50 : 0
+  end
 
   def valid?
     new_placements.single_axis? &&

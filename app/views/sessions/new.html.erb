@@ -2,6 +2,7 @@
   <%= form.label :name %>
   <%= form.text_field :name %>
   <%= form.label :password %>
-  <%= form.text_field :password %>
+  <%= form.text_field :password, type: 'password' %>
   <%= form.submit t('sessions.create'), class: 'button' %>
 <% end %>
+<%= link_to(t('sessions.new.create_new_user'), new_user_path, class: 'link') %>

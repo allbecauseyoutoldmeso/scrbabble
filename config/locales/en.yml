@@ -26,8 +26,12 @@ en:
     submit:
       game:
         create: invite to play
+      user:
+        create: create account
   sessions:
     create: log in
     delete: log out
+    new:
+      create_new_user: create new account
   navbar:
     home: home

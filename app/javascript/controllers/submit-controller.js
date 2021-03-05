@@ -65,14 +65,14 @@ export default class extends Controller {
   squareData(square) {
     return {
       square_id: square.id.split('_')[1],
-      tile_id: square.firstElementChild.id.split('_')[1]
+      tile_id: square.children[1].id.split('_')[1]
     }
   }
 
   squaresWithTiles() {
     return this.squareTargets.filter(
       (square) => {
-        return square.children[0] && square.children[0].className == 'tile'
+        return square.children[1] && square.children[1].className == 'tile'
       }
     )
   }

@@ -16,7 +16,6 @@ export default class extends Controller {
     const targetChild = event.currentTarget.firstElementChild
 
     if(!targetChild || targetChild.className != 'tile') {
-      event.currentTarget.innerHTML = ""
       event.currentTarget.appendChild(document.getElementById(data))
     }
   }

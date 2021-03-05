@@ -65,10 +65,10 @@ class WordSmith
   end
 
   def primary_word
-    if new_placements.accross?
-      WordSmithTools::Word.new(accross_squares(new_placements.squares.first))
+    if accross?
+      WordSmithTools::Word.new(accross_squares(primary_square))
     else
-      WordSmithTools::Word.new(down_squares(new_placements.squares.first))
+      WordSmithTools::Word.new(down_squares(primary_square))
     end
   end
 
@@ -80,7 +80,7 @@ class WordSmith
 
   def secondary_word_candidates
     new_placements.squares.map do |square|
-      if new_placements.accross?
+      if accross?
         WordSmithTools::Word.new(down_squares(square))
       else
         WordSmithTools::Word.new(accross_squares(square))
@@ -88,7 +88,15 @@ class WordSmith
     end
   end
 
+  def accross?
+    accross_squares(primary_square).count > 1
+  end
+
   # think about readable way to dry all this up
+
+  def primary_square
+    new_placements.squares.first
+  end
 
   def accross_squares(initial_square)
     x = initial_square.x
@@ -107,7 +115,7 @@ class WordSmith
     board.squares.where(
       x: x,
       y: first_y(x, y)..last_y(x, y)
-    )
+    ).reverse
   end
 
   def first_x(x, y)

@@ -72,7 +72,8 @@ export default class extends Controller {
   squaresWithTiles() {
     return this.squareTargets.filter(
       (square) => {
-        return square.children[1] && square.children[1].className == 'tile'
+        return square.children[1] &&
+        square.children[1].className.includes('tile')
       }
     )
   }

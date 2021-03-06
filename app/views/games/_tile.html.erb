@@ -1,0 +1,12 @@
+<div
+  id=<%= dom_id(tile) %>
+  draggable=<%= draggable %>
+  data-action='dragstart->drag#dragStart dragend->drag#dragEnd'
+  class='tile flex-direction-column'>
+  <div class='tile-letter'>
+    <%= tile.letter %>
+  </div>
+  <div class='tile-points'>
+    <%= tile.points %>
+  </div>
+</div>

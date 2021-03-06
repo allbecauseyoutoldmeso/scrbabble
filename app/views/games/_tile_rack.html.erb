@@ -5,14 +5,13 @@
       class='tile-rack-space'
       data-action='drop->drag#drop dragover->drag#dragOver'>
       <% if tile.present? %>
-        <div
-          id=<%= dom_id(tile) %>
-          draggable=<%= player.is_current_player? %>
-          data-action='dragstart->drag#dragStart dragend->drag#dragEnd'
-          class='tile'>
-          <%= tile.letter %>
-          <%= tile.points %>
-        </div>
+        <%= render(
+          partial: 'tile',
+          locals: {
+            tile: tile,
+            draggable: player.is_current_player?
+          }
+        ) %>
       <% end %>
     </div>
   <% end %>

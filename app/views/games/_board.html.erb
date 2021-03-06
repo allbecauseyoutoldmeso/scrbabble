@@ -4,10 +4,13 @@
       <% row.each do |square| %>
         <% if square.tile.present? %>
           <div class='square flex-direction-row'>
-            <div id=<%= dom_id(square.tile) %> class='tile'>
-              <%= square.tile.letter %>
-              <%= square.tile.points %>
-            </div>
+            <%= render(
+              partial: 'tile',
+              locals: {
+                tile: square.tile,
+                draggable: false
+              }
+            ) %>
           </div>
         <% else %>
           <div

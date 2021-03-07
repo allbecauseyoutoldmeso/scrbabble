@@ -26,7 +26,7 @@ class Game < ActiveRecord::Base
         alert: I18n.t(
           'games.status_messages.points_update',
           player: current_player.name,
-          points: word_smith.points
+          points: current_player.points
         )
       }
 

@@ -89,7 +89,11 @@ class WordSmith
   end
 
   def accross?
-    accross_squares(primary_square).count > 1
+    if new_placements.tiles.count == 1
+      accross_squares(primary_square).count > 1
+    else
+      new_placements.accross?
+    end
   end
 
   # think about readable way to dry all this up

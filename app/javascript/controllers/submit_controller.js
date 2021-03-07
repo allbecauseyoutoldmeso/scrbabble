@@ -53,7 +53,8 @@ export default class extends Controller {
   }
 
   csrfToken() {
-    return document.getElementsByName('csrf-token')[0].content
+    return document.getElementsByName('csrf-token').length &&
+      document.getElementsByName('csrf-token')[0].content
   }
 
   playerId() {

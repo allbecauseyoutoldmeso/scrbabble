@@ -12,19 +12,36 @@ describe 'users play game', js: true do
   let(:turn_2_tiles) { player_2.tiles.first(3) }
   let(:board) { game.board }
 
+  before do
+    allow_any_instance_of(DictionaryClient)
+      .to receive(:valid_scrabble_word?)
+      .and_return(true)
+  end
+
   scenario 'user plays word' do
     log_in(user_1)
     visit(game_path(game))
+
     expect(page).to have_content(
       I18n.t('games.show.players_turn', player: player_1.name)
     )
-    place_tile(turn_1_tiles[0], board.square(0, 0))
-    place_tile(turn_1_tiles[1], board.square(1, 0))
-    place_tile(turn_1_tiles[2], board.square(2, 0))
+
+    place_tile(
+      turn_1_tiles[0],
+      board.square(Board::BOARD_SIZE/2 + 0, Board::BOARD_SIZE/2)
+    )
+    place_tile(
+      turn_1_tiles[1],
+      board.square(Board::BOARD_SIZE/2 + 1, Board::BOARD_SIZE/2)
+    )
+    place_tile(
+      turn_1_tiles[2],
+      board.square(Board::BOARD_SIZE/2 + 2, Board::BOARD_SIZE/2)
+    )
     click_button(I18n.t('games.show.submit_word'))
 
     within("#player_#{player_1.id}_score") do
-      expect(page).to have_content(turn_1_tiles.map(&:points).sum * 3)
+      expect(page).to have_content(turn_1_tiles.map(&:points).sum * 2)
     end
 
     expect(page).to have_content(
@@ -34,22 +51,30 @@ describe 'users play game', js: true do
     click_button('log out')
     log_in(user_2)
     visit(game_path(game))
+
     expect(page).to have_content(
       I18n.t('games.show.players_turn', player: player_2.name)
     )
-    place_tile(turn_2_tiles[0], board.square(0, 1))
-    place_tile(turn_2_tiles[1], board.square(0, 2))
-    place_tile(turn_2_tiles[2], board.square(0, 3))
+
+    place_tile(
+      turn_2_tiles[0],
+      board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + 1)
+    )
+    place_tile(
+      turn_2_tiles[1],
+      board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + 2)
+    )
+    place_tile(
+      turn_2_tiles[2],
+      board.square(Board::BOARD_SIZE/2, Board::BOARD_SIZE/2 + 3)
+    )
     click_button(I18n.t('games.show.submit_word'))
 
-    expected_score = turn_1_tiles[0].points +
-      turn_2_tiles[0].points +
-      turn_2_tiles[1].points +
-      (turn_2_tiles[2].points * 2)
+    expected_score = turn_2_tiles.map(&:points).sum + turn_1_tiles[0].points
 
-      within("#player_#{player_2.id}_score") do
-        expect(page).to have_content(expected_score)
-      end
+    within("#player_#{player_2.id}_score") do
+      expect(page).to have_content(expected_score)
+    end
 
     expect(page).to have_content(
       I18n.t('games.show.players_turn', player: player_1.name)

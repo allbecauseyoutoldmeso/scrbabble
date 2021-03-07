@@ -8,8 +8,11 @@ class Game < ActiveRecord::Base
   after_create :assign_initial_tiles
   after_create :set_current_player
 
+  attr_accessor :status_message
+
   BONUS = 50
 
+  # this is a monster - refactor
   def play_turn(data)
     begin
       word_smith = WordSmith.new(data: data, board: board)
@@ -17,9 +20,22 @@ class Game < ActiveRecord::Base
       current_player.add_points(word_smith.points)
       word_smith.inactivate_premiums
       assign_new_tiles(current_player)
+
+      self.status_message = {
+        player_ids: [player_1.id, player_2.id],
+        alert: I18n.t(
+          'games.status_messages.points_update',
+          player: current_player.name,
+          points: word_smith.points
+        )
+      }
+
       toggle_current_player
     rescue WordSmith::InvalidWord
-      # behaviour tbc
+      self.status_message = {
+        player_ids: [current_player.id],
+        alert: I18n.t('games.status_messages.invalid_word')
+      }
     end
   end
 

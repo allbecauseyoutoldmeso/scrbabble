@@ -3,7 +3,7 @@ import Rails from '@rails/ujs'
 import consumer from '../channels/consumer'
 
 export default class extends Controller {
-  static targets = ['square', 'shared', 'rack']
+  static targets = ['square', 'shared', 'rack', 'alert']
 
   connect() {
     this.channel = consumer.subscriptions.create('GameChannel', {
@@ -16,6 +16,12 @@ export default class extends Controller {
       this.sharedTarget.innerHTML = data.shared
     } else if (data.tile_rack && data.player_id == this.playerId()) {
       this.rackTarget.innerHTML = data.tile_rack
+    } else if (data.alert && data.player_ids.includes(this.playerId())) {
+      this.alertTarget.innerHTML = `
+       <div class='alert'>
+        ${data.alert}
+       </div>
+      `
     }
   }
 

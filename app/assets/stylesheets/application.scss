@@ -1,5 +1,22 @@
+.alert {
+  opacity: 0;
+  animation-name: alert;
+  animation-duration: 8s;
+  font-size: 20px;
+  margin: 0;
+}
+
+.alert-placeholder {
+  min-height: 40px;
+}
+
+.board {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 10px;
+}
+
 body {
-  background: #F5F5F5;
+  background: #F8F8F8;
   padding: 40px;
   font-family: 'Architects Daughter', cursive;
 }
@@ -16,6 +33,7 @@ body {
   font-size: 16px;
   padding: 2px 4px;;
   margin: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
   &:hover {
     cursor: pointer;
@@ -59,7 +77,7 @@ body {
  }
 
 .square {
-   background-image: linear-gradient(to top right, #C8C8C8, #BEBEBE);
+   background-image: linear-gradient(to top right, #D3D3D3, #BEBEBE);
    border: solid 1px white;
    height: 30px;
    width: 30px;
@@ -94,6 +112,7 @@ body {
 
  .tile-rack {
    width: fit-content;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
  }
 
  .tile-rack-space {
@@ -101,4 +120,21 @@ body {
    height: 30px;
    width: 30px;
    border: solid 1px white;
+ }
+
+ @keyframes alert {
+   0% {opacity: 1;}
+   5% {opacity: 0;}
+   10% {opacity: 1;}
+   15% {opacity: 0;}
+   20% {opacity: 1;}
+   25% {opacity: 0;}
+   30% {opacity: 1;}
+   35% {opacity: 0;}
+   40% {opacity: 1;}
+   50% {opacity: 0.8;}
+   60% {opacity: 0.6;}
+   70% {opacity: 0.4;}
+   80% {opacity: 0.2;}
+   100% {opacity: 0;}
  }

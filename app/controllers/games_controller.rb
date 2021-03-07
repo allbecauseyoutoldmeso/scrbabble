@@ -29,7 +29,12 @@ class GamesController < ApplicationController
 
   def update
     @game.play_turn(data)
-    head :ok
+
+    ActionCable.server.broadcast(
+      'game_channel',
+      alert:  @game.status_message[:alert],
+      player_ids: @game.status_message[:player_ids].map(&:to_s)
+    )
   end
 
   def update_shared

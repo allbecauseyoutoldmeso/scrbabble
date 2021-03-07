@@ -68,6 +68,17 @@ describe 'Game' do
       it 'invalidates premiums' do
         expect(board.middle_square.premium).not_to be_active
       end
+
+      it 'sets status message' do
+        expect(game.status_message).to eq ({
+          player_ids: [player_1.id, player_2.id],
+          alert: I18n.t(
+            'games.status_messages.points_update',
+            player: player_1.name,
+            points: player_1.points
+          )
+        })
+      end
     end
 
     context 'invalid word' do
@@ -91,6 +102,15 @@ describe 'Game' do
 
       it 'does not invalidate premiums' do
         expect(board.square(0, 0).premium).to be_active
+      end
+
+      it 'sets status message' do
+        expect(game.status_message).to eq (
+          {
+            player_ids: [player_1.id],
+            alert: I18n.t('games.status_messages.invalid_word')
+          }
+        )
       end
     end
   end

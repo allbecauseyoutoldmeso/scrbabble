@@ -9,6 +9,9 @@ en:
         name: username
         password: password
   games:
+    status_messages:
+      invalid_word: invalid word
+      points_update: "%{player} made %{points} points"
     index:
       game: game %{id}
       new_game: new game

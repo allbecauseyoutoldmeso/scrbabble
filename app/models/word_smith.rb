@@ -2,7 +2,7 @@ class WordSmith
   class InvalidWord < StandardError
   end
 
-  delegate :inactivate_premiums, to: :new_placements
+  delegate :inactivate_premiums, :inactivate_blanks, to: :new_placements
 
   def initialize(data:, board:)
     @new_placements = WordSmithTools::NewPlacements.new(data)

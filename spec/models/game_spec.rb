@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Game' do
   let(:player_1) { create(:player) }
   let(:player_2) { create(:player) }
-  let(:game) { create(:game, players: [player_1, player_2]) }
+  let!(:game) { create(:game, players: [player_1, player_2]) }
 
   before do
     stub_request(:get, %r{http://api.wordnik.com})
@@ -35,6 +35,7 @@ describe 'Game' do
     end
 
     before do
+      tiles.first.update(blank: true)
       game.play_turn(data)
     end
 
@@ -67,6 +68,10 @@ describe 'Game' do
 
       it 'invalidates premiums' do
         expect(board.middle_square.premium).not_to be_active
+      end
+
+      it 'invalidates blanks' do
+        expect(tiles.any? { |tile| tile.reload.blank? }).to eq(false)
       end
 
       it 'sets status message' do
@@ -102,6 +107,10 @@ describe 'Game' do
 
       it 'does not invalidate premiums' do
         expect(board.square(0, 0).premium).to be_active
+      end
+
+      it 'does not invalidate blanks' do
+        expect(tiles.any? { |tile| tile.reload.blank? }).to eq(true)
       end
 
       it 'sets status message' do

@@ -1,5 +1,4 @@
 import { Controller } from 'stimulus'
-import Rails from '@rails/ujs'
 import consumer from '../channels/consumer'
 
 export default class extends Controller {

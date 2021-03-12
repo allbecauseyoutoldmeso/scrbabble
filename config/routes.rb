@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:new, :create]
+
+  resources :tiles, only: [:update]
 end

@@ -18,18 +18,19 @@ class Game < ActiveRecord::Base
       word_smith = WordSmith.new(data: data, board: board)
       word_smith.assign_tiles
       current_player.add_points(word_smith.points)
-      word_smith.inactivate_premiums
-      assign_new_tiles(current_player)
 
       self.status_message = {
         player_ids: [player_1.id, player_2.id],
         alert: I18n.t(
           'games.status_messages.points_update',
           player: current_player.name,
-          points: current_player.points
+          points: word_smith.points
         )
       }
 
+      word_smith.inactivate_premiums
+      word_smith.inactivate_blanks
+      assign_new_tiles(current_player)
       toggle_current_player
     rescue WordSmith::InvalidWord
       self.status_message = {

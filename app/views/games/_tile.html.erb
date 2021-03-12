@@ -1,12 +1,17 @@
 <div
+  data-controller='tile'
   id=<%= dom_id(tile) %>
   draggable=<%= draggable %>
-  data-action='dragstart->drag#dragStart dragend->drag#dragEnd'
-  class='tile flex-direction-column'>
+  data-action='dragstart->drag#dragStart dragend->drag#dragEnd dblclick->tile#onDoubleClick'
+  class='tile flex-direction-column <%= 'blank hintable' if tile.blank? %>'>
   <div class='tile-letter'>
     <%= tile.letter %>
   </div>
   <div class='tile-points'>
     <%= tile.points %>
   </div>
+  <% if tile.blank? %>
+    <%= render partial: 'games/tile_form', locals: { tile: tile } %>
+    <%= render partial: 'games/hint', locals: { message: 'double click to select a letter' } %>
+  <% end %>
 </div>

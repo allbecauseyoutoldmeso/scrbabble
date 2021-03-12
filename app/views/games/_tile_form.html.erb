@@ -1,0 +1,17 @@
+<%= form_with(
+ model: tile,
+ data: { 'tile-target': 'form' },
+ class: 'hidden tile-form'
+) do |form| %>
+  <%= form.select(
+    :letter,
+    ('A'..'Z').to_a.push('?'),
+    {},
+    {
+      data: {
+        'tile-target': 'letter',
+        action: 'change->tile#onClick'
+      }
+    }
+  ) %>
+<% end %>

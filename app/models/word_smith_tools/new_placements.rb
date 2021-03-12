@@ -14,6 +14,10 @@ module WordSmithTools
       premiums.each(&:inactivate)
     end
 
+    def inactivate_blanks
+      tiles.each(&:inactivate_blank)
+    end
+
     def single_axis?
       down? || accross?
     end

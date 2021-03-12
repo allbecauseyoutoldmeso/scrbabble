@@ -55,6 +55,40 @@ body {
   flex-direction: column-reverse;
 }
 
+.hidden {
+  display: none;
+}
+
+.hint {
+  position: absolute;
+  top: 30px;
+  left: 12px;
+  width: max-content;
+  color: #FF1493;
+  font-size: 14px;
+  visibility: hidden;
+
+  p {
+    margin: 0;
+  }
+}
+
+.hintable {
+  &:hover {
+    .hint {
+      opacity: 1;
+      transition: opacity  0s linear 1s;
+      visibility: visible;
+    }
+  }
+}
+
+.hint-message {
+  background: rgba(248, 248, 248, 0.8);
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
 .link {
   color: black;
   text-decoration: none;
@@ -96,6 +130,22 @@ body {
    position: absolute;
    justify-content: center;
    align-items: center;
+
+   &.blank {
+     background-image: linear-gradient(to top right, #FF1493, #FF69B4);
+   }
+ }
+
+ .tile-form {
+   position: absolute;
+
+   select {
+     font-family: 'Architects Daughter', cursive;
+     height: 30px;
+     width: 30px;
+     background-image: linear-gradient(to top right, #FF1493, #FF69B4);
+     color: white;
+   }
  }
 
  .tile-letter {

@@ -8,7 +8,9 @@ describe 'TileBag' do
     it 'has tiles' do
       expect(tile_bag.tiles.map { |square|
         square.attributes.symbolize_keys.slice(:letter, :points)
-      }).to eq(TileBag::TILE_ATTRIBUTES)
+      }).to eq(TileBag::TILE_ATTRIBUTES.map { |attributes|
+        attributes.slice(:letter, :points)
+      })
     end
   end
 

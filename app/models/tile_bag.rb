@@ -29,7 +29,7 @@ class TileBag  < ActiveRecord::Base
   Array.new(1, { letter: 'X', points: 8 }) +
   Array.new(2, { letter: 'Y', points: 4 }) +
   Array.new(1, { letter: 'Z', points: 10 }) +
-  Array.new(2, { letter: '', points: 0 })
+  Array.new(2, { letter: '?', points: 0, blank: true })
 
   def random_tile
     tiles[rand(tiles.count)]

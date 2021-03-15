@@ -40,6 +40,14 @@ body {
   }
 }
 
+.card {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.09);
+  border-radius: 4px;
+  padding: 12px;
+  flex-basis: 340px;
+  margin-right: 80px;
+}
+
 .flex-direction-row {
   display: flex;
   flex-direction: row;
@@ -53,6 +61,32 @@ body {
 .flex-direction-column-reverse {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.game-form {
+  select {
+    width: fit-content;
+    margin-bottom: 10px;
+  }
+
+  label {
+    margin-bottom: 10px;
+  }
+
+  input {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+}
+
+.game-summary {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.09);
+  border-radius: 4px;
+  margin: 6px 0;
+  padding: 0 6px;
+  flex-basis: 200px;
+  justify-content: space-between;
+  padding: 2px 6px;
 }
 
 .hidden {

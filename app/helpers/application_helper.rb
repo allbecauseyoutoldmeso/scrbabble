@@ -4,4 +4,12 @@ module ApplicationHelper
       t("games.show.premium.#{premium.target}.#{premium.tuple}")
     end
   end
+
+  def user_player(game, user)
+    Player.find_by(game: game, user: user)
+  end
+
+  def other_player(game, user)
+    Player.where(game: game).where.not(user: user).first
+  end
 end

@@ -9,11 +9,7 @@ class GamesController < ApplicationController
   ]
 
   def index
-    @games = current_user.games
-  end
-
-  def new
-    @other_users = current_user.other_users
+    @user = current_user
   end
 
   def create

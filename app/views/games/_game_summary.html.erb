@@ -1,0 +1,20 @@
+<%= link_to( game_path(game), class: 'link') do %>
+  <div class='flex-direction-row game-summary'>
+    <div class='flex-direction-column'>
+      <div>
+        <%= other_player(game, user).name %>
+      </div>
+      <div>
+        <%= user_player(game, user).name %>
+      </div>
+    </div>
+    <div>
+      <div>
+        <%= other_player(game, user).points %>
+      </div>
+      <div>
+        <%= user_player(game, user).points %>
+      </div>
+    </div>
+  </div>
+<% end %>

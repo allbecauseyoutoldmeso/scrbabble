@@ -1,5 +1,6 @@
 import { Controller } from 'stimulus'
 import consumer from '../channels/consumer'
+import Rails from '@rails/ujs'
 
 export default class extends Controller {
   static targets = ['square', 'shared', 'rack', 'alert']
@@ -13,8 +14,6 @@ export default class extends Controller {
   cableReceived(data) {
     if (data.shared) {
       this.sharedTarget.innerHTML = data.shared
-    } else if (data.tile_rack && data.player_id == this.playerId()) {
-      this.rackTarget.innerHTML = data.tile_rack
     } else if (data.alert && data.player_ids.includes(this.playerId())) {
       this.alertTarget.innerHTML = `
        <div class='alert'>
@@ -26,8 +25,7 @@ export default class extends Controller {
 
   async onClick(event) {
     await this.playTurn()
-    await this.updateShared()
-    await this.updateTileRacks()
+    this.updateTileRack()
   }
 
   async playTurn() {
@@ -42,13 +40,14 @@ export default class extends Controller {
     )
   }
 
-  async updateShared() {
-    await fetch(`${this.gameId()}/update_shared`)
-  }
-
-  async updateTileRacks() {
-    await fetch(`${this.gameId()}/update_tile_rack?player=1`)
-    await fetch(`${this.gameId()}/update_tile_rack?player=2`)
+  updateTileRack() {
+    Rails.ajax({
+      type: 'GET',
+      url: `${this.gameId()}/tile_rack`,
+      success: (data, status, xhr) => {
+        this.rackTarget.innerHTML = xhr.response
+      }
+    })
   }
 
   csrfToken() {

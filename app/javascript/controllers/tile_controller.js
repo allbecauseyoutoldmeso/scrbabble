@@ -10,7 +10,7 @@ export default class extends Controller {
     const letter = this.letterTarget.value
 
     Rails.ajax({
-      type: "PUT",
+      type: 'PUT',
       url: `${this.baseUrl()}/tiles/${this.tileId()}?letter=${this.letter()}`,
       success: (data, status, xhr) => {
         this.element.outerHTML = xhr.response

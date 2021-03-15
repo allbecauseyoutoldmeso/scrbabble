@@ -19,13 +19,13 @@ export default class extends Controller {
   }
 
   onDoubleClick(event) {
-    if (this.isBlank()) {
+    if (this.isMultipotent()) {
       this.formTarget.classList.toggle('hidden')
     }
   }
 
-  isBlank() {
-    return this.element.classList.value.includes('blank')
+  isMultipotent() {
+    return this.element.classList.value.includes('multipotent')
   }
 
   baseUrl() {

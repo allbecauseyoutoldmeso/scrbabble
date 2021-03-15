@@ -1,6 +1,6 @@
 <% if games.any? %>
   <div class='flex-direction-column card'>
-    <h2>resume game</h2>
+    <h2><%= t('games.index.resume_game') %></h2>
     <% games.each do |game| %>
       <%= render partial: 'game_summary', locals: { game: game, user: user } %>
     <% end %>

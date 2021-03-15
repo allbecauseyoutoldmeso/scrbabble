@@ -10,7 +10,6 @@ describe 'user creates game' do
 
   scenario 'user creates game successfully' do
     visit(root_path)
-    click_link(I18n.t('games.index.new_game'))
     select(
       user_2.name,
       from: I18n.t('activerecord.attributes.game.other_user_id')

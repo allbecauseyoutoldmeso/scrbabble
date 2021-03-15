@@ -1,5 +1,5 @@
 <div class='card'>
-  <h2>new game</h2>
+  <h2><%= t('games.index.new_game') %></h2>
   <%= form_with model: Game.new, class: 'flex-direction-column game-form' do |form| %>
     <%= form.label :other_user_id %>
     <%= form.select(

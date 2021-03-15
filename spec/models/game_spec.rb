@@ -35,7 +35,7 @@ describe 'Game' do
     end
 
     before do
-      tiles.first.update(blank: true)
+      tiles.first.update(multipotent: true)
       game.play_turn(data)
     end
 
@@ -70,8 +70,8 @@ describe 'Game' do
         expect(board.middle_square.premium).not_to be_active
       end
 
-      it 'invalidates blanks' do
-        expect(tiles.any? { |tile| tile.reload.blank? }).to eq(false)
+      it 'invalidates multipotents' do
+        expect(tiles.any? { |tile| tile.reload.multipotent? }).to eq(false)
       end
 
       it 'sets status message' do
@@ -109,8 +109,8 @@ describe 'Game' do
         expect(board.square(0, 0).premium).to be_active
       end
 
-      it 'does not invalidate blanks' do
-        expect(tiles.any? { |tile| tile.reload.blank? }).to eq(true)
+      it 'does not invalidate multipotents' do
+        expect(tiles.any? { |tile| tile.reload.multipotent? }).to eq(true)
       end
 
       it 'sets status message' do

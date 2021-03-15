@@ -15,6 +15,7 @@ en:
     index:
       game: game %{id}
       new_game: new game
+      resume_game: resume game
     show:
       players_turn: "%{player}'s turn"
       submit_word: submit word

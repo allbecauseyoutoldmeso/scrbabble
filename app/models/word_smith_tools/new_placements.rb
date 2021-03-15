@@ -14,8 +14,8 @@ module WordSmithTools
       premiums.each(&:inactivate)
     end
 
-    def inactivate_blanks
-      tiles.each(&:inactivate_blank)
+    def inactivate_multipotents
+      tiles.each(&:inactivate_multipotent)
     end
 
     def single_axis?

@@ -11,6 +11,6 @@ describe 'log in' do
       with: user.password
     )
     click_button(I18n.t('sessions.create'))
-    expect(page).to have_link(I18n.t('games.index.new_game'))
+    expect(page).to have_text(I18n.t('games.index.new_game'))
   end
 end

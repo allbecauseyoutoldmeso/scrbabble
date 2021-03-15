@@ -29,7 +29,7 @@ class Game < ActiveRecord::Base
       }
 
       word_smith.inactivate_premiums
-      word_smith.inactivate_blanks
+      word_smith.inactivate_multipotents
       assign_new_tiles(current_player)
       toggle_current_player
     rescue WordSmith::InvalidWord

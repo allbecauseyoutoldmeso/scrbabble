@@ -21,7 +21,7 @@ class Game < ActiveRecord::Base
       current_player.add_points(word_smith.points)
 
       self.announcement = I18n.t(
-        'games.status_messages.points_update',
+        'games.announcements.points_update',
         player: current_player.name,
         points: word_smith.points
       )
@@ -31,8 +31,17 @@ class Game < ActiveRecord::Base
       assign_new_tiles(current_player)
       toggle_current_player
     rescue WordSmith::InvalidWord
-      self.error_message = I18n.t('games.status_messages.invalid_word')
+      self.error_message = I18n.t('games.error_messages.invalid_word')
     end
+  end
+
+  def skip_turn
+    self.announcement = I18n.t(
+      'games.announcements.skipped_turn',
+      player: current_player.name,
+    )
+
+    toggle_current_player
   end
 
   def player_1

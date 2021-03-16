@@ -8,7 +8,7 @@
     locals: { player: player }
   ) %>
   <%= render(
-    partial: 'submit_button',
-    locals: { player: player }
+    partial: 'buttons',
+    locals: { disabled: !player.is_current_player? }
   ) %>
 </div>

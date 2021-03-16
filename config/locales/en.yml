@@ -9,9 +9,11 @@ en:
         name: username
         password: password
   games:
-    status_messages:
-      invalid_word: invalid word
+    announcements:
       points_update: "%{player} made %{points} points"
+      skipped_turn: "%{player} skipped a turn"
+    error_messages:
+      invalid_word: invalid word
     index:
       game: game %{id}
       new_game: new game
@@ -19,6 +21,9 @@ en:
     show:
       players_turn: "%{player}'s turn"
       submit_word: submit word
+      skip_turn: skip turn
+      hint:
+        multipotent_tile: double click to select a letter
       premium:
         letter:
           2: 2L

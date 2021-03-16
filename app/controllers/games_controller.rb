@@ -15,7 +15,11 @@ class GamesController < ApplicationController
   end
 
   def update
-    @game.play_turn(data)
+    if params[:skip_turn]
+      @game.skip_turn
+    else
+      @game.play_turn(data)
+    end
 
     ActionCable.server.broadcast(
       'game_channel',

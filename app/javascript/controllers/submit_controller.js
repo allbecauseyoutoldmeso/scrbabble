@@ -15,13 +15,24 @@ export default class extends Controller {
     this.confidentialTarget.innerHTML = data.confidential[this.playerId()]
   }
 
-  async onClick(event) {
-    await this.playTurn()
+  async skipTurn() {
+    const params = { skip_turn: true }
+    this.updateGame(params)
   }
 
   async playTurn() {
+    const params = {
+      data: JSON.stringify(this.requestData())
+    }
+
+    this.updateGame(params)
+  }
+
+  async updateGame(params) {
+    const query_string = new URLSearchParams(params).toString()
+
     await fetch(
-      `${this.gameId()}?data=${JSON.stringify(this.requestData())}`,
+      `${this.gameId()}?${query_string}`,
       {
         method: 'PUT',
         headers: {

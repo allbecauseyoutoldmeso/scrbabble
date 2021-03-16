@@ -75,8 +75,8 @@ describe 'Game' do
       end
 
       it 'sets status message' do
-        expect(game.announcement).to eq (I18n.t(
-          'games.status_messages.points_update',
+        expect(game.announcement).to eq(I18n.t(
+          'games.announcements.points_update',
           player: player_1.name,
           points: player_1.points
         ))
@@ -112,9 +112,26 @@ describe 'Game' do
 
       it 'sets status message' do
         expect(game.error_message).to eq(I18n.t(
-          'games.status_messages.invalid_word'
+          'games.error_messages.invalid_word'
         ))
       end
+    end
+  end
+
+  describe '#skip_turn' do
+    before do
+      game.skip_turn
+    end
+
+    it 'toggles current player' do
+      expect(game.current_player).to eq(game.player_2)
+    end
+
+    it 'sets announcement' do
+      expect(game.announcement).to eq(I18n.t(
+        'games.announcements.skipped_turn',
+        player: player_1.name,
+      ))
     end
   end
 end

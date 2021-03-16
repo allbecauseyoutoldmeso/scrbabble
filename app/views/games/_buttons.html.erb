@@ -1,0 +1,12 @@
+<button
+  data-action='click->submit#playTurn'
+  class='button'
+  <%= 'disabled' if disabled %>>
+  <%= t('games.show.submit_word') %>
+</button>
+<button
+  data-action='click->submit#skipTurn'
+  class='button'
+  <%= 'disabled' if disabled %>>
+  <%= t('games.show.skip_turn') %>
+</button>

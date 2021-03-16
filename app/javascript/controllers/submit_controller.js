@@ -16,11 +16,14 @@ export default class extends Controller {
   }
 
   async skipTurn() {
+    event.target.disabled = true
     const params = { skip_turn: true }
     this.updateGame(params)
   }
 
   async playTurn() {
+    event.target.disabled = true
+
     const params = {
       data: JSON.stringify(this.requestData())
     }

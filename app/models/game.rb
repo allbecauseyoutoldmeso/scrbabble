@@ -64,7 +64,7 @@ class Game < ActiveRecord::Base
 
   def assign_new_tiles(player)
     player.spaces.times do
-      tile_bag.reload.random_tile.update(tileable: player.tile_rack)
+      tile_bag.reload.random_tile&.update(tileable: player.tile_rack)
     end
   end
 

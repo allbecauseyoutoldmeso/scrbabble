@@ -25,8 +25,8 @@ class GamesController < ApplicationController
       'game_channel',
       shared: shared,
       confidential: {
-        @game.player_1.id.to_s =>  confidential(@game.player_1),
-        @game.player_2.id.to_s =>  confidential(@game.player_2),
+        @game.player_1.id.to_s => confidential(@game.player_1),
+        @game.player_2.id.to_s => confidential(@game.player_2),
       }
     )
   end

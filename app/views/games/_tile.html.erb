@@ -12,6 +12,9 @@
   </div>
   <% if tile.multipotent? %>
     <%= render partial: 'games/tile_form', locals: { tile: tile } %>
-    <%= render partial: 'games/hint', locals: { message: 'double click to select a letter' } %>
+    <%= render(
+      partial: 'games/hint',
+      locals: { message: t('games.show.hint.multipotent_tile') }
+    ) %>
   <% end %>
 </div>

@@ -75,14 +75,11 @@ describe 'Game' do
       end
 
       it 'sets status message' do
-        expect(game.status_message).to eq ({
-          player_ids: [player_1.id, player_2.id],
-          alert: I18n.t(
-            'games.status_messages.points_update',
-            player: player_1.name,
-            points: player_1.points
-          )
-        })
+        expect(game.announcement).to eq (I18n.t(
+          'games.status_messages.points_update',
+          player: player_1.name,
+          points: player_1.points
+        ))
       end
     end
 
@@ -114,12 +111,9 @@ describe 'Game' do
       end
 
       it 'sets status message' do
-        expect(game.status_message).to eq (
-          {
-            player_ids: [player_1.id],
-            alert: I18n.t('games.status_messages.invalid_word')
-          }
-        )
+        expect(game.error_message).to eq(I18n.t(
+          'games.status_messages.invalid_word'
+        ))
       end
     end
   end

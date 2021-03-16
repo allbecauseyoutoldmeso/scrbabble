@@ -1,9 +1,8 @@
 import { Controller } from 'stimulus'
 import consumer from '../channels/consumer'
-import Rails from '@rails/ujs'
 
 export default class extends Controller {
-  static targets = ['square', 'shared', 'rack', 'alert']
+  static targets = ['square', 'shared', 'confidential']
 
   connect() {
     this.channel = consumer.subscriptions.create('GameChannel', {
@@ -12,20 +11,12 @@ export default class extends Controller {
   }
 
   cableReceived(data) {
-    if (data.shared) {
-      this.sharedTarget.innerHTML = data.shared
-    } else if (data.alert && data.player_ids.includes(this.playerId())) {
-      this.alertTarget.innerHTML = `
-       <div class='alert'>
-        ${data.alert}
-       </div>
-      `
-    }
+    this.sharedTarget.innerHTML = data.shared
+    this.confidentialTarget.innerHTML = data.confidential[this.playerId()]
   }
 
   async onClick(event) {
     await this.playTurn()
-    this.updateTileRack()
   }
 
   async playTurn() {
@@ -38,16 +29,6 @@ export default class extends Controller {
         }
       }
     )
-  }
-
-  updateTileRack() {
-    Rails.ajax({
-      type: 'GET',
-      url: `${this.gameId()}/tile_rack`,
-      success: (data, status, xhr) => {
-        this.rackTarget.innerHTML = xhr.response
-      }
-    })
   }
 
   csrfToken() {

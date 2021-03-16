@@ -1,0 +1,14 @@
+<%= render(
+  partial: 'alert',
+  locals: { message: alert }
+) %>
+<div class='flex-direction-row player-dashboard'>
+  <%= render(
+    partial: 'tile_rack',
+    locals: { player: player }
+  ) %>
+  <%= render(
+    partial: 'submit_button',
+    locals: { player: player }
+  ) %>
+</div>

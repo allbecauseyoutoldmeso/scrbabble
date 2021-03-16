@@ -10,18 +10,13 @@
       locals: { game: @game }
     ) %>
   </div>
-  <div data-submit-target='alert' class='alert-placeholder'>
-  </div>
-  <div class='flex-direction-row player-dashboard'>
-    <div data-submit-target='rack'>
-      <%= render(
-        partial: 'tile_rack',
-        locals: { player: @player }
-      ) %>
-    </div>
+  <div data-submit-target='confidential'>
     <%= render(
-      partial: 'submit_button',
-      locals: { player: @player }
+      partial: 'confidential',
+      locals: {
+        alert: nil,
+        player: @player
+      }
     ) %>
   </div>
 </div>

@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
   before_action :authenticate_user
-  before_action :load_game, only: [:show, :update, :tile_rack]
-  before_action :load_player, only: [:show, :tile_rack]
+  before_action :load_game, only: [:show, :update]
+  before_action :load_player, only: [:show]
 
   def index
     @user = current_user
@@ -19,21 +19,30 @@ class GamesController < ApplicationController
 
     ActionCable.server.broadcast(
       'game_channel',
-      alert:  @game.status_message[:alert],
-      player_ids: @game.status_message[:player_ids].map(&:to_s)
+      shared: shared,
+      confidential: {
+        @game.player_1.id.to_s =>  confidential(@game.player_1),
+        @game.player_2.id.to_s =>  confidential(@game.player_2),
+      }
     )
-
-    ActionCable.server.broadcast(
-      'game_channel',
-      shared: (render partial: 'shared', locals:  { game: @game })
-    )
-  end
-
-  def tile_rack
-    render partial: 'tile_rack', locals:  { player: @player }
   end
 
   private
+
+  def shared
+    render_to_string(partial: 'shared', locals:  { game: @game })
+  end
+
+  def confidential(player)
+    render_to_string(
+      partial: 'confidential',
+      locals: {
+        player: player,
+        game: @game,
+        alert: (@game.error_message if player.user == current_user)
+      }
+    )
+  end
 
   def load_player
     @player = @game.players.find_by(user: current_user)

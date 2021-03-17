@@ -3,7 +3,7 @@
   id=<%= dom_id(tile) %>
   draggable=<%= draggable %>
   data-action='dragstart->drag#dragStart dragend->drag#dragEnd dblclick->tile#onDoubleClick'
-  class='tile flex-direction-column <%= 'multipotent hintable' if tile.multipotent? %>'>
+  class='tile flex-direction-column <%= 'multipotent hintable' if tile.multipotent? %> <%= 'latest' if tile.latest? %>'>
   <div class='tile-letter'>
     <%= tile.letter %>
   </div>

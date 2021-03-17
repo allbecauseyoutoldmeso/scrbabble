@@ -3,12 +3,13 @@ class Game < ActiveRecord::Base
   has_one :board
   has_many :players
   belongs_to :current_player, class_name: 'Player', optional: true
+  has_many :turns
+
   after_create :create_board
   after_create :create_tile_bag
   after_create :assign_initial_tiles
   after_create :set_current_player
 
-  attr_accessor :announcement
   attr_accessor :error_message
 
   BONUS = 50
@@ -18,11 +19,11 @@ class Game < ActiveRecord::Base
     begin
       word_smith = WordSmith.new(data: data, board: board)
       word_smith.assign_tiles
-      current_player.add_points(word_smith.points)
 
-      self.announcement = I18n.t(
-        'games.announcements.points_update',
-        player: current_player.name,
+      Turn.create(
+        game: self,
+        player: current_player,
+        tiles: word_smith.tiles,
         points: word_smith.points
       )
 
@@ -36,9 +37,10 @@ class Game < ActiveRecord::Base
   end
 
   def skip_turn
-    self.announcement = I18n.t(
-      'games.announcements.skipped_turn',
-      player: current_player.name,
+    Turn.create(
+      game: self,
+      player: current_player,
+      points: 0
     )
 
     toggle_current_player
@@ -50,6 +52,10 @@ class Game < ActiveRecord::Base
 
   def player_2
     players.last
+  end
+
+  def latest_turn
+    turns.order(:created_at).last
   end
 
   private

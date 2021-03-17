@@ -3,7 +3,10 @@ class Player < ActiveRecord::Base
   belongs_to :user
   has_one :tile_rack
   has_many :words
+  has_many :turns
+
   after_create :create_tile_rack
+
   delegate :tiles, :spaces, to: :tile_rack
   delegate :name, to: :user
 
@@ -11,8 +14,8 @@ class Player < ActiveRecord::Base
     game.current_player == self
   end
 
-  def add_points(num)
-    update(points: points + num)
+  def points
+    turns.map(&:points).sum
   end
 
   private

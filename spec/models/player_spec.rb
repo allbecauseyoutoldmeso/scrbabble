@@ -22,10 +22,12 @@ describe 'Player' do
     end
   end
 
-  describe '#add_points' do
-    it 'increases points by specified number' do
-      player.add_points(10)
-      expect(player.reload.points).to eq(10)
+  describe '#points' do
+    let!(:turn_1) { create(:turn, game: game, player: player, points: 10) }
+    let!(:turn_2) { create(:turn, game: game, player: player, points: 5) }
+
+    it 'returns sum of points for all turns' do
+      expect(player.points).to eq(15)
     end
   end
 end

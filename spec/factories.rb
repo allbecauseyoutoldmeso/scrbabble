@@ -24,6 +24,9 @@ FactoryBot.define do
   factory :tile_rack do
   end
 
+  factory :turn do
+  end
+
   factory :user do
     name { 'user' }
     password { 'password' }

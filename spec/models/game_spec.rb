@@ -74,8 +74,8 @@ describe 'Game' do
         expect(tiles.any? { |tile| tile.reload.multipotent? }).to eq(false)
       end
 
-      it 'sets status message' do
-        expect(game.announcement).to eq(I18n.t(
+      it 'updates latest turn' do
+        expect(game.latest_turn.summary).to eq(I18n.t(
           'games.announcements.points_update',
           player: player_1.name,
           points: player_1.points
@@ -127,8 +127,8 @@ describe 'Game' do
       expect(game.current_player).to eq(game.player_2)
     end
 
-    it 'sets announcement' do
-      expect(game.announcement).to eq(I18n.t(
+    it 'updates latest turn' do
+      expect(game.latest_turn.summary).to eq(I18n.t(
         'games.announcements.skipped_turn',
         player: player_1.name,
       ))

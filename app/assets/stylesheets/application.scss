@@ -166,6 +166,10 @@ body {
    justify-content: center;
    align-items: center;
 
+   &.latest {
+     background-image: linear-gradient(to top right, #FF1493, #FF69B4);
+   }
+
    &.multipotent {
      background-image: linear-gradient(to top right, #FF1493, #FF69B4);
    }
@@ -205,6 +209,12 @@ body {
    height: 30px;
    width: 30px;
    border: solid 1px white;
+ }
+
+ .update {
+   margin: 10px 0;
+   color: #FF1493;
+   font-size: 20px;
  }
 
  @keyframes alert {

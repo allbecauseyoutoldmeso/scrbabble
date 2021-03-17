@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_15_172602) do
+ActiveRecord::Schema.define(version: 2021_03_17_175246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 2021_03_15_172602) do
 
   create_table "players", force: :cascade do |t|
     t.bigint "game_id"
-    t.integer "points", default: 0
     t.integer "user_id"
     t.index ["game_id"], name: "index_players_on_game_id"
   end
@@ -64,6 +63,17 @@ ActiveRecord::Schema.define(version: 2021_03_15_172602) do
     t.bigint "tileable_id"
     t.string "tileable_type"
     t.boolean "multipotent", default: false
+    t.integer "turn_id"
+  end
+
+  create_table "turns", force: :cascade do |t|
+    t.integer "points"
+    t.bigint "game_id"
+    t.bigint "player_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_turns_on_game_id"
+    t.index ["player_id"], name: "index_turns_on_player_id"
   end
 
   create_table "users", force: :cascade do |t|

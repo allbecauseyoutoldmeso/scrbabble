@@ -10,8 +10,8 @@
     ) %>
     <%= t('games.show.players_turn', player: game.current_player.name) %>
     <%= render(
-      partial: 'alert',
-      locals: { message: game.announcement }
+      partial: 'update',
+      locals: { message: game.latest_turn&.summary }
     ) %>
   </div>
 </div>

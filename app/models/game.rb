@@ -16,27 +16,27 @@ class Game < ActiveRecord::Base
 
   # this is a monster - refactor
   def play_turn(data)
-    begin
-      word_smith = WordSmith.new(data: data, board: board)
-      word_smith.assign_tiles
+    word_smith = WordSmith.new(data: data, board: board)
+    word_smith.assign_tiles
 
-      Turn.create(
-        game: self,
-        player: current_player,
-        tiles: word_smith.tiles,
-        points: word_smith.points
-      )
+    Turn.create(
+      game: self,
+      player: current_player,
+      tiles: word_smith.tiles,
+      points: word_smith.points
+    )
 
-      word_smith.inactivate_premiums
-      word_smith.inactivate_multipotents
-      assign_new_tiles(current_player)
-      toggle_current_player
-    rescue WordSmith::InvalidWord
-      self.error_message = I18n.t('games.error_messages.invalid_word')
-    end
+    word_smith.inactivate_premiums
+    word_smith.inactivate_multipotents
+    assign_new_tiles(current_player)
+    toggle_current_player
+  rescue WordSmith::InvalidWord
+    self.error_message = I18n.t("games.error_messages.invalid_word")
   end
 
-  def skip_turn
+  def skip_turn(tile_ids = [])
+    swap_tiles(tile_ids) if tile_ids.any?
+
     Turn.create(
       game: self,
       player: current_player,
@@ -44,6 +44,14 @@ class Game < ActiveRecord::Base
     )
 
     toggle_current_player
+  end
+
+  def swap_tiles(tile_ids)
+    tile_ids.each do |id|
+      tile = Tile.find(id)
+      tile.update(tileable: tile_bag)
+      tile_bag.reload.random_tile.update(tileable: current_player.tile_rack)
+    end
   end
 
   def player_1

@@ -1,0 +1,12 @@
+<div
+  data-action='click->submit#selectTile'
+  data-submit-target='tile'
+  id=<%= dom_id(tile, :swappable) %>
+  class='swappable-tile flex-direction-column'>
+  <div class='tile-letter'>
+    <%= tile.letter %>
+  </div>
+  <div class='tile-points'>
+    <%= tile.points %>
+  </div>
+</div>

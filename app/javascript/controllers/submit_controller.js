@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import consumer from '../channels/consumer'
 
 export default class extends Controller {
-  static targets = ['square', 'shared', 'confidential']
+  static targets = ['square', 'shared', 'confidential', 'tile']
 
   connect() {
     this.channel = consumer.subscriptions.create('GameChannel', {
@@ -17,8 +17,25 @@ export default class extends Controller {
 
   async skipTurn() {
     event.target.disabled = true
-    const params = { skip_turn: true }
+
+    const params = {
+      skip_turn: true,
+      tile_ids: JSON.stringify(this.selectedTileIds())
+    }
+
     this.updateGame(params)
+  }
+
+  selectedTileIds() {
+    return this.selectedTiles().map((tile) => {
+      return parseInt(tile.id.split('_')[2])
+    })
+  }
+
+  selectedTiles() {
+    return this.tileTargets.filter((tile) => {
+      return tile.classList.value.includes('selected')
+    })
   }
 
   async playTurn() {
@@ -43,6 +60,10 @@ export default class extends Controller {
         }
       }
     )
+  }
+
+  selectTile(event) {
+    event.currentTarget.classList.toggle('selected')
   }
 
   csrfToken() {

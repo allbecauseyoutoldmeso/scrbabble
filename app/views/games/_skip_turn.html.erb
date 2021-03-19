@@ -1,0 +1,22 @@
+<% content_for :modal do %>
+  <div
+    class='flex-direction-column'
+    data-modal-target='skip'>
+    <% if can_swap_tiles?(tile_bag) %>
+      <%= I18n.t('games.show.select_tiles') %>
+      <div class='flex-direction-row'>
+        <% tiles.each do |tile| %>
+          <%= render(
+            partial: 'swappable_tile',
+            locals: { tile: tile}
+          ) %>
+        <% end %>
+      </div>
+    <% else %>
+      <%= I18n.t('games.show.cannot_swap_tiles') %>
+    <% end %>
+    <button class='button' data-action='click->submit#skipTurn'>
+      <%= I18n.t('games.show.continue') %>
+    </button>
+  </div>
+<% end %>

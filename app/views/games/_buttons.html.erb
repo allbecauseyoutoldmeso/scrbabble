@@ -5,7 +5,7 @@
   <%= t('games.show.submit_word') %>
 </button>
 <button
-  data-action='click->submit#skipTurn'
+  data-action='click->modal#showSkipModal'
   class='button'
   <%= 'disabled' if disabled %>>
   <%= t('games.show.skip_turn') %>

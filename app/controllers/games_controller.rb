@@ -16,7 +16,7 @@ class GamesController < ApplicationController
 
   def update
     if params[:skip_turn]
-      @game.skip_turn
+      @game.skip_turn(tile_ids)
     else
       @game.play_turn(data)
     end
@@ -26,7 +26,7 @@ class GamesController < ApplicationController
       shared: shared,
       confidential: {
         @game.player_1.id.to_s => confidential(@game.player_1),
-        @game.player_2.id.to_s => confidential(@game.player_2),
+        @game.player_2.id.to_s => confidential(@game.player_2)
       }
     )
   end
@@ -42,8 +42,8 @@ class GamesController < ApplicationController
       partial: 'confidential',
       locals: {
         player: player,
-        game: @game,
-        alert: (@game.error_message if player.user == current_user)
+        alert: (@game.error_message if player.user == current_user),
+        tile_bag: @game.tile_bag
       }
     )
   end
@@ -62,6 +62,10 @@ class GamesController < ApplicationController
 
   def game_params
     params.require(:game).permit(:other_user_id)
+  end
+
+  def tile_ids
+    JSON.parse(params[:tile_ids]) if params[:tile_ids]
   end
 
   def data

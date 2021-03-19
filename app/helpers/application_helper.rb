@@ -12,4 +12,8 @@ module ApplicationHelper
   def other_player(game, user)
     Player.where(game: game).where.not(user: user).first
   end
+
+  def can_swap_tiles?(tile_bag)
+    tile_bag.tiles.length >= TileRack::MAXIMUM_TILES
+  end
 end

@@ -1,4 +1,12 @@
 <%= render(
+  partial: 'skip_turn',
+  locals: {
+    tiles: player.tile_rack.tiles,
+    tile_bag: tile_bag
+  }
+) %>
+<%= render(partial: 'modal') %>
+<%= render(
   partial: 'alert',
   locals: { message: alert }
 ) %>

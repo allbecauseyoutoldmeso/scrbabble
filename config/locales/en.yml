@@ -22,6 +22,9 @@ en:
       players_turn: "%{player}'s turn"
       submit_word: submit word
       skip_turn: skip turn
+      continue: continue
+      select_tiles: "select the tiles you'd like to swap"
+      cannot_swap_tiles: "there aren't enough tiles left to swap"
       hint:
         multipotent_tile: double click to select a letter
       premium:

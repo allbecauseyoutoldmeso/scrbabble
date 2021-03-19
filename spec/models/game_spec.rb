@@ -127,6 +127,12 @@ describe 'Game' do
       expect(game.current_player).to eq(game.player_2)
     end
 
+    it 'assigns new tiles' do
+      tiles = player_2.tile_rack.tiles
+      game.skip_turn(tiles.map(&:id))
+      expect(player_2.reload.tile_rack.tiles).not_to eq(tiles)
+    end
+
     it 'updates latest turn' do
       expect(game.latest_turn.summary).to eq(I18n.t(
         'games.announcements.skipped_turn',

@@ -21,7 +21,7 @@ export default class extends Controller {
 
     if (!targetChild || !targetChild.classList.value.includes('tile')) {
       target.appendChild(tile)
-    } else if (this.isTileRack(target)) {
+    } else if (this.isTileRack(target) && targetChild !== tile) {
       this.insertTile(tile, target, targetChild)
     }
   }
@@ -30,10 +30,6 @@ export default class extends Controller {
     const direction = this.direction(tile, target)
 
     while (!!tile) {
-      if (!!targetChild) {
-        target.removeChild(targetChild)
-      }
-
       target.appendChild(tile)
       tile = targetChild
       target = this.nextSpace(target, direction)

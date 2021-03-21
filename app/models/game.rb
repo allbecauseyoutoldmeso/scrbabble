@@ -14,20 +14,10 @@ class Game < ActiveRecord::Base
 
   BONUS = 50
 
-  # this is a monster - refactor
   def play_turn(data)
     word_smith = WordSmith.new(data: data, board: board)
-    word_smith.assign_tiles
-
-    Turn.create(
-      game: self,
-      player: current_player,
-      tiles: word_smith.tiles,
-      points: word_smith.points
-    )
-
-    word_smith.inactivate_premiums
-    word_smith.inactivate_multipotents
+    word_smith.process_data
+    create_turn(word_smith.points, word_smith.tiles)
     assign_new_tiles(current_player)
     toggle_current_player
   rescue WordSmith::InvalidWord
@@ -36,22 +26,8 @@ class Game < ActiveRecord::Base
 
   def skip_turn(tile_ids = [])
     swap_tiles(tile_ids) if tile_ids.any?
-
-    Turn.create(
-      game: self,
-      player: current_player,
-      points: 0
-    )
-
+    create_turn(0)
     toggle_current_player
-  end
-
-  def swap_tiles(tile_ids)
-    tile_ids.each do |id|
-      tile = Tile.find(id)
-      tile.update(tileable: tile_bag)
-      tile_bag.reload.random_tile.update(tileable: current_player.tile_rack)
-    end
   end
 
   def player_1
@@ -67,6 +43,23 @@ class Game < ActiveRecord::Base
   end
 
   private
+
+  def create_turn(points, tiles = [])
+    Turn.create(
+      game: self,
+      player: current_player,
+      points: points,
+      tiles: tiles
+    )
+  end
+
+  def swap_tiles(tile_ids)
+    tile_ids.each do |id|
+      tile = Tile.find(id)
+      tile.update(tileable: tile_bag)
+      tile_bag.reload.random_tile.update(tileable: current_player.tile_rack)
+    end
+  end
 
   def set_current_player
     update(current_player: player_1)

@@ -7,10 +7,23 @@ class WordSmith
     :tiles,
     to: :new_placements
 
+  attr_accessor :points
+
   def initialize(data:, board:)
     @new_placements = WordSmithTools::NewPlacements.new(data)
     @board = board
   end
+
+  def process_data
+    assign_tiles
+    set_points
+    inactivate_premiums
+    inactivate_multipotents
+  end
+
+  private
+
+  attr_reader :new_placements, :board
 
   def assign_tiles
     ActiveRecord::Base.transaction do
@@ -19,13 +32,9 @@ class WordSmith
     end
   end
 
-  def points
-    words.map(&:points).sum + bonus
+  def set_points
+    self.points = words.map(&:points).sum + bonus
   end
-
-  private
-
-  attr_reader :new_placements, :board
 
   def bonus
     new_placements.tiles.count == TileRack::MAXIMUM_TILES ? 50 : 0

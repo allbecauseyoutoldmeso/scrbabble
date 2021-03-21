@@ -1,9 +1,11 @@
 <div class='flex-direction-row tile-rack'>
-  <% (0..6).to_a.zip(player.tiles).each do |array| %>
+  <% (0..6).to_a.zip(player.tiles).each_with_index do |array, index| %>
     <% space, tile = array %>
     <div
       class='tile-rack-space'
-      data-action='drop->drag#drop dragover->drag#dragOver'>
+      id=<%= "space_#{index}" %>
+      data-action='drop->drag#drop dragover->drag#dragOver'
+      data-drag-target='space'>
       <% if tile.present? %>
         <%= render(
           partial: 'tile',

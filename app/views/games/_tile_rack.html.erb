@@ -5,7 +5,8 @@
       class='tile-rack-space'
       id=<%= "space_#{index}" %>
       data-action='drop->drag#drop dragover->drag#dragOver'
-      data-drag-target='space'>
+      data-drag-target='space'
+      data-shuffle-target='space'>
       <% if tile.present? %>
         <%= render(
           partial: 'tile',

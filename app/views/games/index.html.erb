@@ -1,7 +1,7 @@
 <div class='flex-direction-row'>
   <%= render(
     partial: 'ongoing_games',
-    locals: { user: @user, games: @user.games  }
+    locals: { user: @user, games: @user.games.current  }
   ) %>
   <%= render partial: 'new_game', locals: { user: @user} %>
 </div>

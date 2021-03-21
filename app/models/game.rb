@@ -14,6 +14,10 @@ class Game < ActiveRecord::Base
 
   BONUS = 50
 
+  def self.current
+    where(finished: false)
+  end
+
   def play_turn(data)
     word_smith = WordSmith.new(data: data, board: board)
     word_smith.process_data

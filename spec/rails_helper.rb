@@ -23,3 +23,5 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   config.include TestHelpers
 end
+
+WebMock.disable_net_connect!(allow_localhost: true)

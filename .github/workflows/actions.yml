@@ -1,0 +1,26 @@
+name: Actions
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:10
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+    env:
+      REDISCLOUD_URL: rediscloud_url
+      RAILS_ENV: test
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+      - run: bundle install
+      - run: cp config/database.github.yml config/database.yml
+      - run: bundle exec rails db:create
+      - run: bundle exec rails db:migrate
+      - run: bundle exec rake

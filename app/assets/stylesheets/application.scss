@@ -62,7 +62,7 @@ body {
     cursor: pointer;
   }
 
-  &:disabled {
+  &.loading {
     .button-label {
       display: none;
     }

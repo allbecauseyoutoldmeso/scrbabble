@@ -18,7 +18,7 @@ describe 'users play game', js: true do
       .and_return(true)
   end
 
-  scenario 'user plays word' do
+  scenario 'user plays turn' do
     log_in(user_1)
     visit(game_path(game))
 
@@ -79,6 +79,52 @@ describe 'users play game', js: true do
     expect(page).to have_content(
       I18n.t('games.show.players_turn', player: player_1.name)
     )
+  end
+
+  scenario 'user skips turn' do
+    log_in(user_1)
+    visit(game_path(game))
+
+    expect(page).to have_content(
+      I18n.t('games.show.players_turn', player: player_1.name)
+    )
+
+    click_button(I18n.t('games.show.skip_turn'))
+
+    within('.modal') do
+      find("#swappable_tile_#{turn_1_tiles[0].id}").click
+      click_button(I18n.t('games.show.continue'))
+    end
+
+    expect(page).to have_content(
+      I18n.t('games.announcements.skipped_turn', player: player_1.name)
+    )
+
+    expect(page).to have_content(
+      I18n.t('games.show.players_turn', player: player_2.name)
+    )
+
+    expect(all("#tile_#{turn_1_tiles[0].id}").empty?).to eq(true)
+  end
+
+  scenario 'user shuffles tiles', js: true do
+    log_in(user_1)
+    visit(game_path(game))
+    letter_elements = all('.tile-letter')
+
+    original_letters = letter_elements.map do |letter|
+      letter['innerHTML'].split("\n")[1].strip
+    end
+
+    click_button(I18n.t('games.show.shuffle'))
+    letter_elements = all('.tile-letter')
+
+    shuffled_letters = letter_elements.map do |letter|
+      letter['innerHTML'].split("\n")[1].strip
+    end
+
+    expect(shuffled_letters).not_to eq(original_letters)
+    expect(shuffled_letters).to contain_exactly(*original_letters)
   end
 
   def place_tile(tile, square)

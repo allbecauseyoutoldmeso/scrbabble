@@ -16,7 +16,7 @@ export default class extends Controller {
   }
 
   async skipTurn() {
-    event.currentTarget.setAttribute('disabled', true)
+    this.disableButton(event.currentTarget)
 
     const params = {
       skip_turn: true,
@@ -26,20 +26,8 @@ export default class extends Controller {
     this.updateGame(params)
   }
 
-  selectedTileIds() {
-    return this.selectedTiles().map((tile) => {
-      return parseInt(tile.id.split('_')[2])
-    })
-  }
-
-  selectedTiles() {
-    return this.tileTargets.filter((tile) => {
-      return tile.classList.value.includes('selected')
-    })
-  }
-
   async playTurn() {
-    event.currentTarget.setAttribute('disabled', true)
+    this.disableButton(event.currentTarget)
 
     const params = {
       data: JSON.stringify(this.requestData())
@@ -60,6 +48,23 @@ export default class extends Controller {
         }
       }
     )
+  }
+
+  disableButton(button) {
+    button.setAttribute('disabled', true)
+    button.classList.add('loading')
+  }
+
+  selectedTileIds() {
+    return this.selectedTiles().map((tile) => {
+      return parseInt(tile.id.split('_')[2])
+    })
+  }
+
+  selectedTiles() {
+    return this.tileTargets.filter((tile) => {
+      return tile.classList.value.includes('selected')
+    })
   }
 
   selectTile(event) {

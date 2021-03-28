@@ -1,18 +1,24 @@
-<button
-  data-action='click->shuffle#shuffleTiles'
-  class='button'
-  <%= 'disabled' if disabled %>>
-  <%= t('games.show.shuffle') %>
-</button>
-<button
-  data-action='click->submit#playTurn'
-  class='button'
-  <%= 'disabled' if disabled %>>
-  <%= t('games.show.submit_word') %>
-</button>
-<button
-  data-action='click->modal#showSkipModal'
-  class='button'
-  <%= 'disabled' if disabled %>>
-  <%= t('games.show.skip_turn') %>
-</button>
+<%= render(
+   partial: 'button',
+   locals: {
+     data_action: 'click->shuffle#shuffleTiles',
+     disabled: disabled,
+     label: t('games.show.shuffle')
+   }
+) %>
+<%= render(
+   partial: 'button',
+   locals: {
+     data_action: 'click->submit#playTurn',
+     disabled: disabled,
+     label: t('games.show.submit_word')
+   }
+) %>
+<%= render(
+   partial: 'button',
+   locals: {
+     data_action: 'click->modal#showSkipModal',
+     disabled: disabled,
+     label: t('games.show.skip_turn')
+   }
+) %>

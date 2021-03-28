@@ -42,8 +42,11 @@ body {
 }
 
 .button {
-  width: fit-content;
-  height: fit-content;
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+  max-width: 100px;
+  min-height: 26px;
   font-family: 'Architects Daughter', cursive;
   background-image: linear-gradient(to top right, #303030, #202020);
   border-radius: 2px;
@@ -57,6 +60,16 @@ body {
 
   &:hover {
     cursor: pointer;
+  }
+
+  &:disabled {
+    .button-label {
+      display: none;
+    }
+
+    .loading-spinner {
+      display: flex;
+    }
   }
 }
 
@@ -151,6 +164,21 @@ body {
 .link {
   color: black;
   text-decoration: none;
+}
+
+.loading-spinner {
+  border: 2px solid $scrbabble-pink;
+  border-top: 1.6px solid rgba(0, 0, 0, 0);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: loading-spinner 2s linear infinite;
+  display: none;
+}
+
+@keyframes loading-spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .modal {

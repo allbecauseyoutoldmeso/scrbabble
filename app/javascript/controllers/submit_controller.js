@@ -16,7 +16,7 @@ export default class extends Controller {
   }
 
   async skipTurn() {
-    event.target.disabled = true
+    event.currentTarget.setAttribute('disabled', true)
 
     const params = {
       skip_turn: true,
@@ -39,7 +39,7 @@ export default class extends Controller {
   }
 
   async playTurn() {
-    event.target.disabled = true
+    event.currentTarget.setAttribute('disabled', true)
 
     const params = {
       data: JSON.stringify(this.requestData())

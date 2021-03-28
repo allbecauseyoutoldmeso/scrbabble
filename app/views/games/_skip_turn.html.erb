@@ -15,8 +15,13 @@
     <% else %>
       <%= I18n.t('games.show.cannot_swap_tiles') %>
     <% end %>
-    <button class='button' data-action='click->submit#skipTurn'>
-      <%= I18n.t('games.show.continue') %>
-    </button>
+    <%= render(
+       partial: 'button',
+       locals: {
+         data_action: 'click->submit#skipTurn',
+         disabled: false,
+         label: t('games.show.continue')
+       }
+    ) %>
   </div>
 <% end %>

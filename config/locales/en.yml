@@ -20,7 +20,7 @@ en:
       resume_game: resume game
     show:
       players_turn: "%{player}'s turn"
-      submit_word: submit word
+      submit_word: submit
       skip_turn: skip turn
       shuffle: shuffle
       continue: continue

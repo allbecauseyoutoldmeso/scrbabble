@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import consumer from '../channels/consumer'
 
 export default class extends Controller {
-  static targets = ['square', 'shared', 'confidential', 'tile']
+  static targets = ['square', 'shared', 'confidential']
 
   connect() {
     this.channel = consumer.subscriptions.create('GameChannel', {
@@ -13,6 +13,19 @@ export default class extends Controller {
   cableReceived(data) {
     this.sharedTarget.innerHTML = data.shared
     this.confidentialTarget.innerHTML = data.confidential[this.playerId()]
+    this.confirmTurnSeen()
+  }
+
+  async confirmTurnSeen() {
+    fetch(
+      `${this.gameId()}/turns/${this.turnId()}?player_id=${this.playerId()}`,
+      {
+        method: 'PUT',
+        headers: {
+          'X-CSRF-Token': this.csrfToken()
+        }
+      }
+    )
   }
 
   async skipTurn() {
@@ -74,6 +87,10 @@ export default class extends Controller {
   csrfToken() {
     return document.getElementsByName('csrf-token').length &&
       document.getElementsByName('csrf-token')[0].content
+  }
+
+  turnId() {
+    return this.sharedTarget.firstChild.getAttribute('data-turn')
   }
 
   playerId() {

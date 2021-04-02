@@ -14,6 +14,12 @@ class GamesController < ApplicationController
     redirect_to(game_path(game))
   end
 
+  def show
+    if latest_turn.present? && latest_turn.player.user != current_user
+      latest_turn.update(seen: true)
+    end
+  end
+
   def update
     if params[:skip_turn]
       @game.skip_turn(tile_ids)
@@ -32,6 +38,10 @@ class GamesController < ApplicationController
   end
 
   private
+
+  def latest_turn
+    @latest_turn || @game.latest_turn
+  end
 
   def shared
     render_to_string(partial: 'shared', locals:  { game: @game })

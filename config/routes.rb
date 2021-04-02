@@ -7,7 +7,10 @@ Rails.application.routes.draw do
     post :delete, on: :collection
   end
 
-  resources :users, only: [:new, :create]
+  resources :games do
+    resources :turns, only: [:update]
+  end
 
+  resources :users, only: [:new, :create]
   resources :tiles, only: [:update]
 end

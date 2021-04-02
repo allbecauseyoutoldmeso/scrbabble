@@ -48,9 +48,13 @@ describe 'users play game', js: true do
       I18n.t('games.show.players_turn', player: player_2.name)
     )
 
+    expect(game.latest_turn.seen).to eq(false)
+
     click_button('log out')
     log_in(user_2)
     visit(game_path(game))
+
+    expect(game.latest_turn.seen).to eq(true)
 
     expect(page).to have_content(
       I18n.t('games.show.players_turn', player: player_2.name)

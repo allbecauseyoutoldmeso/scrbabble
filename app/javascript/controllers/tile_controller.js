@@ -9,6 +9,7 @@ export default class extends Controller {
     const tileId = this.element.id
     const letter = this.letterTarget.value
 
+    //can I just use fetch + render_as_string?
     Rails.ajax({
       type: 'PUT',
       url: `${this.baseUrl()}/tiles/${this.tileId()}?letter=${this.letter()}`,

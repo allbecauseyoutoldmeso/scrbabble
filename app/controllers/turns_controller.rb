@@ -3,6 +3,8 @@ class TurnsController < ApplicationController
     if turn.player != player
       Turn.update(seen: true)
     end
+
+    render head :ok
   end
 
   private

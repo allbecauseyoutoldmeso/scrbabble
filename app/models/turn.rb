@@ -3,6 +3,8 @@ class Turn  < ActiveRecord::Base
   belongs_to :player
   has_many :tiles
 
+  after_create :enqueue_update
+
   def latest?
     self == game.latest_turn
   end
@@ -20,5 +22,15 @@ class Turn  < ActiveRecord::Base
         points: points
       )
     end
+  end
+
+  def other_player
+    game.players.find { |p| p != player }
+  end
+
+  private
+
+  def enqueue_update
+    GameUpdateJob.set(wait: 20.minutes).perform_later(id)
   end
 end

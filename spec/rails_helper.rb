@@ -25,3 +25,4 @@ RSpec.configure do |config|
 end
 
 WebMock.allow_net_connect!
+ActiveJob::Base.queue_adapter = :test

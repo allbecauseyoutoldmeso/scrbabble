@@ -7,4 +7,8 @@ class TileRack  < ActiveRecord::Base
   def spaces
     MAXIMUM_TILES - tiles.count
   end
+
+  def empty?
+    tiles.empty?
+  end
 end

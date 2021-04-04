@@ -9,8 +9,12 @@ class Turn  < ActiveRecord::Base
     self == game.latest_turn
   end
 
+  def skipped?
+    points.zero?
+  end
+
   def summary
-    if points.zero?
+    if skipped?
       I18n.t(
         'games.announcements.skipped_turn',
         player: player.name,

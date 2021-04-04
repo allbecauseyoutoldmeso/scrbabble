@@ -2,6 +2,7 @@ class Game < ActiveRecord::Base
   has_one :tile_bag
   has_one :board
   has_many :players
+  has_many :tile_racks, through: :players
   belongs_to :current_player, class_name: 'Player', optional: true
   has_many :turns
 
@@ -18,10 +19,12 @@ class Game < ActiveRecord::Base
     where(finished: false)
   end
 
+  # turned into a monster again - refactor
   def play_turn(data)
     word_smith = WordSmith.new(data: data, board: board)
     word_smith.process_data
     create_turn(word_smith.points, word_smith.tiles)
+    end_game if over?
     assign_new_tiles(current_player)
     toggle_current_player
   rescue WordSmith::InvalidWord
@@ -31,6 +34,7 @@ class Game < ActiveRecord::Base
   def skip_turn(tile_ids = [])
     swap_tiles(tile_ids) if tile_ids.any?
     create_turn(0)
+    end_game if over?
     toggle_current_player
   end
 
@@ -48,10 +52,30 @@ class Game < ActiveRecord::Base
 
   private
 
-  def create_turn(points, tiles = [])
+  def end_game
+    subtract_remaining_tiles
+    update(finished: true)
+  end
+
+  def over?
+    tile_bag.empty? &&
+      (tile_racks.any?(&:empty?) || turns.last(2).all?(&:skipped?))
+  end
+
+  def subtract_remaining_tiles
+    players.each do |player|
+      tiles = player.tiles
+      if tiles.any?
+        points = - tiles.map(&:points).sum
+        create_turn(points, tiles, player)
+      end
+    end
+  end
+
+  def create_turn(points, tiles = [], player = current_player)
     Turn.create(
       game: self,
-      player: current_player,
+      player: player,
       points: points,
       tiles: tiles
     )

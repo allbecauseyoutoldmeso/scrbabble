@@ -36,7 +36,6 @@ describe 'Game' do
 
     before do
       tiles.first.update(multipotent: true)
-      game.play_turn(data)
     end
 
     context 'valid word' do
@@ -47,39 +46,78 @@ describe 'Game' do
       end
 
       it 'assigns tiles to squares' do
+        game.play_turn(data)
+
         expect(
           tiles.all? { |tile| tile.reload.tileable.is_a?(Square) }
         ).to eq(true)
       end
 
       it 'assigns points to current player' do
+        game.play_turn(data)
         expect(player_1.points).to eq(tiles.map(&:points).sum * 2)
       end
 
       it 'assigns new tiles to current player' do
+        game.play_turn(data)
+
         expect(
           player_1.tiles.count
         ).to eq(TileRack::MAXIMUM_TILES)
       end
 
       it 'toggles current player' do
+        game.play_turn(data)
         expect(game.current_player).to eq player_2
       end
 
       it 'invalidates premiums' do
+        game.play_turn(data)
         expect(board.middle_square.premium).not_to be_active
       end
 
       it 'invalidates multipotents' do
+        game.play_turn(data)
         expect(tiles.any? { |tile| tile.reload.multipotent? }).to eq(false)
       end
 
       it 'updates latest turn' do
+        game.play_turn(data)
+
         expect(game.latest_turn.summary).to eq(I18n.t(
           'games.announcements.points_update',
           player: player_1.name,
           points: player_1.points
         ))
+      end
+
+      context 'game over' do
+        before do
+          game.tile_bag.tiles.each(&:destroy)
+          game.reload
+        end
+
+        context 'player with empty rack' do
+          before do
+            player_1
+              .tile_rack
+              .tiles
+              .last(TileRack::MAXIMUM_TILES - 3)
+              .each(&:destroy)
+            game.reload
+          end
+
+          it 'sets finished to true' do
+            game.play_turn(data)
+            expect(game.finished).to eq(true)
+          end
+
+          it 'updates scores' do
+            game.play_turn(data)
+            expect(player_1.points).to eq(tiles.map(&:points).sum * 2)
+            expect(player_2.points).to eq(- player_2.tiles.map(&:points).sum)
+          end
+        end
       end
     end
 
@@ -89,28 +127,36 @@ describe 'Game' do
       end
 
       it 'does not assign tiles to squares' do
+        game.play_turn(data)
+
         expect(
           tiles.all? { |tile| tile.reload.tileable.is_a?(TileRack) }
         ).to eq(true)
       end
 
       it 'does not assign points to current player' do
+        game.play_turn(data)
         expect(player_1.points).to eq(0)
       end
 
       it 'does not toggle current player' do
+        game.play_turn(data)
         expect(game.current_player).to eq player_1
       end
 
       it 'does not invalidate premiums' do
+        game.play_turn(data)
         expect(board.square(0, 0).premium).to be_active
       end
 
       it 'does not invalidate multipotents' do
+        game.play_turn(data)
         expect(tiles.any? { |tile| tile.reload.multipotent? }).to eq(true)
       end
 
       it 'sets status message' do
+        game.play_turn(data)
+
         expect(game.error_message).to eq(I18n.t(
           'games.error_messages.invalid_word'
         ))
@@ -119,25 +165,53 @@ describe 'Game' do
   end
 
   describe '#skip_turn' do
-    before do
-      game.skip_turn
-    end
-
     it 'toggles current player' do
+      game.skip_turn
       expect(game.current_player).to eq(game.player_2)
     end
 
     it 'assigns new tiles' do
-      tiles = player_2.tile_rack.tiles
+      tiles = player_1.tile_rack.tiles
       game.skip_turn(tiles.map(&:id))
-      expect(player_2.reload.tile_rack.tiles).not_to eq(tiles)
+      expect(player_1.reload.tile_rack.tiles).not_to eq(tiles)
     end
 
     it 'updates latest turn' do
+      game.skip_turn
+
       expect(game.latest_turn.summary).to eq(I18n.t(
         'games.announcements.skipped_turn',
         player: player_1.name,
       ))
+    end
+
+    context 'game over' do
+      before do
+        game.tile_bag.tiles.each(&:destroy)
+        game.reload
+      end
+
+      context 'both players pass' do
+        let!(:turn_1) {
+          create(
+            :turn,
+            points: 0,
+            player: player_1,
+            game: game
+          )
+        }
+
+        it 'sets finished to true' do
+          game.skip_turn
+          expect(game.finished).to eq(true)
+        end
+
+        it 'updates player scores' do
+          game.skip_turn
+          expect(player_1.points).to eq(- player_1.tiles.map(&:points).sum)
+          expect(player_2.points).to eq(- player_2.tiles.map(&:points).sum)
+        end
+      end
     end
   end
 end

@@ -35,6 +35,10 @@ class TileBag  < ActiveRecord::Base
     tiles[rand(tiles.count)]
   end
 
+  def empty?
+    tiles.empty?
+  end
+
   private
 
   def create_tiles

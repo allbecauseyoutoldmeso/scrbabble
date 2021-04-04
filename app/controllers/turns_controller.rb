@@ -4,7 +4,7 @@ class TurnsController < ApplicationController
       Turn.update(seen: true)
     end
 
-    render head :ok
+    head :ok
   end
 
   private

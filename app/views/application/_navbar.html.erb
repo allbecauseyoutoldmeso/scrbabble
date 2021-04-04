@@ -1,6 +1,7 @@
-<% if @current_user %>
+<% if @current_user.present? %>
   <div class='flex-direction-row'>
       <%= link_to t('navbar.home'), root_path, class: 'button' %>
+      <%= link_to t('navbar.edit_user'), edit_user_path(@current_user), class: 'button' %>
       <%= form_with url: delete_sessions_path, method: :post do |form| %>
         <%= form.submit t('sessions.delete'), class: 'button' %>
       <% end %>

@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import consumer from '../channels/consumer'
 
 export default class extends Controller {
-  static targets = ['square', 'shared', 'confidential']
+  static targets = ['square', 'shared', 'confidential', 'tile']
 
   connect() {
     this.channel = consumer.subscriptions.create('GameChannel', {

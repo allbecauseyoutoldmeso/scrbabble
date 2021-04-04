@@ -1,7 +1,1 @@
-<%= form_with model: User.new do |form| %>
-  <%= form.label :name %>
-  <%= form.text_field :name %>
-  <%= form.label :password %>
-  <%= form.text_field :password, type: 'password' %>
-  <%= form.submit class: 'button' %>
-<% end %>
+<%= render partial: 'form', locals: { user: User.new, password: true }  %>

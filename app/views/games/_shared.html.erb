@@ -1,4 +1,4 @@
-<div data-turn=<%= game.latest_turn&.id %> class='flex-direction-row'>
+<div  class='flex-direction-row' data-turn=<%= game.latest_turn&.id || '' %>>
   <%= render(
      partial: 'board',
      locals: { board: game.board }

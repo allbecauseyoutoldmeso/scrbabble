@@ -11,6 +11,6 @@ Rails.application.routes.draw do
     resources :turns, only: [:update]
   end
 
-  resources :users, only: [:new, :create]
+  resources :users
   resources :tiles, only: [:update]
 end

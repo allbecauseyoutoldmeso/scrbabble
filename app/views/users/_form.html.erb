@@ -1,0 +1,13 @@
+<%= form_with model: user, class: 'flex-direction-column user-form' do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+  <%= form.label :email_address %>
+  <%= form.email_field :email_address %>
+  <%= form.label :email_updates %>
+  <%= form.check_box :email_updates %>
+  <% if password %>
+    <%= form.label :password %>
+    <%= form.text_field :password, type: 'password' %>
+  <% end %>
+  <%= form.submit class: 'button' %>
+<% end %>

@@ -1,0 +1,10 @@
+<% content_for :modal do %>
+  <div class='flex-direction-column'>
+    <div class='update'>
+      <%= t('games.announcements.game_over') %>
+    </div>
+    <div><%= t('games.announcements.final_score') %></div>
+    <div><%= "#{player_1.name} - #{player_1.points}" %></div>
+    <div><%= "#{player_2.name} - #{player_2.points}" %></div>
+  </div>
+<% end %>

@@ -131,6 +131,37 @@ describe 'users play game', js: true do
     expect(shuffled_letters).to contain_exactly(*original_letters)
   end
 
+  scenario 'game over' do
+    game.tile_bag.tiles.each(&:destroy)
+
+    player_1
+      .tile_rack
+      .tiles
+      .last(TileRack::MAXIMUM_TILES - 3)
+      .each(&:destroy)
+
+    log_in(user_1)
+    visit(game_path(game))
+
+    place_tile(
+      turn_1_tiles[0],
+      board.square(Board::BOARD_SIZE/2 + 0, Board::BOARD_SIZE/2)
+    )
+
+    place_tile(
+      turn_1_tiles[1],
+      board.square(Board::BOARD_SIZE/2 + 1, Board::BOARD_SIZE/2)
+    )
+
+    place_tile(
+      turn_1_tiles[2],
+      board.square(Board::BOARD_SIZE/2 + 2, Board::BOARD_SIZE/2)
+    )
+
+    click_button(I18n.t('games.show.submit_word'))
+    expect(page).to have_content(I18n.t('games.announcements.game_over'))
+  end
+
   def place_tile(tile, square)
     tile_element = find("#tile_#{tile.id}")
     square_element = find("#square_#{square.id}")

@@ -1,4 +1,14 @@
-<div  class='flex-direction-row' data-turn=<%= game.latest_turn&.id || '' %>>
+<% if game.finished? %>
+  <%= render(
+    partial: 'game_over',
+    locals: {
+      player_1: game.player_1,
+      player_2: game.player_2
+    }
+  ) %>
+  <%= render(partial: 'modal', locals: { hidden: false }) %>
+<% end %>
+<div class='flex-direction-row' data-turn=<%= game.latest_turn&.id || '' %>>
   <%= render(
      partial: 'board',
      locals: { board: game.board }

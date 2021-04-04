@@ -5,7 +5,7 @@
     tile_bag: tile_bag
   }
 ) %>
-<%= render(partial: 'modal') %>
+<%= render(partial: 'modal', locals: { hidden: true }) %>
 <%= render(
   partial: 'alert',
   locals: { message: alert }

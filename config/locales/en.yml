@@ -14,6 +14,8 @@ en:
     announcements:
       points_update: "%{player} made %{points} points"
       skipped_turn: "%{player} skipped a turn"
+      game_over: game over!
+      final_score: final score
     error_messages:
       invalid_word: invalid word
     index:

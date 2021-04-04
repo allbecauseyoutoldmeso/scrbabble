@@ -1,3 +1,7 @@
 <p>
   <%= @turn.summary %>!
+  <%= link_to(
+    t('mailers.user_mailer.game_update.continue'),
+    game_url(@turn.game)
+  ) %>
 </p>

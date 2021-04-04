@@ -52,3 +52,7 @@ en:
   navbar:
     home: home
     edit_user: preferences
+  mailers:
+    user_mailer:
+      game_update:
+        continue: continue game

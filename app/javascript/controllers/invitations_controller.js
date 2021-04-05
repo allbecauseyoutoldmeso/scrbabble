@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ['invitations', 'invitee']
 
   connect() {
-    this.channel = consumer.subscriptions.create('GameChannel', {
+    this.channel = consumer.subscriptions.create('InvitationChannel', {
       received: this.cableReceived.bind(this),
     })
   }

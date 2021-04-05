@@ -8,9 +8,11 @@ class GamesController < ApplicationController
   end
 
   def create
-    player_1 = Player.create(user: other_user)
-    player_2 = Player.create(user: current_user)
+    player_1 = Player.create(user: invitation.invitee)
+    player_2 = Player.create(user: invitation.inviter)
     game = Game.create(players: [player_1, player_2])
+    game.update(current_player: player_1)
+    invitation.update(accepted: true)
     redirect_to(game_path(game))
   end
 
@@ -66,12 +68,12 @@ class GamesController < ApplicationController
     @game = current_user.games.find(params[:id])
   end
 
-  def other_user
-    User.find(game_params[:other_user_id])
+  def invitation
+    Invitation.find(game_params[:invitation_id])
   end
 
   def game_params
-    params.require(:game).permit(:other_user_id)
+    params.require(:game).permit(:invitation_id)
   end
 
   def tile_ids

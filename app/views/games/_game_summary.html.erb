@@ -1,5 +1,5 @@
 <%= link_to(game_path(game), class: 'link') do %>
-  <div class='flex-direction-row game-summary'>
+  <div class='flex-direction-row game-summary <%= 'new-game' if new_game?(game, user) %>'>
     <div class='flex-direction-column'>
       <div>
         <%= other_player(game, user).name %>

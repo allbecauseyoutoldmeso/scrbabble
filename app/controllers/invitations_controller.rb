@@ -3,12 +3,12 @@ class InvitationsController < ApplicationController
 
   def create
     invitee = User.find(params[:invitee_id])
-    Invitation.create(invitee: invitee, inviter: @current_user)
+    Invitation.create(invitee: invitee, inviter: current_user)
 
     ActionCable.server.broadcast(
-      'game_channel',
+      'invitation_channel',
       invitations: {
-        @current_user.id.to_s => invitations(@current_user),
+        current_user.id.to_s => invitations(current_user),
         invitee.id.to_s => invitations(invitee)
       }
     )

@@ -16,4 +16,8 @@ module ApplicationHelper
   def can_swap_tiles?(tile_bag)
     tile_bag.tiles.length >= TileRack::MAXIMUM_TILES
   end
+
+  def new_game?(game, user)
+    game.players.find_by(user: user).points.zero?
+  end
 end

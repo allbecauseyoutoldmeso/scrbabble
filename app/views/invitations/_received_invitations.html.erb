@@ -1,0 +1,11 @@
+<% invitations.each do |invitation| %>
+  <div class='flex-direction-row'>
+    <%= t('games.index.invitation_received', user: invitation.inviter.name) %>
+
+    <%= form_with model: Game.new do |form| %>
+      <%= form.hidden_field(:invitation_id, { value: invitation.id }) %>
+      <%= form.submit(class: 'button') %>
+    <% end %>
+
+  </div>
+<% end %>

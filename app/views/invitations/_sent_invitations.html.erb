@@ -1,0 +1,5 @@
+<% invitations.each do |invitation| %>
+  <div>
+    <%= t('games.index.invitation_sent', user: invitation.invitee.name) %>
+  </div>
+<% end %>

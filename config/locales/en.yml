@@ -21,10 +21,10 @@ en:
     index:
       game: game %{id}
       new_game: new game
-      resume_game: resume game
+      resume_game: games
       invitation_sent: "you've invited %{user} to play"
       invitation_received: "%{user} invited you to play"
-      accept_invitation: accept
+      pending_invitations: invitations
     show:
       players_turn: "%{player}'s turn"
       submit_word: submit
@@ -44,6 +44,8 @@ en:
           3: 3W
   helpers:
     submit:
+      game:
+        create: accept
       invitation:
         create: invite to play
       user:

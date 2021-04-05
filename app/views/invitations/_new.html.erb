@@ -1,0 +1,19 @@
+<div class='card'>
+  <h2><%= t('games.index.new_game') %></h2>
+  <%= form_with model: user.sent_invitations.new, class: 'flex-direction-column' do |form| %>
+    <%= form.label :invitee %>
+    <%= form.select(
+      :invitee,
+      user.other_users.map { |user| [user.name, user.id] },
+      {},
+      {
+        class: 'select',
+        data: { invitations_target: 'invitee' }
+      }
+    ) %>
+    <%= form.submit(
+      class: 'button',
+      data: { action: 'click->invitations#create' }
+    ) %>
+  <% end %>
+</div>

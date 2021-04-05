@@ -1,0 +1,15 @@
+<div data-invitations-target='invitations'>
+  <% user.received_invitations.each do |invitation| %>
+    <div>
+      <%= t('games.index.invitation_received', user: invitation.inviter.name) %>
+      <button class='button'>
+        <%= t('games.index.accept_invitation') %>
+      </button>
+    </div>
+  <% end %>
+  <% user.sent_invitations.each do |invitation| %>
+    <div>
+      <%= t('games.index.invitation_sent', user: invitation.invitee.name) %>
+    </div>
+  <% end %>
+</div>

@@ -3,8 +3,8 @@ en:
   scrbabble: ScRbABbLe
   activerecord:
     attributes:
-      game:
-        other_user_id: who do you want to play today?
+      invitation:
+        invitee: who do you want to play today?
       user:
         name: username
         password: password
@@ -22,6 +22,9 @@ en:
       game: game %{id}
       new_game: new game
       resume_game: resume game
+      invitation_sent: "you've invited %{user} to play"
+      invitation_received: "%{user} invited you to play"
+      accept_invitation: accept
     show:
       players_turn: "%{player}'s turn"
       submit_word: submit
@@ -41,7 +44,7 @@ en:
           3: 3W
   helpers:
     submit:
-      game:
+      invitation:
         create: invite to play
       user:
         create: sign up

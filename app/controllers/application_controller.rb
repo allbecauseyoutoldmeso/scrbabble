@@ -1,5 +1,11 @@
 class ApplicationController < ActionController::Base
+  before_action :set_favicon
+
   private
+
+  def set_favicon
+    @favicon = Favicon.standard
+  end
 
   def current_user
     @current_user ||= session[:current_user_id] &&

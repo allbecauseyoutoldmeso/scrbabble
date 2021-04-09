@@ -13,6 +13,7 @@ export default class extends Controller {
   cableReceived(data) {
     this.sharedTarget.innerHTML = data.shared
     this.confidentialTarget.innerHTML = data.confidential[this.playerId()]
+    this.updateFavicon(data.favicon[this.playerId()])
     this.confirmTurnSeen()
   }
 
@@ -119,5 +120,13 @@ export default class extends Controller {
         square.children[1].className.includes('tile')
       }
     )
+  }
+
+  updateFavicon(file_path) {
+    this.favicon().href = `${document.location.origin}${file_path}`
+  }
+
+  favicon() {
+    return document.getElementById("favicon")
   }
 }

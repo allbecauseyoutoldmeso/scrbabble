@@ -17,6 +17,10 @@ class GamesController < ApplicationController
   end
 
   def show
+    if @game.current_player.user == current_user
+      @favicon = Favicon.alert
+    end
+
     if latest_turn.present? && latest_turn.player.user != current_user
       latest_turn.update(seen: true)
     end
@@ -35,11 +39,19 @@ class GamesController < ApplicationController
       confidential: {
         @game.player_1.id.to_s => confidential(@game.player_1),
         @game.player_2.id.to_s => confidential(@game.player_2)
+      },
+      favicon: {
+        @game.player_1.id.to_s => favicon(@game.player_1),
+        @game.player_2.id.to_s => favicon(@game.player_2),
       }
     )
   end
 
   private
+
+  def favicon(player)
+    player.is_current_player? ? Favicon.alert : Favicon.standard
+  end
 
   def update_games(other_user)
     ActionCable.server.broadcast(

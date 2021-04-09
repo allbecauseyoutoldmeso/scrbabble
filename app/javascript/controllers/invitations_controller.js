@@ -14,9 +14,9 @@ export default class extends Controller {
     const invitations = data.invitations && data.invitations[this.userId()]
     const games = data.games && data.games[this.userId()]
 
-
     if (!!invitations) {
       this.invitationsTarget.innerHTML = invitations
+      this.authenticityTokenInput().value = this.csrfToken()
     }
 
     if (!!games) {
@@ -36,6 +36,10 @@ export default class extends Controller {
         }
       }
     )
+  }
+
+  authenticityTokenInput() {
+    return this.invitationsTarget.querySelector('input[name="authenticity_token"]')
   }
 
   userId() {

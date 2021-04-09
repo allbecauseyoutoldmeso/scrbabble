@@ -8,11 +8,11 @@ class GamesController < ApplicationController
   end
 
   def create
-    player_1 = Player.create(user: invitation.invitee)
-    player_2 = Player.create(user: invitation.inviter)
-    game = Game.create(players: [player_1, player_2])
-    game.update(current_player: player_1)
+    # issue with csrf token because form sent via action cable
+    game = create_game
     invitation.update(accepted: true)
+    update_invitations(invitation.inviter)
+    update_games(invitation.inviter)
     redirect_to(game_path(game))
   end
 
@@ -40,6 +40,26 @@ class GamesController < ApplicationController
   end
 
   private
+
+  def update_games(other_user)
+    ActionCable.server.broadcast(
+      'invitation_channel',
+      games: {
+        current_user.id.to_s => games(current_user),
+        other_user.id.to_s => games(other_user)
+      }
+    )
+  end
+
+  def games(user)
+    render_to_string(partial: 'games/ongoing_games', locals:  { user: user })
+  end
+
+  def create_game
+    player_1 = Player.create(user: invitation.invitee)
+    player_2 = Player.create(user: invitation.inviter)
+    Game.create(players: [player_1, player_2], current_player: player_1)
+  end
 
   def latest_turn
     @latest_turn || @game.latest_turn

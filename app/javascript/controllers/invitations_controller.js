@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import consumer from '../channels/consumer'
 
 export default class extends Controller {
-  static targets = ['invitations', 'invitee']
+  static targets = ['invitations', 'invitee', 'games']
 
   connect() {
     this.channel = consumer.subscriptions.create('InvitationChannel', {
@@ -11,10 +11,16 @@ export default class extends Controller {
   }
 
   cableReceived(data) {
-    const invitations = data.invitations[this.userId()]
+    const invitations = data.invitations && data.invitations[this.userId()]
+    const games = data.games && data.games[this.userId()]
+
 
     if (!!invitations) {
-      this.invitationsTarget.innerHTML = data.invitations[this.userId()]
+      this.invitationsTarget.innerHTML = invitations
+    }
+
+    if (!!games) {
+      this.gamesTarget.innerHTML = games
     }
   }
 

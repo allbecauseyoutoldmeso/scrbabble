@@ -1,15 +1,13 @@
-<div data-invitations-target='invitations'>
-  <h2><%= t('games.index.pending_invitations') %></h2>
-  <%= render(
-     partial: 'invitations/received_invitations',
-     locals: {
-       invitations: user.received_invitations.not_accepted
-     }
-  ) %>
-  <%= render(
-    partial: 'invitations/sent_invitations',
-    locals: {
-      invitations: user.sent_invitations.not_accepted
-    }
-  ) %>
-</div>
+<h2><%= t('games.index.pending_invitations') %></h2>
+<%= render(
+   partial: 'invitations/received_invitations',
+   locals: {
+     invitations: user.received_invitations.not_accepted
+   }
+) %>
+<%= render(
+  partial: 'invitations/sent_invitations',
+  locals: {
+    invitations: user.sent_invitations.not_accepted
+  }
+) %>

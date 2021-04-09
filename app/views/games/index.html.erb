@@ -1,11 +1,15 @@
 <div data-controller='invitations' data-user=<%= @user.id %>>
   <div class='flex-direction-row'>
-    <%= render(
-      partial: 'ongoing_games',
-      locals: { user: @user, games: @user.games.current  }
-    ) %>
-    <%= render partial: 'invitations/new', locals: { user: @user} %>
+    <div class='card' data-invitations-target='games'>
+      <%= render(
+        partial: 'ongoing_games',
+        locals: { user: @user }
+      ) %>
+    </div>
     <div class='card'>
+      <%= render partial: 'invitations/new', locals: { user: @user} %>
+    </div>
+    <div class='card' data-invitations-target='invitations'>
       <%= render partial: 'invitations/index', locals: { user: @user } %>
     </div>
   </div>

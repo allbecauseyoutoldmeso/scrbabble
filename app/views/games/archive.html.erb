@@ -1,0 +1,6 @@
+<h2><%= t('games.archive.archived_games') %></h2>
+<div class='flex-direction-column archived-games'>
+  <% @user.games.finished.reverse.each do |game| %>
+    <%= render partial: 'game_summary', locals: { game: game, user: @user } %>
+  <% end %>
+</div>

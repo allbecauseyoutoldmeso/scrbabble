@@ -7,8 +7,11 @@ class GamesController < ApplicationController
     @user = current_user
   end
 
+  def archive
+    @user = current_user
+  end
+
   def create
-    # issue with csrf token because form sent via action cable
     game = create_game
     invitation.update(accepted: true)
     update_invitations(invitation.inviter)

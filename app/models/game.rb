@@ -19,6 +19,10 @@ class Game < ActiveRecord::Base
     where(finished: false)
   end
 
+  def self.finished
+    where(finished: true)
+  end
+
   # turned into a monster again - refactor
   def play_turn(data)
     word_smith = WordSmith.new(data: data, board: board)

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :turns, only: [:update]
   end
 
+  get :archive, to: 'games#archive'
   resources :games
   resources :users
   resources :tiles, only: [:update]

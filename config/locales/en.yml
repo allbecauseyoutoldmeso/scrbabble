@@ -18,6 +18,8 @@ en:
       final_score: final score
     error_messages:
       invalid_word: invalid word
+    archive:
+      archived_games: archived games
     index:
       game: game %{id}
       new_game: new game
@@ -59,6 +61,7 @@ en:
   navbar:
     home: home
     edit_user: preferences
+    archive: archive
   mailers:
     user_mailer:
       game_update:

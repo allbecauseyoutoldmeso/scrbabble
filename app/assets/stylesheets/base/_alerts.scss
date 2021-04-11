@@ -1,0 +1,29 @@
+.alert {
+  opacity: 0;
+  animation-name: alert;
+  animation-duration: 8s;
+  font-size: 20px;
+  margin: 0;
+  color: $scrbabble-pink;
+}
+
+@keyframes alert {
+  0% {opacity: 1;}
+  5% {opacity: 0;}
+  10% {opacity: 1;}
+  15% {opacity: 0;}
+  20% {opacity: 1;}
+  25% {opacity: 0;}
+  30% {opacity: 1;}
+  35% {opacity: 0;}
+  40% {opacity: 1;}
+  50% {opacity: 0.8;}
+  60% {opacity: 0.6;}
+  70% {opacity: 0.4;}
+  80% {opacity: 0.2;}
+  100% {opacity: 0;}
+}
+
+.alert-placeholder {
+  min-height: 40px;
+}

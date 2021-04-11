@@ -1,0 +1,29 @@
+.hint {
+  position: absolute;
+  top: 30px;
+  left: 12px;
+  width: max-content;
+  color: $scrbabble-pink;
+  font-size: 14px;
+  visibility: hidden;
+
+  p {
+    margin: 0;
+  }
+}
+
+.hintable {
+  &:hover {
+    .hint {
+      opacity: 1;
+      transition: opacity  0s linear 1s;
+      visibility: visible;
+    }
+  }
+}
+
+.hint-message {
+  background: rgba(248, 248, 248, 0.8);
+  padding: 0 4px;
+  border-radius: 4px;
+}

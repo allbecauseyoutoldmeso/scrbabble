@@ -1,0 +1,53 @@
+.button {
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+  max-width: 100px;
+  font-family: 'Architects Daughter', cursive;
+  background-image: linear-gradient(to top right, #303030, #202020);
+  border-radius: 2px;
+  border: none;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 2px 4px;;
+  margin: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  &:disabled {
+    background-image: linear-gradient(to top right, #D3D3D3, #BEBEBE);
+
+    &:hover {
+      cursor: auto;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.loading {
+    .button-label {
+      display: none;
+    }
+
+    .loading-spinner {
+      display: flex;
+    }
+  }
+}
+
+.loading-spinner {
+  border: 2px solid $scrbabble-pink;
+  border-top: 1.6px solid rgba(0, 0, 0, 0);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: loading-spinner 2s linear infinite;
+  display: none;
+}
+
+@keyframes loading-spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,57 @@
+%tile {
+  height: 30px;
+  width: 30px;
+  background-image: linear-gradient(to top right, #A9A9A9, #808080);
+  color: white;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.tile {
+  @extend %tile;
+  position: absolute;
+  z-index: 1;
+
+  &.latest {
+    background-image: linear-gradient(to top right, $scrbabble-pink, #FF69B4);
+  }
+
+  &.multipotent {
+    background-image: linear-gradient(to top right, $scrbabble-pink, #FF69B4);
+  }
+}
+
+.tile-form {
+  position: absolute;
+
+  select {
+    font-family: 'Architects Daughter', cursive;
+    height: 30px;
+    width: 30px;
+    background-image: linear-gradient(to top right, $scrbabble-pink, #FF69B4);
+    color: white;
+  }
+}
+
+.tile-letter {
+  font-size: 18px;
+}
+
+.tile-points {
+  position: absolute;
+  right: 3px;
+  bottom: 0;
+  font-size: 12px;
+  padding: 0;
+}
+
+.swappable-tile {
+  @extend %tile;
+  margin: 4px;
+  position: relative;
+
+  &.selected {
+    border: 2px solid $scrbabble-pink;
+  }
+}

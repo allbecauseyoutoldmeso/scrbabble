@@ -1,0 +1,45 @@
+body {
+  background: #F8F8F8;
+  padding: 40px;
+  font-family: 'Architects Daughter', cursive;
+}
+
+.card {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.09);
+  border-radius: 4px;
+  padding: 12px;
+  flex-basis: 340px;
+  margin-right: 80px;
+}
+
+.flex-direction-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-direction-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-direction-column-reverse {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.hidden {
+  display: none;
+}
+
+.link {
+  color: black;
+  text-decoration: none;
+}
+
+.navbar {
+  align-items: center;
+}
+
+.select {
+  font-family: 'Architects Daughter', cursive;
+}

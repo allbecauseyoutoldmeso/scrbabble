@@ -16,7 +16,7 @@ export default class extends Controller {
 
     if (!!invitations) {
       this.invitationsTarget.innerHTML = invitations
-      this.authenticityTokenInput().value = this.csrfToken()
+      this.setAuthenticityToken()
     }
 
     if (!!games) {
@@ -36,6 +36,12 @@ export default class extends Controller {
         }
       }
     )
+  }
+
+  setAuthenticityToken() {
+    if (!!this.authenticityTokenInput()) {
+      this.authenticityTokenInput().value = this.csrfToken()
+    }
   }
 
   authenticityTokenInput() {

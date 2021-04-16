@@ -14,6 +14,7 @@ jobs:
     env:
       REDISCLOUD_URL: rediscloud_url
       RAILS_ENV: test
+      JAVASCRIPT_DRIVER: headless_chrome
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1

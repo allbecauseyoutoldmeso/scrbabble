@@ -4,7 +4,8 @@ on:
     branches: '*'
 jobs:
   test:
-    runs-on: macos-latest
+    # runs-on: macos-latest
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:10

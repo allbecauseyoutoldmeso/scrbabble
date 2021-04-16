@@ -1,12 +1,10 @@
 name: Actions
 on:
   push:
-    branches: main
-  pull_request:
-    branches: main
+    branches: '*'
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     services:
       postgres:
         image: postgres:10
@@ -19,7 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
+      - uses: actions/setup-node@v1
       - run: bundle install
+      - run: yarn install
       - run: cp config/database.github.yml config/database.yml
       - run: bundle exec rails db:create
       - run: bundle exec rails db:migrate

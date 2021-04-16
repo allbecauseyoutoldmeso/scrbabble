@@ -24,5 +24,10 @@ RSpec.configure do |config|
   config.include TestHelpers
 end
 
+# Capybara.register_driver :chrome do |app|
+#   Capybara::Selenium::Driver.new(app, browser: :chrome)
+# end
+
 WebMock.allow_net_connect!
 ActiveJob::Base.queue_adapter = :test
+# Capybara.javascript_driver = :chrome

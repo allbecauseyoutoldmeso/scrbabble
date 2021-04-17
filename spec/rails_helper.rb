@@ -26,3 +26,21 @@ end
 
 WebMock.allow_net_connect!
 ActiveJob::Base.queue_adapter = :test
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
+
+Capybara.register_driver :headless_chrome do |app|
+  options = ::Selenium::WebDriver::Chrome::Options.new
+  options.headless!
+  options.add_argument "--window-size=2400,3400"
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+if ENV['JAVASCRIPT_DRIVER'] == 'headless_chrome'
+  Capybara.javascript_driver = :headless_chrome
+else
+  Capybara.javascript_driver = :chrome
+end

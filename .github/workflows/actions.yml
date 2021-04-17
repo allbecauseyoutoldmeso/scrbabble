@@ -15,6 +15,7 @@ jobs:
       REDISCLOUD_URL: rediscloud_url
       RAILS_ENV: test
       JAVASCRIPT_DRIVER: headless_chrome
+      EMAIL_ADDRESS: scrbabble@example.com
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1

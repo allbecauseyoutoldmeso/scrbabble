@@ -14,7 +14,6 @@ class GamesController < ApplicationController
   def create
     game = create_game
     invitation.update(accepted: true)
-    update_invitations(invitation.inviter)
     update_games(invitation.inviter)
     redirect_to(game_path(game))
   end
@@ -54,20 +53,6 @@ class GamesController < ApplicationController
 
   def favicon(player)
     player.is_current_player? ? Favicon.alert : Favicon.standard
-  end
-
-  def update_games(other_user)
-    ActionCable.server.broadcast(
-      'invitation_channel',
-      games: {
-        current_user.id.to_s => games(current_user),
-        other_user.id.to_s => games(other_user)
-      }
-    )
-  end
-
-  def games(user)
-    render_to_string(partial: 'games/ongoing_games', locals:  { user: user })
   end
 
   def create_game

@@ -16,17 +16,17 @@ class ApplicationController < ActionController::Base
     redirect_to(new_session_path) unless current_user
   end
 
-  def update_invitations(other_user)
+  def update_games(other_user)
     ActionCable.server.broadcast(
-      'invitation_channel',
-      invitations: {
-        current_user.id.to_s => invitations(current_user),
-        other_user.id.to_s => invitations(other_user)
-      }
-    )
+        'invitation_channel',
+        games: {
+          current_user.id.to_s => games(current_user),
+          other_user.id.to_s => games(other_user)
+        }
+      )
   end
 
-  def invitations(user)
-    render_to_string(partial: 'invitations/index', locals:  { user: user })
+  def games(user)
+    render_to_string(partial: 'games/games_dashboard', locals:  { user: user })
   end
 end

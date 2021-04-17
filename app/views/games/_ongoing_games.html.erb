@@ -1,6 +1,6 @@
 <div class='flex-direction-column'>
   <h2><%= t('games.index.resume_game') %></h2>
   <% user.games.current.reverse.each do |game| %>
-    <%= render partial: 'game_summary', locals: { game: game, user: user } %>
+    <%= render partial: 'games/game_summary', locals: { game: game, user: user } %>
   <% end %>
 </div>

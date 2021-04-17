@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import consumer from '../channels/consumer'
 
 export default class extends Controller {
-  static targets = ['invitations', 'invitee', 'games']
+  static targets = ['invitee', 'games']
 
   connect() {
     this.channel = consumer.subscriptions.create('InvitationChannel', {
@@ -11,17 +11,8 @@ export default class extends Controller {
   }
 
   cableReceived(data) {
-    const invitations = data.invitations && data.invitations[this.userId()]
-    const games = data.games && data.games[this.userId()]
-
-    if (!!invitations) {
-      this.invitationsTarget.innerHTML = invitations
-      this.setAuthenticityToken()
-    }
-
-    if (!!games) {
-      this.gamesTarget.innerHTML = games
-    }
+    this.gamesTarget.innerHTML = data.games[this.userId()]
+    this.setAuthenticityTokens()
   }
 
   create(event) {
@@ -38,14 +29,14 @@ export default class extends Controller {
     )
   }
 
-  setAuthenticityToken() {
-    if (!!this.authenticityTokenInput()) {
-      this.authenticityTokenInput().value = this.csrfToken()
-    }
+  setAuthenticityTokens() {
+    this.authenticityTokenInputs().forEach((input) => {
+      input.value = this.csrfToken()
+    })
   }
 
-  authenticityTokenInput() {
-    return this.invitationsTarget.querySelector('input[name="authenticity_token"]')
+  authenticityTokenInputs() {
+    return this.element.querySelectorAll('input[name="authenticity_token"]')
   }
 
   userId() {

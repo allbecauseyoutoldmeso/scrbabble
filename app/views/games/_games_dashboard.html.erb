@@ -1,0 +1,12 @@
+<div class='card'>
+  <%= render(
+    partial: 'games/ongoing_games',
+    locals: { user: user }
+  ) %>
+</div>
+<div class='card'>
+  <%= render partial: 'invitations/new', locals: { user: user} %>
+</div>
+<div class='card'>
+  <%= render partial: 'invitations/index', locals: { user: user } %>
+</div>

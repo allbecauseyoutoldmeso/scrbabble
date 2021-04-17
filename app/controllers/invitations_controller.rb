@@ -4,6 +4,6 @@ class InvitationsController < ApplicationController
   def create
     invitee = User.find(params[:invitee_id])
     Invitation.create(invitee: invitee, inviter: current_user)
-    update_invitations(invitee)
+    update_games(invitee)
   end
 end

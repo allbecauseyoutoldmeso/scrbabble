@@ -87,9 +87,11 @@ class Game < ActiveRecord::Base
 
   def swap_tiles(tile_ids)
     tile_ids.each do |id|
-      tile = Tile.find(id)
-      tile.update(tileable: tile_bag)
       tile_bag.reload.random_tile.update(tileable: current_player.tile_rack)
+    end
+
+    tile_ids.each do |id|
+      Tile.find(id).update(tileable: tile_bag)
     end
   end
 

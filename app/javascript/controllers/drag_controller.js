@@ -15,9 +15,9 @@ export default class extends Controller {
   drop(event) {
     event.preventDefault()
     const data = event.dataTransfer.getData('tile')
-    var tile = document.getElementById(data)
-    var target = event.currentTarget
-    var targetChild = target.lastElementChild
+    const tile = document.getElementById(data)
+    const target = event.currentTarget
+    const targetChild = target.lastElementChild
 
     if (!targetChild || !targetChild.classList.value.includes('tile')) {
       target.appendChild(tile)

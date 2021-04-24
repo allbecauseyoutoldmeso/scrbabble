@@ -2,16 +2,8 @@
   data-controller='tile'
   id=<%= dom_id(tile) %>
   draggable=<%= draggable %>
-  data-action='dragstart->drag#dragStart
-    dragend->drag#dragEnd
-    dblclick->tile#onDoubleClick
-    touchstart->touch#touchStart
-    touchmove->touch#touchMove
-    touchend->touch#touchEnd'
-  class='tile
-    flex-direction-column
-    <%= 'multipotent hintable' if tile.multipotent? %>
-    <%= 'latest' if tile.latest? %>'>
+  class='<%= tile_classes(tile) %>'
+  data-action='<%= tile_actions(draggable, tile.multipotent?) %>'>
   <div class='tile-letter'>
     <%= tile.letter %>
   </div>

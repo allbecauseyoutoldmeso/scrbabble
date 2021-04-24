@@ -10,8 +10,9 @@ export default class extends Controller {
 
   touchMove(event) {
     event.preventDefault()
-    this.moving.style.left = `${event.targetTouches[0].clientX - this.movingWidth/2}px`
-    this.moving.style.top = `${event.targetTouches[0].clientY - this.movingHeight/2}px`
+    const changedTouch = event.changedTouches[0]
+    this.moving.style.left = `${changedTouch.clientX - this.movingWidth/2}px`
+    this.moving.style.top = `${changedTouch.clientY - this.movingHeight/2}px`
   }
 
   touchEnd(event) {

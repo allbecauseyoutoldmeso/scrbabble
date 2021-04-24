@@ -20,4 +20,34 @@ module ApplicationHelper
   def new_game?(game, user)
     game.players.find_by(user: user).points.zero?
   end
+
+  def tile_classes(tile)
+    [
+      'tile',
+      'flex-direction-column',
+      ('multipotent hintable' if tile.multipotent?),
+      ('latest' if tile.latest?)
+    ].compact.join(' ')
+  end
+
+  def tile_actions(draggable, multipotent)
+    [
+      (multipotent_actions if multipotent),
+      (draggable_actions if draggable)
+    ].flatten.compact.join(' ')
+  end
+
+  def multipotent_actions
+    ['dblclick->tile#onDoubleClick']
+  end
+
+  def draggable_actions
+    [
+      'dragstart->drag#dragStart',
+      'dragend->drag#dragEnd',
+      'touchstart->touch#touchStart',
+      'touchmove->touch#touchMove',
+      'touchend->touch#touchEnd',
+    ]
+  end
 end
